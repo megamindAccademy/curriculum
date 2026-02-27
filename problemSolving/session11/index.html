@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 3 Session 3: Smart Attendance - MegaMinds Academy</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Playful Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Nunito', sans-serif; }
+        
+        /* Custom friendly scrollbar */
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #e0f2fe; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #7dd3fc; border-radius: 10px; border: 3px solid #e0f2fe; }
+        ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+
+        /* Bouncy animation for placeholders */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-anim { animation: float 3s ease-in-out infinite; }
+        
+        /* Sparkle Animation */
+        @keyframes sparkle {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .sparkle-anim { animation: sparkle 1.5s infinite; }
+
+        /* Checkbox styling */
+        .check-item.completed {
+            background-color: #f0fdf4 !important;
+            border-color: #86efac !important;
+            color: #166534 !important;
+            opacity: 0.8;
+        }
+        .check-item.completed span {
+            text-decoration: line-through;
+        }
+        
+        /* Syntax highlighting colors */
+        .kw { color: #f472b6; font-weight: bold; }
+        .func { color: #fb923c; } 
+        .str { color: #4ade80; } 
+        .var { color: #38bdf8; } 
+        .num { color: #c084fc; } 
+        .cmt { color: #94a3b8; font-style: italic; }
+    </style>
+</head>
+<body class="min-h-screen bg-sky-50 text-slate-800 pb-16 selection:bg-orange-300">
+
+    <!-- HEADER -->
+    <header class="bg-gradient-to-br from-orange-400 to-orange-500 text-white shadow-xl rounded-b-[3rem] mb-10 relative overflow-hidden border-b-8 border-orange-600">
+        <div class="absolute top-10 right-10 w-32 h-32 bg-white opacity-20 rounded-full blur-xl"></div>
+        <div class="absolute bottom-[-20px] left-10 w-48 h-48 bg-sky-300 opacity-30 rounded-full blur-2xl"></div>
+        
+        <div class="max-w-4xl mx-auto px-6 py-12 text-center relative z-10">
+            <div class="inline-block bg-white/25 px-5 py-2 rounded-full text-sm font-black tracking-widest mb-6 border-2 border-white/50 uppercase shadow-sm">
+                Level 3 : Session 3
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black mb-4 drop-shadow-lg tracking-tight">
+                PROBLEM SOLVING 🧠
+            </h1>
+            <p class="text-2xl md:text-3xl font-bold text-orange-50 mb-8 drop-shadow-md">
+                Smart Attendance System (Part 1) 🏫✅
+            </p>
+            <div class="flex justify-center items-center gap-3 font-bold text-lg bg-black/10 w-fit mx-auto px-6 py-3 rounded-2xl backdrop-blur-sm">
+                <span class="text-white">MegaMinds Academy</span>
+                <span class="text-orange-200">|</span>
+                <span class="text-sky-200">STEM Accredited 🏆</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 space-y-12">
+
+        <!-- INTRO -->
+        <section class="bg-white rounded-[2rem] p-8 shadow-xl border-4 border-sky-200 flex flex-col md:flex-row gap-8 items-center transform hover:scale-[1.01] transition-transform">
+            <div class="flex-1">
+                <h2 class="text-3xl font-black text-sky-500 mb-4 flex items-center gap-2">
+                    <i data-lucide="sparkles" class="w-8 h-8 text-orange-400"></i> Welcome Back Problem Solvers!
+                </h2>
+                <div class="bg-sky-50 p-5 rounded-xl border border-sky-100 mb-4">
+                    <p class="text-xl text-slate-700 font-bold mb-2 text-orange-500">What did we do last session? 🤔</p>
+                    <p class="text-lg text-slate-600 font-semibold leading-relaxed">
+                        We explored coding platforms and learned how to become competitive programmers. We also learned how to read inputs, outputs, and time limits!
+                    </p>
+                </div>
+            </div>
+            <div class="w-full md:w-64 h-64 bg-sky-100 rounded-3xl border-4 border-dashed border-sky-300 flex flex-col items-center justify-center text-sky-500 font-bold float-anim shadow-inner p-4 text-center">
+                <span class="text-6xl mb-2">📋</span>
+                <span>Image Placeholder:<br>Teacher robot checking an attendance list</span>
+            </div>
+        </section>
+
+        <!-- SCENARIO & THINK -->
+        <section class="grid md:grid-cols-2 gap-8">
+            <!-- Scenario -->
+            <div class="bg-amber-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-amber-500 flex flex-col">
+                <h2 class="text-3xl font-black text-amber-600 mb-6 flex items-center gap-3">
+                    <i data-lucide="map" class="w-10 h-10"></i> Scenario 🏫
+                </h2>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-amber-200 flex-grow">
+                    <p class="text-xl text-slate-700 font-bold leading-relaxed mb-4">
+                        Today, we are going to act like real software engineers! We will start building our very own <strong>Smart Attendance System</strong> to keep track of students in a class.
+                    </p>
+                    <p class="text-lg text-amber-700 font-semibold bg-amber-100/50 p-3 rounded-xl border border-amber-200">
+                        The program must ask the teacher how many students are in the class, ask for each student's name, and display a clean Class List.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Think -->
+            <div class="bg-purple-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-purple-500 flex flex-col">
+                <h2 class="text-3xl font-black text-purple-600 mb-6 flex items-center gap-3">
+                    <i data-lucide="brain" class="w-10 h-10"></i> Think! 🧠
+                </h2>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-purple-200 flex-grow space-y-5">
+                    <div class="flex items-start gap-3">
+                        <span class="text-2xl mt-1">🔄</span>
+                        <div>
+                            <strong class="text-slate-800 text-lg">Looping for inputs:</strong>
+                            <p class="text-slate-600 font-semibold mt-1">We need a loop that repeats exactly <code class="bg-purple-100 text-purple-700 px-1 rounded">num_students</code> times to ask for each name.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="text-2xl mt-1">🧹</span>
+                        <div>
+                            <strong class="text-slate-800 text-lg">Cleaning messy names:</strong>
+                            <p class="text-slate-600 font-semibold mt-1">We will use <code class="bg-purple-100 text-purple-700 px-1 rounded">.strip()</code> to remove extra spaces, and <code class="bg-purple-100 text-purple-700 px-1 rounded">.capitalize()</code> to format the name perfectly.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <span class="text-2xl mt-1">📝</span>
+                        <div>
+                            <strong class="text-slate-800 text-lg">Displaying the list:</strong>
+                            <p class="text-slate-600 font-semibold mt-1">Finally, we need another loop to show the full list of student names in a clean, bullet-point format.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- THE CODE (STEP BY STEP) -->
+        <section class="bg-slate-900 rounded-[2rem] p-8 shadow-xl border-t-8 border-slate-700">
+            <h2 class="text-3xl font-black text-white mb-8 flex items-center gap-3">
+                <i data-lucide="code-2" class="w-10 h-10 text-sky-400"></i> The Code: Step-by-Step 💻
+            </h2>
+            
+            <div class="space-y-6">
+                <!-- Step 1 -->
+                <div class="bg-slate-800 rounded-2xl p-6 border-2 border-slate-600 flex flex-col md:flex-row gap-6 items-center">
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-bold text-sky-400 mb-2 flex items-center gap-2">
+                            <span class="bg-sky-500 text-slate-900 w-8 h-8 rounded-full flex justify-center items-center font-black">1</span>
+                            Ask for how many students
+                        </h3>
+                        <p class="text-slate-300 font-semibold text-lg">First, we need to know the total number of students to prepare our empty list.</p>
+                    </div>
+                    <div class="flex-1 bg-black p-5 rounded-xl font-mono text-sm md:text-base text-white w-full border border-slate-700 shadow-inner">
+                        <p><span class="var">num_students</span> = <span class="func">int</span>(<span class="func">input</span>(<span class="str">"Enter number of students: "</span>))</p>
+                        <p><span class="var">students</span> = []</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-slate-800 rounded-2xl p-6 border-2 border-slate-600 flex flex-col md:flex-row gap-6 items-center">
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-bold text-sky-400 mb-3 flex items-center gap-2">
+                            <span class="bg-sky-500 text-slate-900 w-8 h-8 rounded-full flex justify-center items-center font-black">2</span>
+                            Get and clean each name
+                        </h3>
+                        <ul class="list-disc pl-5 text-slate-300 font-semibold text-lg space-y-2">
+                            <li>It loops <code class="bg-slate-700 text-sky-300 px-1 rounded">num_students</code> times and asks for each name.</li>
+                            <li><code class="bg-slate-700 text-pink-400 px-1 rounded">.strip()</code> removes extra spaces.</li>
+                            <li><code class="bg-slate-700 text-pink-400 px-1 rounded">.capitalize()</code> formats the name nicely.</li>
+                        </ul>
+                    </div>
+                    <div class="flex-1 bg-black p-5 rounded-xl font-mono text-sm md:text-base text-white w-full border border-slate-700 shadow-inner">
+                        <p><span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="func">range</span>(<span class="var">num_students</span>):</p>
+                        <p class="pl-4 md:pl-8"><span class="var">name</span> = <span class="func">input</span>(<span class="str">f"Enter name of student {</span><span class="var">i</span>+<span class="num">1</span><span class="str">}: "</span>).<span class="func">strip</span>().<span class="func">capitalize</span>()</p>
+                        <p class="pl-4 md:pl-8"><span class="var">students</span>.<span class="func">append</span>(<span class="var">name</span>)</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-slate-800 rounded-2xl p-6 border-2 border-slate-600 flex flex-col md:flex-row gap-6 items-center">
+                    <div class="flex-1">
+                        <h3 class="text-2xl font-bold text-sky-400 mb-2 flex items-center gap-2">
+                            <span class="bg-sky-500 text-slate-900 w-8 h-8 rounded-full flex justify-center items-center font-black">3</span>
+                            Display the Student List
+                        </h3>
+                        <p class="text-slate-300 font-semibold text-lg">This shows the full list of student names in a clean, bullet-point format.</p>
+                    </div>
+                    <div class="flex-1 bg-black p-5 rounded-xl font-mono text-sm md:text-base text-white w-full border border-slate-700 shadow-inner">
+                        <p><span class="func">print</span>(<span class="str">"\nClass List:"</span>)</p>
+                        <p><span class="kw">for</span> <span class="var">student</span> <span class="kw">in</span> <span class="var">students</span>:</p>
+                        <p class="pl-4 md:pl-8"><span class="func">print</span>(<span class="str">"•"</span>, <span class="var">student</span>)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OUTPUT EXAMPLE & SIMULATOR -->
+        <section class="bg-green-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-green-500">
+            <h2 class="text-3xl font-black text-green-700 mb-6 flex items-center gap-3">
+                <i data-lucide="terminal" class="w-10 h-10"></i> Output Example 🖥️
+            </h2>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Exact Output from Snippet -->
+                <div class="bg-black p-6 rounded-2xl border-4 border-slate-700 shadow-inner font-mono text-green-400 text-lg leading-relaxed font-bold">
+                    <p>Enter number of students: 5</p>
+                    <p>Enter name of student 1: Menna</p>
+                    <p>Enter name of student 2: Omar</p>
+                    <p>Enter name of student 3: Alaa</p>
+                    <p>Enter name of student 4: Ramy</p>
+                    <p>Enter name of student 5: Mona</p>
+                    <br>
+                    <p>Class List:</p>
+                    <p>• Menna</p>
+                    <p>• Omar</p>
+                    <p>• Alaa</p>
+                    <p>• Ramy</p>
+                    <p>• Mona</p>
+                </div>
+
+                <!-- Interactive Simulator -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-green-200 flex flex-col justify-center">
+                    <h3 class="font-black text-2xl text-slate-800 mb-4">Try it yourself! ✨</h3>
+                    <p class="text-slate-600 font-bold mb-4">How many students do you want to add right now?</p>
+                    
+                    <div id="sim-setup" class="space-y-4">
+                        <input type="number" id="stu-count" value="3" min="1" max="10" class="w-full bg-slate-100 border-2 border-slate-300 text-slate-800 font-bold p-3 rounded-lg outline-none focus:border-green-500">
+                        <button onclick="startSim()" class="w-full bg-green-500 hover:bg-green-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_4px_0_#15803d] hover:translate-y-[2px] flex items-center justify-center gap-2">
+                            <i data-lucide="play" class="w-6 h-6 fill-current"></i> Run Program
+                        </button>
+                    </div>
+
+                    <div id="sim-output" class="hidden mt-4 bg-slate-900 p-4 rounded-xl font-mono text-green-400 text-sm md:text-base whitespace-pre-wrap border-2 border-slate-700 h-64 overflow-y-auto"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHALLENGE TIME (From PDF) -->
+        <section class="bg-blue-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-blue-500">
+            <h2 class="text-3xl font-black text-blue-700 mb-6 flex items-center gap-3">
+                <i data-lucide="trophy" class="w-10 h-10 text-yellow-500"></i> Challenge Time 🏆
+            </h2>
+            
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-blue-200">
+                <p class="text-2xl font-black text-slate-800 mb-4">Can you sort the student names alphabetically? 🔤</p>
+                <p class="text-lg font-bold text-slate-600 mb-6">
+                    Imagine the teacher wants the class list to be in A-Z order. Python has a magic trick for that!
+                </p>
+
+                <div class="bg-slate-900 p-5 rounded-2xl font-mono text-white text-lg shadow-inner flex flex-col md:flex-row gap-4 items-center justify-between">
+                    <div>
+                        <p><span class="var">students</span> = []</p>
+                        <p><span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="func">range</span>(<span class="var">num_students</span>):</p>
+                        <p class="pl-8"><span class="var">name</span> = <span class="func">input</span>(<span class="str">f"Enter name of student {</span><span class="var">i</span>+<span class="num">1</span><span class="str">}: "</span>).<span class="func">strip</span>().<span class="func">capitalize</span>()</p>
+                        <p class="pl-8"><span class="var">students</span>.<span class="func">append</span>(<span class="var">name</span>)</p>
+                        <br>
+                        <p><span class="var">students</span> = <span class="func">sorted</span>(<span class="var">students</span>) <span class="cmt"># Sort the list!</span></p>
+                    </div>
+                    <button onclick="document.getElementById('sort-hint').classList.toggle('hidden')" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-xl font-sans font-bold text-lg transition-colors shadow-md mt-4 md:mt-0">Show Output</button>
+                </div>
+
+                <div id="sort-hint" class="hidden mt-6 bg-green-50 p-6 rounded-xl border-2 border-green-200 font-mono text-green-800 font-bold text-lg">
+                    Class List (Sorted):<br>
+                    • Alaa<br>
+                    • Menna<br>
+                    • Mona<br>
+                    • Omar<br>
+                    • Ramy
+                </div>
+            </div>
+        </section>
+
+        <!-- SPECIAL MISSION: INTERACTIVE HERO CHALLENGE -->
+        <section class="bg-gradient-to-br from-slate-900 to-indigo-900 rounded-[2rem] p-8 shadow-2xl border-t-8 border-indigo-500 text-white relative overflow-hidden" id="hero-challenge">
+            <div class="absolute -right-10 -bottom-10 opacity-20"><i data-lucide="wand-2" class="w-64 h-64"></i></div>
+            
+            <div class="relative z-10">
+                <h2 class="text-4xl font-black text-indigo-300 mb-4 flex items-center gap-3">
+                    <i data-lucide="swords" class="w-10 h-10 text-yellow-400"></i> Hero Challenge: The Formatting Laser! ⚡
+                </h2>
+                <p class="text-lg text-indigo-100 font-semibold mb-6">
+                    Oh no! The school's database was hacked and the names are super messy! 
+                    Use your <code class="bg-slate-800 px-2 rounded text-pink-400 font-mono">.strip().capitalize()</code> laser to clean the names and add them to the official Class List!
+                </p>
+
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Messy Data -->
+                    <div class="flex-1 bg-slate-800 p-6 rounded-2xl border-2 border-indigo-500/50">
+                        <h3 class="font-bold text-xl text-yellow-400 mb-4">Messy Input Data 🤢:</h3>
+                        <div id="messy-names" class="flex flex-col gap-3">
+                            <button onclick="zapName(this, '  aHmEd  ', 'Ahmed')" class="bg-slate-700 hover:bg-slate-600 text-white font-mono p-4 rounded-lg border-2 border-rose-400 text-center transition-all relative overflow-hidden group">
+                                "  aHmEd  "
+                                <div class="absolute inset-0 bg-sky-500/20 translate-y-full group-hover:translate-y-0 transition-transform flex items-center justify-center font-black text-sky-300">ZAP! ⚡</div>
+                            </button>
+                            <button onclick="zapName(this, 'sARA', 'Sara')" class="bg-slate-700 hover:bg-slate-600 text-white font-mono p-4 rounded-lg border-2 border-rose-400 text-center transition-all relative overflow-hidden group">
+                                "sARA"
+                                <div class="absolute inset-0 bg-sky-500/20 translate-y-full group-hover:translate-y-0 transition-transform flex items-center justify-center font-black text-sky-300">ZAP! ⚡</div>
+                            </button>
+                            <button onclick="zapName(this, '   yOuSsEf', 'Youssef')" class="bg-slate-700 hover:bg-slate-600 text-white font-mono p-4 rounded-lg border-2 border-rose-400 text-center transition-all relative overflow-hidden group">
+                                "   yOuSsEf"
+                                <div class="absolute inset-0 bg-sky-500/20 translate-y-full group-hover:translate-y-0 transition-transform flex items-center justify-center font-black text-sky-300">ZAP! ⚡</div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Clean List -->
+                    <div class="flex-1 bg-black p-6 rounded-2xl border-2 border-slate-700 shadow-inner flex flex-col items-center">
+                        <h3 class="font-bold text-xl text-green-400 mb-4 w-full text-left">Clean Class List ✨:</h3>
+                        <div id="clean-list" class="w-full flex flex-col gap-2 font-bold text-sky-300 text-lg flex-grow">
+                            <!-- Clean names appear here -->
+                        </div>
+                        <div id="laser-result" class="mt-4 font-black text-2xl text-center hidden w-full p-4 rounded-xl"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOMEWORK (H.W) -->
+        <section class="bg-yellow-300 rounded-[2rem] p-8 shadow-xl border-b-8 border-yellow-500 relative overflow-hidden">
+            <!-- Notebook styling elements -->
+            <div class="absolute top-0 left-8 w-4 h-full border-l-4 border-double border-red-400/50"></div>
+            <div class="absolute top-0 left-16 w-1 h-full bg-red-400/20"></div>
+
+            <div class="ml-10 relative z-10">
+                <h2 class="text-4xl font-black text-slate-800 mb-6 flex items-center gap-3">
+                    <i data-lucide="book-open" class="w-10 h-10 text-orange-600"></i> H.W 📝
+                </h2>
+                
+                <div class="bg-white/60 p-8 rounded-2xl border-2 border-yellow-400 shadow-sm backdrop-blur-sm">
+                    <h3 class="text-2xl font-black text-slate-800 mb-4">Level Up the Attendance System! 🚀</h3>
+                    <p class="text-xl text-slate-700 font-bold mb-4 leading-relaxed">
+                        We have a great list of students. Now, let's make it smarter!
+                    </p>
+                    <ul class="list-disc pl-8 space-y-3 text-lg font-semibold text-slate-800">
+                        <li>Modify your code to ask the user if each student is <strong>"Present"</strong> or <strong>"Absent"</strong>.</li>
+                        <li>Store the student names in <em>two separate lists</em>: <code class="bg-white px-2 py-1 rounded border border-yellow-300 text-green-600">present_students = []</code> and <code class="bg-white px-2 py-1 rounded border border-yellow-300 text-red-600">absent_students = []</code>.</li>
+                        <li>Print both lists at the end so the teacher knows exactly who is missing!</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center text-slate-500 py-10 font-bold text-lg mt-12 border-t-4 border-sky-200 border-dashed">
+        <p class="text-slate-800">© MegaMinds Academy. All rights reserved.</p>
+        <p class="mt-2 text-orange-500">Smart Attendance System part-1 🏫</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Checklist toggle logic
+        function toggleCheck(element) {
+            const icon = element.querySelector('.icon-box');
+            if (element.classList.contains('completed')) {
+                element.classList.remove('completed');
+                icon.setAttribute('data-lucide', 'square');
+                icon.classList.remove('text-green-500');
+                icon.classList.add('text-sky-400');
+            } else {
+                element.classList.add('completed');
+                icon.setAttribute('data-lucide', 'check-square');
+                icon.classList.remove('text-sky-400');
+                icon.classList.add('text-green-500');
+            }
+            lucide.createIcons();
+        }
+
+        // Attendance Code Simulator Logic
+        function startSim() {
+            const numInput = document.getElementById('stu-count');
+            const setupDiv = document.getElementById('sim-setup');
+            const outDiv = document.getElementById('sim-output');
+            
+            let count = parseInt(numInput.value);
+            if (isNaN(count) || count < 1) count = 1;
+            if (count > 5) count = 5; // limit for demo
+            
+            setupDiv.classList.add('hidden');
+            outDiv.classList.remove('hidden');
+            outDiv.innerHTML = `Enter number of students: ${count}\n`;
+            
+            let students = [];
+            let currentStep = 0;
+
+            function askName() {
+                if (currentStep < count) {
+                    setTimeout(() => {
+                        let rawName = prompt(`Enter name of student ${currentStep + 1}:`, "  meSsyNaMe  ");
+                        if(rawName === null) rawName = "Unknown";
+                        
+                        // Apply .strip().capitalize()
+                        let cleanName = rawName.trim();
+                        if (cleanName.length > 0) {
+                            cleanName = cleanName.charAt(0).toUpperCase() + cleanName.slice(1).toLowerCase();
+                        }
+                        
+                        students.push(cleanName);
+                        outDiv.innerHTML += `Enter name of student ${currentStep + 1}: ${cleanName}\n`;
+                        
+                        currentStep++;
+                        askName();
+                    }, 500);
+                } else {
+                    setTimeout(() => {
+                        outDiv.innerHTML += `\nClass List:\n`;
+                        students.forEach(s => {
+                            outDiv.innerHTML += `• ${s}\n`;
+                        });
+                        
+                        // Add reset button
+                        outDiv.innerHTML += `\n<button onclick="resetSim()" class="text-sky-400 underline hover:text-sky-300 mt-2 font-bold">Restart Simulator</button>`;
+                    }, 800);
+                }
+            }
+            
+            askName();
+        }
+
+        function resetSim() {
+            document.getElementById('sim-setup').classList.remove('hidden');
+            document.getElementById('sim-output').classList.add('hidden');
+            document.getElementById('sim-output').innerHTML = "";
+        }
+
+        // Hero Challenge Game Logic
+        let cleanedNames = 0;
+
+        function zapName(btnElement, rawName, cleanName) {
+            if(btnElement.disabled) return;
+            
+            // Disable clicked button and turn it green
+            btnElement.disabled = true;
+            btnElement.classList.replace('bg-slate-700', 'bg-slate-900');
+            btnElement.classList.replace('border-rose-400', 'border-green-500');
+            btnElement.innerHTML = `"<span class="text-green-400 line-through">${rawName}</span>" <span class="ml-2 text-green-400">✅</span>`;
+
+            // Add to clean list
+            const listDiv = document.getElementById('clean-list');
+            const newLine = document.createElement('div');
+            newLine.className = "bg-slate-800 p-3 rounded-lg border border-slate-700 sparkle-anim text-white";
+            newLine.innerHTML = `• ${cleanName}`;
+            listDiv.appendChild(newLine);
+
+            cleanedNames++;
+
+            // Check Win Condition
+            if(cleanedNames === 3) {
+                const resultDiv = document.getElementById('laser-result');
+                resultDiv.classList.remove('hidden');
+                resultDiv.innerHTML = "SYSTEM RESTORED! GREAT JOB! 🏆✨";
+                resultDiv.className = "mt-4 font-black text-2xl text-center bg-green-500/20 text-green-400 border-2 border-green-500 w-full p-4 rounded-xl";
+            }
+        }
+    </script>
+</body>
+</html>
