@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 3 Session 2: Practice on Coding Platforms - MegaMinds Academy</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Playful Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Nunito', sans-serif; overflow-x: hidden; }
+        
+        /* Custom friendly scrollbar */
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: #e0f2fe; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #7dd3fc; border-radius: 10px; border: 3px solid #e0f2fe; }
+        ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+
+        /* Bouncy animation for placeholders */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-anim { animation: float 3s ease-in-out infinite; }
+        
+        /* Verdict Animation */
+        @keyframes pop {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .pop-anim { animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+
+        /* Checkbox styling */
+        .check-item.completed {
+            background-color: #f0fdf4 !important;
+            border-color: #86efac !important;
+            color: #166534 !important;
+            opacity: 0.8;
+        }
+        .check-item.completed span {
+            text-decoration: line-through;
+        }
+        
+        /* Syntax highlighting colors */
+        .kw { color: #f472b6; font-weight: bold; }
+        .func { color: #fb923c; } 
+        .str { color: #4ade80; } 
+        .var { color: #38bdf8; } 
+        .num { color: #c084fc; } 
+        .cmt { color: #94a3b8; font-style: italic; }
+    </style>
+</head>
+<body class="min-h-screen bg-sky-50 text-slate-800 pb-16 selection:bg-orange-300">
+
+    <!-- HEADER -->
+    <header class="bg-gradient-to-br from-orange-400 to-orange-500 text-white shadow-xl rounded-b-[3rem] mb-10 relative overflow-hidden border-b-8 border-orange-600">
+        <div class="absolute top-10 right-10 w-32 h-32 bg-white opacity-20 rounded-full blur-xl"></div>
+        <div class="absolute bottom-[-20px] left-10 w-48 h-48 bg-sky-300 opacity-30 rounded-full blur-2xl"></div>
+        
+        <div class="max-w-4xl mx-auto px-6 py-12 text-center relative z-10">
+            <div class="inline-block bg-white/25 px-5 py-2 rounded-full text-sm font-black tracking-widest mb-6 border-2 border-white/50 uppercase shadow-sm">
+                Level 3 : Session 2
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black mb-4 drop-shadow-lg tracking-tight">
+                PROBLEM SOLVING 🧠
+            </h1>
+            <p class="text-2xl md:text-3xl font-bold text-orange-50 mb-8 drop-shadow-md">
+                Practice on Coding Platforms 🏆💻
+            </p>
+            <div class="flex justify-center items-center gap-3 font-bold text-lg bg-black/10 w-fit mx-auto px-6 py-3 rounded-2xl backdrop-blur-sm">
+                <span class="text-white">MegaMinds Academy</span>
+                <span class="text-orange-200">|</span>
+                <span class="text-sky-200">STEM Accredited 🏅</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 space-y-12">
+
+        <!-- INTRO (PREF) -->
+        <section class="bg-white rounded-[2rem] p-6 md:p-8 shadow-xl border-4 border-sky-200 flex flex-col md:flex-row gap-8 items-center transform hover:scale-[1.01] transition-transform">
+            <div class="flex-1 w-full">
+                <h2 class="text-3xl font-black text-sky-500 mb-4 flex items-center justify-center md:justify-start gap-2">
+                    <i data-lucide="sparkles" class="w-8 h-8 text-orange-400 flex-shrink-0"></i> Welcome Back Problem Solvers!
+                </h2>
+                <div class="bg-sky-50 p-5 rounded-xl border border-sky-100 mb-4 text-left">
+                    <p class="text-xl text-slate-700 font-bold mb-2 text-orange-500">What did we do last session? 🤔</p>
+                    <p class="text-lg text-slate-600 font-semibold leading-relaxed">
+                        We became Bug Hunters! 🐛 We learned how to spot, fix, and avoid common bugs (Syntax, Runtime, and Logical errors) in our Python code.
+                    </p>
+                </div>
+                <p class="text-lg text-slate-700 font-bold leading-relaxed bg-orange-50 p-4 rounded-xl border border-orange-100 text-left">
+                    Today, we are stepping into the big leagues! We will learn about <strong>Competitive Programming</strong> and how to practice on real Coding Platforms! 🥇
+                </p>
+            </div>
+            <div class="w-full md:w-64 h-48 md:h-64 bg-sky-100 rounded-3xl border-4 border-dashed border-sky-300 flex flex-col items-center justify-center text-sky-500 font-bold float-anim shadow-inner p-4 text-center flex-shrink-0">
+                <span class="text-6xl mb-2">🏅</span>
+                <span>Image Placeholder:<br>Kid holding a trophy at a computer</span>
+            </div>
+        </section>
+
+        <!-- CHECKLIST: TODAY'S MISSION -->
+        <section class="bg-sky-500 rounded-[2rem] p-6 md:p-8 shadow-xl border-b-8 border-sky-700 text-white">
+            <h2 class="text-3xl font-black mb-6 flex items-center gap-3">
+                <i data-lucide="target" class="w-10 h-10 text-orange-300 flex-shrink-0"></i>
+                TODAY'S MISSION: 🎯
+            </h2>
+            <div class="grid gap-4 md:grid-cols-2" id="mission-list">
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-4 md:p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-lg md:text-xl">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box flex-shrink-0"></i>
+                    <span class="break-words">Understand what Competitive Programming is.</span>
+                </div>
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-4 md:p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-lg md:text-xl">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box flex-shrink-0"></i>
+                    <span class="break-words">Explore HackerRank, SoloLearn, and Codeforces.</span>
+                </div>
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-4 md:p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-lg md:text-xl">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box flex-shrink-0"></i>
+                    <span class="break-words">Learn the Judge Verdicts (Accepted, WA, etc.).</span>
+                </div>
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-4 md:p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-lg md:text-xl">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box flex-shrink-0"></i>
+                    <span class="break-words">Solve our first platform problem!</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHAT IS COMPETITIVE PROGRAMMING & THE THREE SITES -->
+        <section class="bg-white rounded-[2rem] p-6 md:p-8 shadow-xl border-4 border-orange-200 w-full overflow-hidden">
+            <h2 class="text-3xl md:text-4xl font-black text-orange-500 mb-6 flex items-center gap-3">
+                <i data-lucide="swords" class="w-10 h-10 flex-shrink-0"></i> Competitive Programming 🏟️
+            </h2>
+            
+            <div class="bg-orange-50 p-5 md:p-6 rounded-2xl border-l-8 border-orange-400 mb-8 font-bold text-lg text-slate-700 leading-relaxed">
+                <p>Think of it as a <strong>Mind Sport</strong>! Programmers from all over the world race to solve logic and math puzzles using code. The goal is to write a program that gives the correct answer as fast and efficiently as possible!</p>
+            </div>
+
+            <h3 class="text-3xl font-black text-sky-600 mb-6 flex items-center gap-3">
+                <i data-lucide="globe" class="w-8 h-8"></i> Our Training Grounds!
+            </h3>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- SoloLearn -->
+                <a href="https://www.sololearn.com/en/learn" target="_blank" class="bg-sky-50 p-6 rounded-2xl border-4 border-sky-200 text-center shadow-sm transform transition-transform hover:-translate-y-2 hover:shadow-lg flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 border-2 border-sky-300 shadow-inner">
+                        <span class="text-3xl">📱</span>
+                    </div>
+                    <h4 class="font-black text-sky-800 text-2xl mb-2">SoloLearn</h4>
+                    <p class="text-sm text-slate-600 font-bold mb-4 flex-grow">Great for learning syntax, taking quick quizzes, and practicing coding on your phone or browser!</p>
+                    <span class="text-sky-500 font-bold text-sm bg-white px-3 py-1 rounded-full border border-sky-200">Visit Site ➔</span>
+                </a>
+
+                <!-- HackerRank -->
+                <a href="https://www.hackerrank.com/" target="_blank" class="bg-green-50 p-6 rounded-2xl border-4 border-green-200 text-center shadow-sm transform transition-transform hover:-translate-y-2 hover:shadow-lg flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 border-2 border-green-300 shadow-inner">
+                        <span class="text-3xl">💻</span>
+                    </div>
+                    <h4 class="font-black text-green-800 text-2xl mb-2">HackerRank</h4>
+                    <p class="text-sm text-slate-600 font-bold mb-4 flex-grow">Perfect for practicing specific topics (like If-Else and Loops) and earning shiny badges!</p>
+                    <span class="text-green-500 font-bold text-sm bg-white px-3 py-1 rounded-full border border-green-200">Visit Site ➔</span>
+                </a>
+
+                <!-- Codeforces -->
+                <a href="https://codeforces.com/" target="_blank" class="bg-purple-50 p-6 rounded-2xl border-4 border-purple-200 text-center shadow-sm transform transition-transform hover:-translate-y-2 hover:shadow-lg flex flex-col items-center">
+                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mb-4 border-2 border-purple-300 shadow-inner">
+                        <span class="text-3xl">🏆</span>
+                    </div>
+                    <h4 class="font-black text-purple-800 text-2xl mb-2">Codeforces</h4>
+                    <p class="text-sm text-slate-600 font-bold mb-4 flex-grow">The ultimate arena for competitive programming! Solve hard math and logic puzzles to rank up.</p>
+                    <span class="text-purple-500 font-bold text-sm bg-white px-3 py-1 rounded-full border border-purple-200">Visit Site ➔</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- PRACTICE PROBLEMS (HACKERRANK LINKS) -->
+        <section class="bg-slate-900 rounded-[2rem] p-6 md:p-8 shadow-xl border-t-8 border-green-400 w-full overflow-hidden">
+            <h2 class="text-3xl md:text-4xl font-black text-green-400 mb-4 flex items-center gap-3">
+                <i data-lucide="dumbbell" class="w-10 h-10 flex-shrink-0"></i> Time to Practice! 🏋️‍♂️
+            </h2>
+            <p class="text-lg text-slate-300 font-semibold mb-8">Click on the links below to test your skills on HackerRank!</p>
+            
+            <div class="space-y-4">
+                <a href="https://www.hackerrank.com/challenges/py-hello-world/problem?isFullScreen=true" target="_blank" class="flex items-center gap-4 bg-slate-800 p-5 rounded-2xl border-2 border-slate-600 hover:border-green-400 hover:bg-slate-700 transition-all group">
+                    <div class="bg-green-500 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                        <i data-lucide="terminal" class="text-white w-6 h-6"></i>
+                    </div>
+                    <div class="flex-grow">
+                        <h4 class="text-xl font-bold text-white">Problem 1: Say "Hello, World!" With Python</h4>
+                        <p class="text-slate-400 text-sm">A quick warmup to test the platform.</p>
+                    </div>
+                    <i data-lucide="external-link" class="text-slate-500 group-hover:text-green-400 w-6 h-6"></i>
+                </a>
+
+                <a href="https://www.hackerrank.com/challenges/py-if-else/problem?isFullScreen=true" target="_blank" class="flex items-center gap-4 bg-slate-800 p-5 rounded-2xl border-2 border-slate-600 hover:border-sky-400 hover:bg-slate-700 transition-all group">
+                    <div class="bg-sky-500 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                        <i data-lucide="git-branch" class="text-white w-6 h-6"></i>
+                    </div>
+                    <div class="flex-grow">
+                        <h4 class="text-xl font-bold text-white">Problem 2: Python If-Else</h4>
+                        <p class="text-slate-400 text-sm">Test your decision-making skills with odd and even numbers.</p>
+                    </div>
+                    <i data-lucide="external-link" class="text-slate-500 group-hover:text-sky-400 w-6 h-6"></i>
+                </a>
+
+                <a href="https://www.hackerrank.com/challenges/python-loops/problem?isFullScreen=true" target="_blank" class="flex items-center gap-4 bg-slate-800 p-5 rounded-2xl border-2 border-slate-600 hover:border-orange-400 hover:bg-slate-700 transition-all group">
+                    <div class="bg-orange-500 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                        <i data-lucide="repeat" class="text-white w-6 h-6"></i>
+                    </div>
+                    <div class="flex-grow">
+                        <h4 class="text-xl font-bold text-white">Problem 3: Python Loops</h4>
+                        <p class="text-slate-400 text-sm">Let the code repeat! Print squares of numbers using a loop.</p>
+                    </div>
+                    <i data-lucide="external-link" class="text-slate-500 group-hover:text-orange-400 w-6 h-6"></i>
+                </a>
+            </div>
+        </section>
+
+        <!-- HOW TO READ A PROBLEM -->
+        <section class="bg-blue-50 rounded-[2rem] p-6 md:p-8 shadow-xl border-t-8 border-blue-500 w-full overflow-hidden">
+            <h2 class="text-3xl md:text-4xl font-black text-blue-700 mb-6 flex items-center gap-3">
+                <i data-lucide="book-open" class="w-10 h-10 flex-shrink-0"></i> How to Read a Problem 📖
+            </h2>
+            
+            <p class="text-lg text-slate-700 font-bold mb-6 bg-white p-4 rounded-xl shadow-sm border border-blue-200">
+                On platforms like Codeforces or HackerRank, every problem has a specific structure. You must read it like a detective! 🕵️‍♂️
+            </p>
+
+            <div class="space-y-4">
+                <div class="bg-white p-4 md:p-5 rounded-2xl border-l-8 border-purple-500 shadow-sm flex items-start gap-4">
+                    <span class="text-3xl flex-shrink-0">⏳</span>
+                    <div>
+                        <h4 class="font-black text-xl text-purple-700">1. Time & Memory Limit</h4>
+                        <p class="font-bold text-slate-600">The rules! E.g., "Time limit: 1 second". Your code must be fast!</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 md:p-5 rounded-2xl border-l-8 border-sky-500 shadow-sm flex items-start gap-4">
+                    <span class="text-3xl flex-shrink-0">📝</span>
+                    <div>
+                        <h4 class="font-black text-xl text-sky-700">2. Problem Statement</h4>
+                        <p class="font-bold text-slate-600">The story or the puzzle you need to solve. Read it carefully!</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 md:p-5 rounded-2xl border-l-8 border-orange-500 shadow-sm flex items-start gap-4">
+                    <span class="text-3xl flex-shrink-0">📥</span>
+                    <div>
+                        <h4 class="font-black text-xl text-orange-700">3. Input</h4>
+                        <p class="font-bold text-slate-600">What data the Judge will give to your program (e.g., "A single integer n").</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 md:p-5 rounded-2xl border-l-8 border-green-500 shadow-sm flex items-start gap-4">
+                    <span class="text-3xl flex-shrink-0">📤</span>
+                    <div>
+                        <h4 class="font-black text-xl text-green-700">4. Output</h4>
+                        <p class="font-bold text-slate-600">What your program MUST print (e.g., "Print YES or NO").</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 md:p-5 rounded-2xl border-l-8 border-yellow-500 shadow-sm flex items-start gap-4">
+                    <span class="text-3xl flex-shrink-0">🧪</span>
+                    <div>
+                        <h4 class="font-black text-xl text-yellow-700">5. Examples (Test Cases)</h4>
+                        <p class="font-bold text-slate-600">Samples to test your code before submitting. If input is 8, output should be YES.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- THE VERDICTS (JUDGE DECISIONS) -->
+        <section class="bg-slate-900 text-white rounded-[2rem] p-6 md:p-8 shadow-xl border-b-8 border-slate-700 relative overflow-hidden">
+            <h2 class="text-3xl md:text-4xl font-black text-sky-400 mb-6 md:mb-8 text-center flex justify-center items-center gap-3 relative z-10">
+                <i data-lucide="gavel" class="w-10 h-10 text-yellow-400 flex-shrink-0"></i> The Judge's Verdicts ⚖️
+            </h2>
+            <p class="text-center text-lg font-bold text-sky-100 mb-8 relative z-10">When you submit your code, an automated "Judge" tests it. Here is what it can tell you:</p>
+
+            <div class="grid md:grid-cols-2 gap-6 relative z-10">
+                <div class="bg-green-500/10 p-5 rounded-2xl border-2 border-green-500 flex items-center gap-4 hover:bg-green-500/20 transition-colors">
+                    <span class="text-4xl flex-shrink-0">✅</span>
+                    <div>
+                        <h3 class="font-black text-xl md:text-2xl text-green-400">Accepted (AC)</h3>
+                        <p class="text-green-100 font-semibold text-sm md:text-base">Perfect! Your code gave the correct answer for ALL hidden test cases!</p>
+                    </div>
+                </div>
+
+                <div class="bg-rose-500/10 p-5 rounded-2xl border-2 border-rose-500 flex items-center gap-4 hover:bg-rose-500/20 transition-colors">
+                    <span class="text-4xl flex-shrink-0">❌</span>
+                    <div>
+                        <h3 class="font-black text-xl md:text-2xl text-rose-400">Wrong Answer (WA)</h3>
+                        <p class="text-rose-100 font-semibold text-sm md:text-base">Your code ran, but printed the wrong result on one of the tests (e.g., Wrong answer on test 1).</p>
+                    </div>
+                </div>
+
+                <div class="bg-yellow-500/10 p-5 rounded-2xl border-2 border-yellow-500 flex items-center gap-4 hover:bg-yellow-500/20 transition-colors">
+                    <span class="text-4xl flex-shrink-0">⏳</span>
+                    <div>
+                        <h3 class="font-black text-xl md:text-2xl text-yellow-400">Time Limit Exceeded (TLE)</h3>
+                        <p class="text-yellow-100 font-semibold text-sm md:text-base">Your code is too slow! Usually means you have an infinite loop or bad logic.</p>
+                    </div>
+                </div>
+
+                <div class="bg-orange-500/10 p-5 rounded-2xl border-2 border-orange-500 flex items-center gap-4 hover:bg-orange-500/20 transition-colors">
+                    <span class="text-4xl flex-shrink-0">💥</span>
+                    <div>
+                        <h3 class="font-black text-xl md:text-2xl text-orange-400">Compilation Error</h3>
+                        <p class="text-orange-100 font-semibold text-sm md:text-base">Syntax error! The Judge couldn't even run your code because of a typo or bad grammar.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRACTICE PROBLEM: WATERMELON -->
+        <section class="bg-green-50 rounded-[2rem] p-6 md:p-8 shadow-xl border-t-8 border-green-500 w-full overflow-hidden">
+            <h2 class="text-3xl md:text-4xl font-black text-green-600 mb-6 flex items-center gap-3">
+                <i data-lucide="dumbbell" class="w-10 h-10 flex-shrink-0"></i> Practice: Watermelon 🍉
+            </h2>
+
+            <div class="bg-white p-5 md:p-6 rounded-3xl shadow-sm border border-green-200 mb-8 w-full max-w-full">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center border-b-2 border-green-100 pb-3 mb-4 gap-2">
+                    <h3 class="font-black text-xl text-slate-800">Problem: 4A - Watermelon (Codeforces)</h3>
+                    <span class="bg-slate-100 text-slate-600 font-bold px-3 py-1 rounded-lg text-sm self-start sm:self-auto">Time limit: 1 second</span>
+                </div>
+                <p class="text-lg text-slate-700 font-bold mb-4 leading-relaxed">
+                    Pete and Billy bought a watermelon weighting <strong class="text-green-600">w</strong> kilos. They want to divide the watermelon into two parts, such that each of the two parts weighs an <strong class="text-orange-500 underline">even number</strong> of kilos.
+                </p>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono text-sm md:text-base space-y-3">
+                    <p><strong class="text-slate-800">Input:</strong> The first (and the only) input line contains integer number <span class="text-sky-600 font-bold">w (1 ≤ w ≤ 100)</span>.</p>
+                    <p><strong class="text-slate-800">Output:</strong> Print <span class="text-green-600 font-bold">YES</span>, if the boys can divide the watermelon into two parts, each weighing an even number of kilos; and <span class="text-rose-500 font-bold">NO</span> in the opposite case.</p>
+                </div>
+            </div>
+
+            <!-- THE CODE: STEP-BY-STEP FOR WATERMELON -->
+            <div class="bg-slate-900 rounded-[2rem] p-5 md:p-8 shadow-xl border-4 border-slate-800 w-full overflow-hidden mb-8">
+                <h2 class="text-2xl md:text-3xl font-black text-white mb-6 flex items-center gap-3 border-b-2 border-slate-700 pb-4">
+                    <i data-lucide="code-2" class="w-8 h-8 text-sky-400 flex-shrink-0"></i> The Code: Step-by-Step 💻
+                </h2>
+                
+                <div class="space-y-6 w-full max-w-full">
+                    <!-- Step 1 -->
+                    <div class="bg-slate-800 rounded-2xl p-4 md:p-6 border border-slate-600 shadow-md w-full">
+                        <div class="flex flex-col lg:flex-row gap-6 w-full items-center">
+                            <div class="flex-1 bg-black p-4 md:p-5 rounded-xl font-mono text-sm md:text-base text-white border border-slate-700 shadow-inner overflow-x-auto max-w-full w-full">
+                                <pre class="whitespace-pre-wrap break-words"><span class="cmt"># Read the weight as an integer</span>
+<span class="var">w</span> = <span class="func">int</span>(<span class="func">input</span>())</pre>
+                            </div>
+                            <div class="flex-1 text-slate-200 font-semibold text-base md:text-lg w-full">
+                                <p>First, we take the weight input from the user (the Judge) and convert it into an <code class="bg-slate-900 text-sky-300 px-2 py-1 rounded text-sm">int</code> so we can do math on it.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="bg-slate-800 rounded-2xl p-4 md:p-6 border border-slate-600 shadow-md w-full">
+                        <div class="flex flex-col lg:flex-row gap-6 w-full items-center">
+                            <div class="flex-1 bg-black p-4 md:p-5 rounded-xl font-mono text-sm md:text-base text-white border border-slate-700 shadow-inner overflow-x-auto max-w-full w-full">
+                                <pre class="whitespace-pre-wrap break-words"><span class="cmt"># Check if w is even AND strictly greater than 2</span>
+<span class="cmt"># (because 2 can only be divided into 1 and 1, which are odd!)</span>
+<span class="kw">if</span> <span class="var">w</span> % <span class="num">2</span> == <span class="num">0</span> <span class="kw">and</span> <span class="var">w</span> > <span class="num">2</span>:</pre>
+                            </div>
+                            <div class="flex-1 text-slate-200 font-semibold text-base md:text-lg w-full">
+                                <p>We use <code class="bg-slate-900 text-pink-400 px-2 py-1 rounded text-sm">w % 2 == 0</code> to check if it's even.</p>
+                                <p class="mt-2 text-yellow-300 bg-slate-900/50 p-2 rounded border border-yellow-500/30">
+                                    <strong>Edge Case Alert 🚨:</strong> We MUST add <code class="text-pink-400">w > 2</code>. Why? If the watermelon weighs exactly 2 kilos, it can only be split into 1 and 1 (Odd numbers!). So 2 must answer NO!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="bg-slate-800 rounded-2xl p-4 md:p-6 border border-slate-600 shadow-md w-full">
+                        <div class="flex flex-col lg:flex-row gap-6 w-full items-center">
+                            <div class="flex-1 bg-black p-4 md:p-5 rounded-xl font-mono text-sm md:text-base text-white border border-slate-700 shadow-inner overflow-x-auto max-w-full w-full">
+                                <pre class="whitespace-pre-wrap break-words">    <span class="func">print</span>(<span class="str">"YES"</span>)
+<span class="kw">else</span>:
+    <span class="func">print</span>(<span class="str">"NO"</span>)</pre>
+                            </div>
+                            <div class="flex-1 text-slate-200 font-semibold text-base md:text-lg w-full">
+                                <p>If both conditions are true, we print <span class="text-green-400 font-bold">YES</span>. Otherwise (<code class="bg-slate-900 text-pink-400 px-2 py-1 rounded text-sm">else</code>), we print <span class="text-rose-400 font-bold">NO</span>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Simulator Area -->
+            <div class="bg-white p-5 md:p-6 rounded-3xl shadow-lg border border-green-200 flex flex-col justify-center">
+                <h3 class="font-black text-2xl text-slate-800 mb-4 flex items-center gap-2"><i data-lucide="play-circle" class="text-green-500"></i> Try it out!</h3>
+                <p class="text-slate-600 font-bold mb-4">Enter a watermelon weight to test the code. Watch out for weight = 2!</p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                    <input type="number" id="wm-input" value="8" min="1" max="100" class="w-full sm:w-32 bg-slate-100 text-slate-800 font-black p-3 rounded-lg text-center outline-none focus:ring-2 focus:ring-green-400 border-2 border-slate-200">
+                    <button onclick="runWatermelon()" id="btn-wm" class="flex-grow bg-green-500 hover:bg-green-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_4px_0_#15803d] hover:translate-y-[2px] flex items-center justify-center gap-2">
+                        Test Output
+                    </button>
+                </div>
+                <div id="out-wm" class="hidden bg-slate-900 p-4 rounded-xl font-mono text-green-400 text-lg border-4 border-slate-700 font-bold whitespace-pre-wrap"></div>
+            </div>
+        </section>
+
+        <!-- SPECIAL MISSION: INTERACTIVE HERO CHALLENGE -->
+        <section class="bg-gradient-to-br from-slate-900 to-indigo-900 rounded-[2rem] p-6 md:p-8 shadow-2xl border-t-8 border-indigo-500 text-white relative overflow-hidden w-full" id="hero-challenge">
+            <div class="absolute -left-10 -bottom-10 opacity-20"><i data-lucide="scale" class="w-64 h-64"></i></div>
+            
+            <div class="relative z-10 w-full">
+                <h2 class="text-3xl md:text-4xl font-black text-indigo-300 mb-4 flex items-center gap-3">
+                    <i data-lucide="gavel" class="w-10 h-10 text-yellow-400 flex-shrink-0"></i> Hero Challenge: Be The Judge! ⚖️
+                </h2>
+                <p class="text-lg text-indigo-100 font-semibold mb-6">
+                    It's your turn to be the Codeforces Judge! Look at the student's submission. Compare their output with the expected output, and click the correct Verdict!
+                </p>
+
+                <div class="bg-slate-800 p-5 md:p-6 rounded-2xl border-2 border-indigo-500/50 flex flex-col items-center w-full overflow-hidden">
+                    
+                    <div class="flex justify-between w-full mb-4 px-2 md:px-4 font-bold text-base md:text-lg text-slate-400">
+                        <span>Cases Judged: <span id="judge-score" class="text-green-400">0</span> / 3</span>
+                        <span>Submission: <span id="judge-level" class="text-yellow-400">1</span></span>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-4 md:gap-6 w-full mb-6">
+                        <div class="bg-black p-4 md:p-5 rounded-xl border-4 border-slate-700 shadow-inner w-full overflow-x-auto">
+                            <h4 class="text-sky-400 font-bold mb-2 border-b border-slate-700 pb-1 text-sm md:text-base">Expected Output</h4>
+                            <div id="expected-out" class="font-mono text-lg md:text-xl text-white">YES</div>
+                        </div>
+                        <div class="bg-black p-4 md:p-5 rounded-xl border-4 border-slate-700 shadow-inner w-full overflow-x-auto">
+                            <h4 class="text-orange-400 font-bold mb-2 border-b border-slate-700 pb-1 text-sm md:text-base">Student's Output</h4>
+                            <div id="student-out" class="font-mono text-lg md:text-xl text-white">NO</div>
+                            <div id="student-err" class="font-mono text-xs md:text-sm text-rose-500 hidden mt-2 break-words">SyntaxError: invalid syntax</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Verdict Choices -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 w-full" id="judge-buttons">
+                        <button onclick="giveVerdict('AC')" class="bg-green-600 hover:bg-green-500 text-white font-black py-3 md:py-4 rounded-xl transition-all shadow-[0_4px_0_#16a34a] hover:translate-y-[2px] text-base md:text-lg flex justify-center items-center gap-2">✅ <span class="hidden sm:inline">Accepted</span><span class="sm:hidden">AC</span></button>
+                        <button onclick="giveVerdict('WA')" class="bg-rose-600 hover:bg-rose-500 text-white font-black py-3 md:py-4 rounded-xl transition-all shadow-[0_4px_0_#be123c] hover:translate-y-[2px] text-base md:text-lg flex justify-center items-center gap-2">❌ <span class="hidden sm:inline">Wrong Answer</span><span class="sm:hidden">WA</span></button>
+                        <button onclick="giveVerdict('CE')" class="bg-orange-600 hover:bg-orange-500 text-white font-black py-3 md:py-4 rounded-xl transition-all shadow-[0_4px_0_#ea580c] hover:translate-y-[2px] text-base md:text-lg flex justify-center items-center gap-2">💥 <span class="hidden sm:inline">Compile Error</span><span class="sm:hidden">CE</span></button>
+                    </div>
+
+                    <!-- Result Msg -->
+                    <div id="judge-msg" class="mt-6 font-black text-xl md:text-2xl text-center hidden w-full p-4 rounded-xl"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOMEWORK (H.W) -->
+        <section class="bg-yellow-300 rounded-[2rem] p-6 md:p-8 shadow-xl border-b-8 border-yellow-500 relative overflow-hidden">
+            <!-- Notebook styling elements -->
+            <div class="absolute top-0 left-8 w-4 h-full border-l-4 border-double border-red-400/50"></div>
+            <div class="absolute top-0 left-16 w-1 h-full bg-red-400/20"></div>
+
+            <div class="ml-10 relative z-10">
+                <h2 class="text-3xl md:text-4xl font-black text-slate-800 mb-6 flex items-center gap-3">
+                    <i data-lucide="book-open" class="w-10 h-10 text-orange-600 flex-shrink-0"></i> H.W 📝
+                </h2>
+                
+                <div class="bg-white/60 p-6 md:p-8 rounded-2xl border-2 border-yellow-400 shadow-sm backdrop-blur-sm">
+                    <p class="text-xl md:text-2xl font-black text-slate-800 mb-6 leading-relaxed flex items-start gap-3">
+                        <span class="bg-orange-500 text-white p-2 rounded-xl mt-1 flex-shrink-0"><i data-lucide="laptop"></i></span>
+                        "Create your account on Codeforces! Go to the Problemset, find the problem '4A - Watermelon', and try to submit the code we wrote today to get your first 'Accepted' verdict!"
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center text-slate-500 py-10 font-bold text-lg mt-12 border-t-4 border-sky-200 border-dashed w-full overflow-hidden">
+        <p class="text-slate-800">© MegaMinds Academy. All rights reserved.</p>
+        <p class="mt-2 text-orange-500">Practice on Coding Platforms 🏆💻</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Checklist toggle logic
+        function toggleCheck(element) {
+            const icon = element.querySelector('.icon-box');
+            if (element.classList.contains('completed')) {
+                element.classList.remove('completed');
+                icon.setAttribute('data-lucide', 'square');
+                icon.classList.remove('text-green-500');
+                icon.classList.add('text-sky-400');
+            } else {
+                element.classList.add('completed');
+                icon.setAttribute('data-lucide', 'check-square');
+                icon.classList.remove('text-sky-400');
+                icon.classList.add('text-green-500');
+            }
+            lucide.createIcons();
+        }
+
+        // Watermelon Simulator Logic
+        function runWatermelon() {
+            const btn = document.getElementById('btn-wm');
+            const output = document.getElementById('out-wm');
+            const inputVal = parseInt(document.getElementById('wm-input').value);
+            
+            btn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Running...';
+            lucide.createIcons();
+            btn.disabled = true;
+            btn.classList.add('opacity-80', 'cursor-not-allowed');
+
+            output.classList.remove('hidden');
+            output.innerHTML = "<span class='text-slate-500'>[Sending to Judge...]</span>";
+
+            setTimeout(() => {
+                let ans = "NO";
+                if(inputVal % 2 === 0 && inputVal > 2) {
+                    ans = "YES";
+                }
+                
+                output.innerHTML = `> Input: ${inputVal}\n> Output: <span class='text-white'>${ans}</span>\n\n<span class='text-slate-500 font-normal'>[Execution finished]</span>`;
+                
+                btn.innerHTML = '<i data-lucide="play" class="w-5 h-5 fill-current"></i> Test Output';
+                lucide.createIcons();
+                btn.disabled = false;
+                btn.classList.remove('opacity-80', 'cursor-not-allowed');
+            }, 800);
+        }
+
+        // Hero Challenge (Judge Simulator) Logic
+        const judgeCases = [
+            { exp: "YES", stuOut: "NO", stuErr: "", correctVerdict: "WA", explanation: "The outputs don't match! The student's code failed test 1." },
+            { exp: "120", stuOut: "120", stuErr: "", correctVerdict: "AC", explanation: "The outputs match perfectly! The code is correct." },
+            { exp: "Hello, Ali", stuOut: "", stuErr: "SyntaxError: EOL while scanning string literal", correctVerdict: "CE", explanation: "The code crashed before printing anything!" }
+        ];
+
+        let currentJ = 0;
+        let scoreJ = 0;
+
+        function giveVerdict(selectedVerdict) {
+            const currentCase = judgeCases[currentJ];
+            const msgBox = document.getElementById('judge-msg');
+            
+            // Remove animation class to restart it
+            msgBox.classList.remove('pop-anim');
+            void msgBox.offsetWidth; // trigger reflow
+
+            if (selectedVerdict === currentCase.correctVerdict) {
+                scoreJ++;
+                msgBox.innerHTML = `✅ Great Judging! <span class="block text-base md:text-lg font-normal mt-1 leading-snug">${currentCase.explanation}</span>`;
+                msgBox.className = "mt-6 font-black text-xl md:text-2xl text-center bg-green-500/20 text-green-400 border-2 border-green-500 w-full p-4 rounded-xl pop-anim";
+            } else {
+                msgBox.innerHTML = `❌ Bad Call, Judge! <span class="block text-base md:text-lg font-normal mt-1 leading-snug">The correct verdict was ${currentCase.correctVerdict}. ${currentCase.explanation}</span>`;
+                msgBox.className = "mt-6 font-black text-xl md:text-2xl text-center bg-rose-500/20 text-rose-400 border-2 border-rose-500 w-full p-4 rounded-xl pop-anim";
+            }
+            
+            msgBox.classList.remove('hidden');
+            document.getElementById('judge-score').innerText = scoreJ;
+            
+            const btns = document.getElementById('judge-buttons').querySelectorAll('button');
+            btns.forEach(b => b.disabled = true);
+
+            setTimeout(() => {
+                currentJ++;
+                if (currentJ < judgeCases.length) {
+                    loadJudgeCase();
+                    msgBox.classList.add('hidden');
+                    btns.forEach(b => b.disabled = false);
+                } else {
+                    document.getElementById('judge-buttons').style.display = 'none';
+                    if (scoreJ === 3) {
+                        msgBox.innerHTML = "🏆 PERFECT JUDGE! You know your verdicts! 🏆";
+                        msgBox.className = "mt-8 font-black text-2xl md:text-3xl text-center text-yellow-400 drop-shadow-md pop-anim";
+                    } else {
+                        msgBox.innerHTML = `🏁 Shift Over! You got ${scoreJ}/3 cases right.<br><button onclick="location.href='#hero-challenge';location.reload()" class="mt-4 text-sm text-indigo-300 underline">Play Again</button>`;
+                        msgBox.className = "mt-8 font-black text-xl md:text-2xl text-center text-white pop-anim";
+                    }
+                }
+            }, 3000);
+        }
+
+        function loadJudgeCase() {
+            document.getElementById('judge-level').innerText = currentJ + 1;
+            document.getElementById('expected-out').innerText = judgeCases[currentJ].exp;
+            
+            const sOut = document.getElementById('student-out');
+            const sErr = document.getElementById('student-err');
+            
+            if(judgeCases[currentJ].stuErr) {
+                sOut.innerText = "[No Output]";
+                sOut.classList.add('text-slate-500', 'italic');
+                sErr.innerText = judgeCases[currentJ].stuErr;
+                sErr.classList.remove('hidden');
+            } else {
+                sOut.innerText = judgeCases[currentJ].stuOut;
+                sOut.classList.remove('text-slate-500', 'italic');
+                sErr.classList.add('hidden');
+            }
+        }
+        
+        // Initialize first case
+        loadJudgeCase();
+
+    </script>
+</body>
+</html>
