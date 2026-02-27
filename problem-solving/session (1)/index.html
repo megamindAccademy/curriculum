@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Problem Solving - MegaMinds Academy</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="min-h-screen bg-sky-50 font-sans text-slate-800 pb-12 selection:bg-orange-200">
+
+    <!-- HEADER -->
+    <header class="bg-gradient-to-r from-orange-500 to-orange-400 text-white py-8 shadow-lg">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <div class="inline-block bg-white/20 px-4 py-1 rounded-full text-sm font-bold tracking-wider mb-4 border border-white/40 uppercase">
+                Level 1: Session 1
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-md">
+                Problem Solving 🧠
+            </h1>
+            <p class="text-xl md:text-2xl font-medium text-orange-50">
+                "Let's think, create, and code!" 💻
+            </p>
+            <div class="mt-4 flex justify-center space-x-2 text-white">
+                <span class="font-bold">MegaMinds Academy</span>
+                <span>|</span>
+                <span class="font-semibold text-sky-100">STEM Accredited</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 py-8 space-y-12">
+
+        <!-- SECTION 1: TODAY'S MISSION (CHECKLIST) -->
+        <section class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border-t-4 border-sky-400 transform hover:-translate-y-1 transition-transform">
+            <h2 class="text-3xl font-bold text-sky-500 mb-6 flex items-center gap-3">
+                <svg class="w-8 h-8 text-orange-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                Today's Mission! 🚀
+            </h2>
+            <div class="grid gap-3" id="mission-list">
+                <!-- Items are generated/handled via JS -->
+                <div id="mission-1" onclick="toggleMission(1)" class="mission-item flex items-center gap-4 p-4 rounded-xl cursor-pointer transition-all bg-sky-50 hover:bg-sky-100 border border-sky-100 text-slate-700">
+                    <i id="mission-icon-1" data-lucide="square" class="w-7 h-7 text-sky-400 flex-shrink-0"></i>
+                    <span id="mission-text-1" class="text-lg md:text-xl font-medium">What is Problem Solving?</span>
+                </div>
+                <div id="mission-2" onclick="toggleMission(2)" class="mission-item flex items-center gap-4 p-4 rounded-xl cursor-pointer transition-all bg-sky-50 hover:bg-sky-100 border border-sky-100 text-slate-700">
+                    <i id="mission-icon-2" data-lucide="square" class="w-7 h-7 text-sky-400 flex-shrink-0"></i>
+                    <span id="mission-text-2" class="text-lg md:text-xl font-medium">Why Is It Important?</span>
+                </div>
+                <div id="mission-3" onclick="toggleMission(3)" class="mission-item flex items-center gap-4 p-4 rounded-xl cursor-pointer transition-all bg-sky-50 hover:bg-sky-100 border border-sky-100 text-slate-700">
+                    <i id="mission-icon-3" data-lucide="square" class="w-7 h-7 text-sky-400 flex-shrink-0"></i>
+                    <span id="mission-text-3" class="text-lg md:text-xl font-medium">Real-Life Examples</span>
+                </div>
+                <div id="mission-4" onclick="toggleMission(4)" class="mission-item flex items-center gap-4 p-4 rounded-xl cursor-pointer transition-all bg-sky-50 hover:bg-sky-100 border border-sky-100 text-slate-700">
+                    <i id="mission-icon-4" data-lucide="square" class="w-7 h-7 text-sky-400 flex-shrink-0"></i>
+                    <span id="mission-text-4" class="text-lg md:text-xl font-medium">Game Time - Escape the Room!</span>
+                </div>
+                <div id="mission-5" onclick="toggleMission(5)" class="mission-item flex items-center gap-4 p-4 rounded-xl cursor-pointer transition-all bg-sky-50 hover:bg-sky-100 border border-sky-100 text-slate-700">
+                    <i id="mission-icon-5" data-lucide="square" class="w-7 h-7 text-sky-400 flex-shrink-0"></i>
+                    <span id="mission-text-5" class="text-lg md:text-xl font-medium">Mini-Challenge - Art Name</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: WHAT IS PROBLEM SOLVING? (INTERACTIVE ANIMATION) -->
+        <section class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-6 md:p-8 shadow-xl text-white">
+            <h2 class="text-3xl font-bold text-orange-400 mb-4">
+                What is Problem Solving? 🤔
+            </h2>
+            <p class="text-lg text-sky-100 mb-8 border-l-4 border-orange-500 pl-4 py-1">
+                It's the ability to think clearly and find smart ways to fix problems! 
+                In programming, it means breaking big problems into small steps.
+            </p>
+
+            <!-- Animation Box -->
+            <div class="bg-slate-800/50 p-6 rounded-2xl border border-slate-700">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
+                    <!-- Step 0 -->
+                    <div id="anim-step-0" class="flex flex-col items-center p-4 w-full md:w-32 rounded-xl border-2 transition-all duration-500 bg-slate-700 border-slate-600 opacity-50">
+                        <i data-lucide="search" class="w-8 h-8 mb-2 text-white"></i>
+                        <span class="font-bold text-center">Understand</span>
+                        <span class="text-xs text-center mt-1 text-slate-200">What's the bug?</span>
+                    </div>
+                    <i data-lucide="arrow-right" id="arrow-0" class="hidden md:block w-8 h-8 text-slate-600"></i>
+                    <i data-lucide="chevron-right" id="arrow-mobile-0" class="md:hidden w-6 h-6 rotate-90 my-1 text-slate-600"></i>
+                    
+                    <!-- Step 1 -->
+                    <div id="anim-step-1" class="flex flex-col items-center p-4 w-full md:w-32 rounded-xl border-2 transition-all duration-500 bg-slate-700 border-slate-600 opacity-50">
+                        <i data-lucide="brain" class="w-8 h-8 mb-2 text-white"></i>
+                        <span class="font-bold text-center">Plan</span>
+                        <span class="text-xs text-center mt-1 text-slate-200">Think of steps</span>
+                    </div>
+                    <i data-lucide="arrow-right" id="arrow-1" class="hidden md:block w-8 h-8 text-slate-600"></i>
+                    <i data-lucide="chevron-right" id="arrow-mobile-1" class="md:hidden w-6 h-6 rotate-90 my-1 text-slate-600"></i>
+
+                    <!-- Step 2 -->
+                    <div id="anim-step-2" class="flex flex-col items-center p-4 w-full md:w-32 rounded-xl border-2 transition-all duration-500 bg-slate-700 border-slate-600 opacity-50">
+                        <i data-lucide="play" class="w-8 h-8 mb-2 text-white"></i>
+                        <span class="font-bold text-center">Try</span>
+                        <span class="text-xs text-center mt-1 text-slate-200">Write code</span>
+                    </div>
+                    <i data-lucide="arrow-right" id="arrow-2" class="hidden md:block w-8 h-8 text-slate-600"></i>
+                    <i data-lucide="chevron-right" id="arrow-mobile-2" class="md:hidden w-6 h-6 rotate-90 my-1 text-slate-600"></i>
+
+                    <!-- Step 3 -->
+                    <div id="anim-step-3" class="flex flex-col items-center p-4 w-full md:w-32 rounded-xl border-2 transition-all duration-500 bg-slate-700 border-slate-600 opacity-50">
+                        <i data-lucide="refresh-cw" class="w-8 h-8 mb-2 text-white"></i>
+                        <span class="font-bold text-center">Fix</span>
+                        <span class="text-xs text-center mt-1 text-slate-200">Debug it!</span>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center text-center">
+                    <div class="h-16 flex items-center justify-center mb-4" id="anim-emoji-container">
+                        <span class="text-5xl animate-bounce">🐛</span>
+                    </div>
+                    
+                    <button id="anim-btn" onclick="startAnimation()" class="bg-sky-500 hover:bg-sky-400 disabled:bg-slate-600 text-white font-bold py-3 px-8 rounded-full text-lg shadow-lg hover:shadow-sky-500/30 transition-all flex items-center gap-2">
+                        <span id="anim-btn-text">Simulate Problem Solving!</span>
+                        <i data-lucide="play" id="anim-btn-icon" class="w-5 h-5 fill-current"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2.5: WHY IS IT IMPORTANT? -->
+        <section class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border-t-4 border-purple-500 transform hover:-translate-y-1 transition-transform">
+            <h2 class="text-3xl font-bold text-purple-600 mb-6 flex items-center gap-3">
+                <i data-lucide="sparkles" class="w-8 h-8 text-yellow-500"></i>
+                Why Is It Important? ✨
+            </h2>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="bg-purple-50 p-5 rounded-xl border border-purple-100 flex flex-col items-center text-center gap-3">
+                    <i data-lucide="brain" class="w-10 h-10 text-purple-500"></i>
+                    <p class="font-bold text-slate-700 text-lg">Makes your brain smarter</p>
+                </div>
+                <div class="bg-sky-50 p-5 rounded-xl border border-sky-100 flex flex-col items-center text-center gap-3">
+                    <i data-lucide="cpu" class="w-10 h-10 text-sky-500"></i>
+                    <p class="font-bold text-slate-700 text-lg">Helps you build apps, games, and robots</p>
+                </div>
+                <div class="bg-orange-50 p-5 rounded-xl border border-orange-100 flex flex-col items-center text-center gap-3">
+                    <i data-lucide="lightbulb" class="w-10 h-10 text-orange-500"></i>
+                    <p class="font-bold text-slate-700 text-lg">Trains you to think like an inventor</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: REAL-LIFE EXAMPLES -->
+        <section>
+            <h2 class="text-3xl font-bold text-slate-800 mb-6 text-center">
+                Real-Life Examples! 🦸‍♂️
+            </h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="p-6 rounded-2xl border-2 transition-transform hover:-translate-y-2 cursor-default bg-white shadow-sm bg-orange-50 border-orange-200 hover:border-orange-400">
+                    <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center mb-4 shadow-sm border border-slate-100">
+                        <i data-lucide="car" class="w-10 h-10 text-orange-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Self-Driving Cars</h3>
+                    <p class="text-slate-600">Cars avoid traffic and stay safe using code!</p>
+                </div>
+                <div class="p-6 rounded-2xl border-2 transition-transform hover:-translate-y-2 cursor-default bg-white shadow-sm bg-sky-50 border-sky-200 hover:border-sky-400">
+                    <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center mb-4 shadow-sm border border-slate-100">
+                        <i data-lucide="search" class="w-10 h-10 text-sky-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Google Search</h3>
+                    <p class="text-slate-600">Google knows what you're looking for in seconds.</p>
+                </div>
+                <div class="p-6 rounded-2xl border-2 transition-transform hover:-translate-y-2 cursor-default bg-white shadow-sm bg-purple-50 border-purple-200 hover:border-purple-400">
+                    <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center mb-4 shadow-sm border border-slate-100">
+                        <i data-lucide="gamepad-2" class="w-10 h-10 text-purple-500"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800 mb-2">Video Games</h3>
+                    <p class="text-slate-600">Games use AI to make enemies super smart.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: GAME TIME - ESCAPE THE ROOM -->
+        <section class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-3xl p-6 md:p-8 shadow-xl text-white transform hover:scale-[1.02] transition-transform cursor-default">
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="flex-1">
+                    <h2 class="text-3xl md:text-4xl font-bold text-yellow-300 mb-4 flex items-center gap-3">
+                        <i data-lucide="key" class="w-8 h-8 md:w-10 md:h-10 text-yellow-300"></i>
+                        Game Time: Escape the Room! 🚪
+                    </h2>
+                    <p class="text-lg md:text-xl text-indigo-100 mb-6 font-medium border-l-4 border-yellow-300 pl-4">
+                        Imagine you are locked in a room! How do you escape? You test ideas, think step-by-step, and decide on the best plan!
+                    </p>
+                    <div class="bg-white/10 p-5 rounded-2xl border border-white/20">
+                        <h3 class="text-xl font-bold text-white mb-4">Skills We're Using Without Realizing:</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-center gap-3">
+                                <i data-lucide="list-checks" class="w-7 h-7 text-green-400 flex-shrink-0"></i>
+                                <span class="text-lg">Step-by-step thinking <strong class="text-yellow-200">(algorithmic mindset)</strong></span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i data-lucide="refresh-cw" class="w-7 h-7 text-sky-400 flex-shrink-0"></i>
+                                <span class="text-lg">Testing options <strong class="text-yellow-200">(debugging)</strong></span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i data-lucide="brain" class="w-7 h-7 text-pink-400 flex-shrink-0"></i>
+                                <span class="text-lg font-bold">Decision-making</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="text-[8rem] hidden md:block drop-shadow-[0_10px_10px_rgba(0,0,0,0.3)] hover:animate-bounce">
+                    🕵️‍♂️
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: PYTHON PLAYGROUND & FIRST CODE -->
+        <section class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border-t-4 border-orange-500">
+            
+            <div class="mb-10 border-b border-slate-100 pb-8">
+                <h2 class="text-3xl font-bold text-sky-500 flex items-center gap-3 mb-4">
+                    <i data-lucide="code" class="w-8 h-8 text-orange-500"></i>
+                    Our First Python Code!
+                </h2>
+                <div class="bg-slate-900 rounded-xl p-5 font-mono text-sky-300 inline-block w-full shadow-inner">
+                    <p class="text-lg">
+                        <span class="text-orange-400">print</span>(<span class="text-green-400">"Hello World!"</span>)
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+                <div>
+                    <h2 class="text-3xl font-bold text-orange-500 flex items-center gap-3">
+                        <i data-lucide="terminal" class="w-8 h-8 text-sky-500"></i>
+                        Mini-Challenge: Art Name 🎨
+                    </h2>
+                    <p class="text-slate-600 mt-2 font-medium text-lg">Let's write your name in a cool way!</p>
+                    <div class="bg-orange-50 p-3 rounded-lg border border-orange-100 mt-3 inline-block">
+                        <p class="text-slate-700 text-sm">
+                            💡 <strong>Tip:</strong> Try using emojis, shapes, or characters. For example: <br/>
+                            <code class="bg-white px-2 py-1 rounded text-orange-600 font-bold border border-orange-200 mt-1 inline-block">print("🌟 MegaMinds Academy 🌟")</code>
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-slate-100 px-4 py-2 rounded-lg font-mono text-sm text-slate-500 border border-slate-200 flex items-center gap-2 h-fit">
+                    <i data-lucide="terminal" class="w-4 h-4"></i> Python 3
+                </div>
+            </div>
+
+            <div class="bg-slate-900 rounded-xl overflow-hidden shadow-2xl border border-slate-700">
+                <!-- Editor Header -->
+                <div class="bg-slate-800 px-4 py-2 flex items-center gap-2 border-b border-slate-700">
+                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    <span class="text-slate-400 text-xs ml-2 font-mono">main.py</span>
+                </div>
+                
+                <!-- Code Editor -->
+                <div class="p-4 font-mono text-sm md:text-base text-sky-300">
+                    <p><span class="text-orange-400">print</span>(<span class="text-green-400">"Hello World!"</span>)</p>
+                    <br/>
+                    <p class="text-slate-500"># Drawing the letter M</p>
+                    <p><span class="text-orange-400">print</span>(<span class="text-green-400">"M       M"</span>)</p>
+                    <p><span class="text-orange-400">print</span>(<span class="text-green-400">"MM   MM"</span>)</p>
+                    <p><span class="text-orange-400">print</span>(<span class="text-green-400">"M M M M"</span>)</p>
+                    <p><span class="text-orange-400">print</span>(<span class="text-green-400">"M  M  M"</span>)</p>
+                    <p><span class="text-orange-400">print</span>(<span class="text-green-400">"M     M"</span>)</p>
+                </div>
+                
+                <!-- Run Bar -->
+                <div class="bg-slate-800 p-4 border-t border-slate-700 flex justify-between items-center">
+                    <button id="run-code-btn" onclick="runCode()" class="bg-green-500 hover:bg-green-400 text-slate-900 font-bold py-2 px-6 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50">
+                        <i data-lucide="play" id="run-code-icon" class="w-4 h-4 fill-current"></i>
+                        <span id="run-code-text">Run Code</span>
+                    </button>
+                </div>
+
+                <!-- Terminal Output -->
+                <div id="code-output-container" class="hidden bg-black p-4 font-mono text-green-400 text-sm whitespace-pre-wrap border-t border-slate-700 min-h-[120px]"></div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: HOMEWORK / REFLECTION -->
+        <section class="bg-orange-50 rounded-3xl p-6 md:p-8 border-2 border-orange-200 border-dashed text-center">
+            <i data-lucide="lightbulb" class="w-12 h-12 text-orange-500 mx-auto mb-4"></i>
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">Homework Time! 📝</h2>
+            <p class="text-slate-600 mb-6 max-w-2xl mx-auto">
+                Think of a real-life problem you faced this week (big or small!). Grab a notebook and answer:
+            </p>
+            <div class="bg-white rounded-xl p-6 shadow-sm inline-block text-left border border-orange-100">
+                <ol class="list-decimal pl-5 space-y-3 font-medium text-slate-700">
+                    <li>What was the problem?</li>
+                    <li>What steps did you take to solve it?</li>
+                    <li>Did it work? If not, what would you try differently?</li>
+                </ol>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center text-slate-400 pb-8 font-medium">
+        <p>© MegaMinds Academy. All rights reserved.</p>
+        <p class="text-sm mt-1">"Let's think, create, and code!"</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // --- Mission Checklist Logic ---
+        function toggleMission(id) {
+            const item = document.getElementById(`mission-${id}`);
+            const icon = document.getElementById(`mission-icon-${id}`);
+            const text = document.getElementById(`mission-text-${id}`);
+            
+            const isCompleted = item.classList.contains('bg-green-50');
+
+            if (isCompleted) {
+                // Set to uncompleted
+                item.classList.remove('bg-green-50', 'border-green-200', 'text-green-700');
+                item.classList.add('bg-sky-50', 'hover:bg-sky-100', 'border-sky-100', 'text-slate-700');
+                text.classList.remove('line-through', 'opacity-70');
+                
+                icon.setAttribute('data-lucide', 'square');
+                icon.classList.remove('text-green-500');
+                icon.classList.add('text-sky-400');
+            } else {
+                // Set to completed
+                item.classList.remove('bg-sky-50', 'hover:bg-sky-100', 'border-sky-100', 'text-slate-700');
+                item.classList.add('bg-green-50', 'border-green-200', 'text-green-700');
+                text.classList.add('line-through', 'opacity-70');
+                
+                icon.setAttribute('data-lucide', 'check-square');
+                icon.classList.remove('text-sky-400');
+                icon.classList.add('text-green-500');
+            }
+            // Re-render only the updated icon
+            lucide.createIcons();
+        }
+
+        // --- Problem Solving Animation Logic ---
+        let isAnimating = false;
+        let activeStep = -1;
+        let animationInterval;
+
+        function updateStepStyles(stepIndex, state) {
+            const stepEl = document.getElementById(`anim-step-${stepIndex}`);
+            if(!stepEl) return;
+
+            // Reset classes
+            stepEl.className = "flex flex-col items-center p-4 w-full md:w-32 rounded-xl border-2 transition-all duration-500";
+            
+            if (state === 'active') {
+                stepEl.classList.add('bg-orange-500', 'border-orange-300', 'scale-110', 'shadow-[0_0_20px_rgba(249,115,22,0.5)]');
+            } else if (state === 'done') {
+                stepEl.classList.add('bg-sky-500', 'border-sky-300', 'opacity-80');
+            } else {
+                // default/inactive
+                stepEl.classList.add('bg-slate-700', 'border-slate-600', 'opacity-50');
+            }
+        }
+
+        function updateArrows(stepIndex) {
+            for(let i=0; i<3; i++) {
+                const arrowDesk = document.getElementById(`arrow-${i}`);
+                const arrowMob = document.getElementById(`arrow-mobile-${i}`);
+                if (stepIndex > i) {
+                    arrowDesk.classList.replace('text-slate-600', 'text-sky-400');
+                    arrowMob.classList.replace('text-slate-600', 'text-sky-400');
+                } else {
+                    arrowDesk.classList.replace('text-sky-400', 'text-slate-600');
+                    arrowMob.classList.replace('text-sky-400', 'text-slate-600');
+                }
+            }
+        }
+
+        function startAnimation() {
+            if (isAnimating) return;
+            
+            isAnimating = true;
+            activeStep = 0;
+            
+            const btn = document.getElementById('anim-btn');
+            const btnText = document.getElementById('anim-btn-text');
+            const btnIcon = document.getElementById('anim-btn-icon');
+            const emojiContainer = document.getElementById('anim-emoji-container');
+            
+            btn.disabled = true;
+            btnText.innerText = "Thinking...";
+            btnIcon.style.display = "none";
+
+            // Reset all steps to inactive before starting
+            for(let i=0; i<4; i++) updateStepStyles(i, 'inactive');
+            updateArrows(-1);
+
+            let currentStep = 0;
+            
+            // Render initial state (Step 0)
+            updateStepStyles(0, 'active');
+            emojiContainer.innerHTML = '<span class="text-5xl animate-spin">⚙️</span>';
+
+            animationInterval = setInterval(() => {
+                currentStep++;
+                activeStep = currentStep;
+                
+                if (currentStep > 3) {
+                    clearInterval(animationInterval);
+                    setTimeout(() => {
+                        isAnimating = false;
+                        activeStep = 4;
+                        
+                        btn.disabled = false;
+                        btnText.innerText = "Solve Another Bug!";
+                        btnIcon.style.display = "block";
+                        
+                        // Set all to done
+                        for(let i=0; i<4; i++) updateStepStyles(i, 'done');
+                        updateArrows(4);
+                        
+                        emojiContainer.innerHTML = '<span class="text-6xl animate-bounce drop-shadow-[0_0_15px_rgba(250,204,21,0.8)]">🌟</span>';
+                    }, 1000);
+                } else {
+                    // Update steps
+                    for(let i=0; i<4; i++) {
+                        if (i === currentStep) updateStepStyles(i, 'active');
+                        else if (i < currentStep) updateStepStyles(i, 'done');
+                        else updateStepStyles(i, 'inactive');
+                    }
+                    updateArrows(currentStep);
+                }
+            }, 1200);
+        }
+
+        // --- Python Code Simulator Logic ---
+        function runCode() {
+            const btn = document.getElementById('run-code-btn');
+            const btnText = document.getElementById('run-code-text');
+            const outputContainer = document.getElementById('code-output-container');
+            
+            // Set Loading State
+            btn.disabled = true;
+            btnText.innerText = "Running...";
+            outputContainer.classList.remove('hidden');
+            outputContainer.innerText = "Running...";
+
+            setTimeout(() => {
+                outputContainer.innerText = `> Hello World!\n> M       M\n> MM   MM\n> M M M M\n> M  M  M\n> M     M`;
+                btnText.innerText = "Run Code";
+                btn.disabled = false;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
