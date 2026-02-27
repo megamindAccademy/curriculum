@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session 3: Problem Solving - MegaMinds Academy</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Playful Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Nunito', sans-serif; }
+        
+        /* Custom friendly scrollbar */
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #e0f2fe; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #7dd3fc; border-radius: 10px; border: 3px solid #e0f2fe; }
+        ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+
+        /* Bouncy animation for placeholders */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-anim { animation: float 3s ease-in-out infinite; }
+        
+        /* Checkbox styling */
+        .check-item.completed {
+            background-color: #f0fdf4 !important;
+            border-color: #86efac !important;
+            color: #166534 !important;
+            opacity: 0.8;
+        }
+        .check-item.completed span {
+            text-decoration: line-through;
+        }
+        
+        /* Syntax highlighting colors */
+        .kw { color: #f472b6; font-weight: bold; } /* Keywords: if, elif, else, and */
+        .func { color: #fb923c; } /* Functions: print, input, int, float */
+        .str { color: #4ade80; } /* Strings */
+        .var { color: #38bdf8; } /* Variables */
+        .num { color: #c084fc; } /* Numbers */
+        .cmt { color: #94a3b8; font-style: italic; } /* Comments */
+    </style>
+</head>
+<body class="min-h-screen bg-sky-50 text-slate-800 pb-16 selection:bg-orange-300">
+
+    <!-- HEADER -->
+    <header class="bg-gradient-to-br from-orange-400 to-orange-500 text-white shadow-xl rounded-b-[3rem] mb-10 relative overflow-hidden border-b-8 border-orange-600">
+        <div class="absolute top-10 right-10 w-32 h-32 bg-white opacity-20 rounded-full blur-xl"></div>
+        <div class="absolute bottom-[-20px] left-10 w-48 h-48 bg-sky-300 opacity-30 rounded-full blur-2xl"></div>
+        
+        <div class="max-w-4xl mx-auto px-6 py-12 text-center relative z-10">
+            <div class="inline-block bg-white/25 px-5 py-2 rounded-full text-sm font-black tracking-widest mb-6 border-2 border-white/50 uppercase shadow-sm">
+                Level 1 : Session 3
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black mb-4 drop-shadow-lg tracking-tight">
+                Problem Solving 🧠
+            </h1>
+            <p class="text-2xl md:text-3xl font-bold text-orange-50 mb-8 drop-shadow-md">
+                Learning How to Make Decisions with Python! 🐍
+            </p>
+            <div class="flex justify-center items-center gap-3 font-bold text-lg bg-black/10 w-fit mx-auto px-6 py-3 rounded-2xl backdrop-blur-sm">
+                <span class="text-white">MegaMinds Academy</span>
+                <span class="text-orange-200">|</span>
+                <span class="text-sky-200">STEM Accredited 🏆</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 space-y-12">
+
+        <!-- INTRO (PREF) -->
+        <section class="bg-white rounded-[2rem] p-8 shadow-xl border-4 border-sky-200 flex flex-col md:flex-row gap-8 items-center transform hover:scale-[1.01] transition-transform">
+            <div class="flex-1">
+                <h2 class="text-3xl font-black text-sky-500 mb-4 flex items-center gap-2">
+                    <i data-lucide="sparkles" class="w-8 h-8 text-orange-400"></i> Welcome Back Problem Solvers!
+                </h2>
+                <p class="text-xl text-slate-700 font-bold mb-2">Breaking Down Problems 🧩</p>
+                <p class="text-lg text-slate-600 font-semibold leading-relaxed">
+                    Learning How to Make Decisions with Python! Today, we will give our computers the power to CHOOSE what to do. If it's raining, take an umbrella. If not, wear sunglasses! Let's build smart programs together! 🚀
+                </p>
+            </div>
+            <!-- Image Placeholder -->
+            <div class="w-full md:w-64 h-64 bg-sky-100 rounded-3xl border-4 border-dashed border-sky-300 flex flex-col items-center justify-center text-sky-500 font-bold float-anim shadow-inner">
+                <span class="text-6xl mb-2">🤔</span>
+                <span class="text-center px-4">Image Placeholder:<br>Kids solving puzzles</span>
+            </div>
+        </section>
+
+        <!-- CHECKLIST: TODAY'S MISSION -->
+        <section class="bg-sky-500 rounded-[2rem] p-8 shadow-xl border-b-8 border-sky-700 text-white">
+            <h2 class="text-3xl font-black mb-6 flex items-center gap-3">
+                <i data-lucide="target" class="w-10 h-10 text-orange-300"></i>
+                TODAY'S MISSION: 🎯
+            </h2>
+            <div class="grid gap-4" id="mission-list">
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-xl">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box"></i>
+                    <span>Learn what breaking a big problem into small parts means.</span>
+                </div>
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-xl">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box"></i>
+                    <span>Discover how If-Else helps us make decisions.</span>
+                </div>
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-xl">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box"></i>
+                    <span>Write fun codes where the computer decides based on what we say!</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- REVIEW & WARM-UP / REAL LIFE EXAMPLES -->
+        <section class="bg-white rounded-[2rem] p-8 shadow-xl border-4 border-orange-200">
+            <h2 class="text-4xl font-black text-orange-500 mb-6 flex items-center gap-3">
+                <i data-lucide="flame" class="w-10 h-10"></i> Review & Warm-Up
+            </h2>
+            
+            <div class="bg-orange-50 p-6 rounded-2xl border-l-8 border-orange-400 mb-8">
+                <h3 class="text-2xl text-slate-800 font-bold mb-2">What is an If Condition? 🧐</h3>
+                <p class="text-lg text-slate-600 font-semibold mb-2">When we want to make a decision!</p>
+                <ul class="list-disc pl-6 text-lg text-slate-600 font-semibold space-y-2">
+                    <li>"If" something is true, we do one thing.</li>
+                    <li>Otherwise, we can do something else (using "else").</li>
+                </ul>
+            </div>
+
+            <h3 class="text-3xl font-black text-sky-500 mb-6 flex items-center gap-3">
+                <i data-lucide="globe" class="w-8 h-8"></i> Real Life-example 🌍
+            </h3>
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-sky-100 p-6 rounded-3xl border-2 border-sky-300 text-center hover:-translate-y-2 transition-transform shadow-sm">
+                    <span class="text-5xl mb-3 block">💧</span>
+                    <p class="font-bold text-slate-700 text-lg">If you are thirsty</p>
+                    <i data-lucide="arrow-down" class="w-6 h-6 mx-auto my-2 text-sky-400"></i>
+                    <p class="font-black text-sky-600 text-xl">drink water</p>
+                </div>
+                <div class="bg-purple-100 p-6 rounded-3xl border-2 border-purple-300 text-center hover:-translate-y-2 transition-transform shadow-sm">
+                    <span class="text-5xl mb-3 block">😴</span>
+                    <p class="font-bold text-slate-700 text-lg">If you are tired</p>
+                    <i data-lucide="arrow-down" class="w-6 h-6 mx-auto my-2 text-purple-400"></i>
+                    <p class="font-black text-purple-600 text-xl">take a nap.</p>
+                </div>
+                <div class="bg-orange-100 p-6 rounded-3xl border-2 border-orange-300 text-center hover:-translate-y-2 transition-transform shadow-sm">
+                    <span class="text-5xl mb-3 block">🌧️</span>
+                    <p class="font-bold text-slate-700 text-lg">If it's raining</p>
+                    <i data-lucide="arrow-down" class="w-6 h-6 mx-auto my-2 text-orange-400"></i>
+                    <p class="font-black text-orange-600 text-xl">use an umbrella</p>
+                </div>
+            </div>
+
+            <div class="bg-slate-100 p-6 rounded-2xl text-center border-4 border-dashed border-slate-300">
+                <h3 class="text-2xl text-slate-800 font-bold mb-4">Do you remember? 🤔</h3>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <span class="bg-green-500 text-white font-black px-6 py-2 rounded-full text-xl shadow-md">IF</span>
+                    <span class="bg-sky-500 text-white font-black px-6 py-2 rounded-full text-xl shadow-md">IF - ELSE</span>
+                    <span class="bg-orange-500 text-white font-black px-6 py-2 rounded-full text-xl shadow-md">IF - ELIF - ELSE</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- WEATHER CLOTHES ADVISOR -->
+        <section class="bg-sky-100 rounded-[2rem] p-8 shadow-xl border-t-8 border-sky-500">
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="flex-1">
+                    <h2 class="text-3xl font-black text-sky-600 mb-4 flex items-center gap-3">
+                        <i data-lucide="cloud-sun" class="w-10 h-10"></i> Weather Clothes Advisor 👕
+                    </h2>
+                    <p class="text-xl text-slate-700 font-bold mb-4 bg-white p-4 rounded-xl shadow-sm border border-sky-200">
+                        <strong>Scenario:</strong> What should you wear today based on the weather?
+                    </p>
+                    
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-sky-200 mb-6">
+                        <h3 class="font-black text-xl text-orange-500 mb-3 border-b-2 border-orange-100 pb-2">Discussion:</h3>
+                        <ul class="space-y-3 text-lg font-bold text-slate-600">
+                            <li><span class="text-2xl">☀️</span> If it's sunny ➡️ the computer says "Wear sunglasses!"</li>
+                            <li><span class="text-2xl">🌧️</span> If it's rainy ➡️ the computer says "Take an umbrella!"</li>
+                            <li><span class="text-2xl">❄️</span> If it's snowy ➡️ the computer says "Wear a coat!"</li>
+                            <li><span class="text-2xl">❓</span> Else ➡️ the computer says "Check the weather app!"</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Image Placeholder -->
+                <div class="w-full md:w-64 h-auto bg-sky-200 rounded-3xl border-4 border-dashed border-sky-400 flex flex-col items-center justify-center text-sky-600 font-bold float-anim shadow-inner p-4 min-h-[250px]">
+                    <span class="text-6xl mb-2">☔</span>
+                    <span class="text-center px-2 text-lg">Image Placeholder:<br>Hand holding an orange umbrella</span>
+                </div>
+            </div>
+
+            <!-- Playground -->
+            <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border-4 border-slate-800 flex flex-col mt-6">
+                <div class="bg-slate-800 px-4 py-3 border-b-2 border-slate-700 flex items-center gap-2">
+                    <div class="w-4 h-4 rounded-full bg-rose-500 shadow-sm"></div>
+                    <div class="w-4 h-4 rounded-full bg-yellow-400 shadow-sm"></div>
+                    <div class="w-4 h-4 rounded-full bg-green-500 shadow-sm"></div>
+                    <span class="text-slate-400 font-mono text-sm ml-2 font-bold tracking-widest uppercase">weather.py</span>
+                </div>
+                
+                <div class="p-6 font-mono text-lg text-white flex-grow font-semibold overflow-x-auto">
+                    <p><span class="var">weather</span> = <span class="func">input</span>(<span class="str">"How is the weather today? (sunny/rainy/snowy) "</span>).<span class="func">lower</span>()</p><br>
+                    <p><span class="kw">if</span> <span class="var">weather</span> == <span class="str">"sunny"</span>:</p>
+                    <p class="pl-8"><span class="func">print</span>(<span class="str">"Wear sunglasses and a hat! "</span>)</p>
+                    <p><span class="kw">elif</span> <span class="var">weather</span> == <span class="str">"rainy"</span>:</p>
+                    <p class="pl-8"><span class="func">print</span>(<span class="str">"Take an umbrella! "</span>)</p>
+                    <p><span class="kw">elif</span> <span class="var">weather</span> == <span class="str">"snowy"</span>:</p>
+                    <p class="pl-8"><span class="func">print</span>(<span class="str">"Wear a warm coat and boots! "</span>)</p>
+                    <p><span class="kw">else</span>:</p>
+                    <p class="pl-8"><span class="func">print</span>(<span class="str">"Check the weather app for advice!"</span>)</p>
+                </div>
+                
+                <div class="bg-slate-800 p-4 border-t-2 border-slate-700">
+                    <button onclick="runSim('btn1', 'out1', '> How is the weather today? (sunny/rainy/snowy) <span class=\'text-white\'>sunny</span><br>> Wear sunglasses and a hat! 🕶️')" id="btn1" class="w-full bg-sky-500 hover:bg-sky-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#0284c7] hover:shadow-[0_2px_0_#0284c7] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                        <i data-lucide="play" class="w-6 h-6 fill-current"></i> Run Code!
+                    </button>
+                </div>
+                <div id="out1" class="hidden bg-black p-6 font-mono text-green-400 text-lg border-t-4 border-slate-700 font-bold whitespace-pre-wrap"></div>
+            </div>
+        </section>
+
+        <!-- CROSSING THE ROAD -->
+        <section class="bg-orange-100 rounded-[2rem] p-8 shadow-xl border-t-8 border-orange-500">
+            <h2 class="text-3xl font-black text-orange-600 mb-6 flex items-center gap-3">
+                <i data-lucide="traffic-cone" class="w-10 h-10"></i> Real-Life Example: Crossing the Road 🚦
+            </h2>
+            <p class="text-xl text-slate-700 font-bold mb-4 bg-white p-4 rounded-xl shadow-sm border border-orange-200">
+                <strong>Scenario:</strong> You are standing at a traffic light. You have to decide what to do!
+            </p>
+            
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-200 mb-6">
+                <h3 class="font-black text-xl text-sky-500 mb-3 border-b-2 border-sky-100 pb-2">Discussion:</h3>
+                <ul class="space-y-3 text-lg font-bold text-slate-600">
+                    <li>🟢 1. If the light is Green ➡️ GO!</li>
+                    <li>🟡 2. Elif the light is Yellow ➡️ SLOW DOWN and prepare to stop</li>
+                    <li>🔴 3. Else (it's Red) ➡️ STOP and WAIT!</li>
+                </ul>
+            </div>
+
+            <!-- Playground -->
+            <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border-4 border-slate-800 flex flex-col">
+                <div class="bg-slate-800 px-4 py-3 border-b-2 border-slate-700 flex items-center gap-2">
+                    <div class="w-4 h-4 rounded-full bg-rose-500 shadow-sm"></div>
+                    <div class="w-4 h-4 rounded-full bg-yellow-400 shadow-sm"></div>
+                    <div class="w-4 h-4 rounded-full bg-green-500 shadow-sm"></div>
+                    <span class="text-slate-400 font-mono text-sm ml-2 font-bold tracking-widest uppercase">traffic_light.py</span>
+                </div>
+                
+                <div class="p-6 font-mono text-lg text-white flex-grow font-semibold overflow-x-auto">
+                    <p><span class="var">light_color</span> = <span class="func">input</span>(<span class="str">"What is the color of the traffic light? "</span>).<span class="func">lower</span>()</p><br>
+                    <p><span class="kw">if</span> <span class="var">light_color</span> == <span class="str">"green"</span>:</p>
+                    <p class="pl-8"><span class="func">print</span>(<span class="str">"Go! "</span>)</p>
+                    <p><span class="kw">elif</span> <span class="var">light_color</span> == <span class="str">"yellow"</span>:</p>
+                    <p class="pl-8"><span class="func">print</span>(<span class="str">"Slow down and get ready to stop! "</span>)</p>
+                    <p><span class="kw">else</span>:</p>
+                    <p class="pl-8"><span class="func">print</span>(<span class="str">"Stop and wait! "</span>)</p>
+                </div>
+                
+                <div class="bg-slate-800 p-4 border-t-2 border-slate-700">
+                    <button onclick="runSim('btn2', 'out2', '> What is the color of the traffic light? <span class=\'text-white\'>yellow</span><br>> Slow down and get ready to stop! 🟡')" id="btn2" class="w-full bg-orange-500 hover:bg-orange-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#c2410c] hover:shadow-[0_2px_0_#c2410c] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                        <i data-lucide="play" class="w-6 h-6 fill-current"></i> Run Code!
+                    </button>
+                </div>
+                <div id="out2" class="hidden bg-black p-6 font-mono text-green-400 text-lg border-t-4 border-slate-700 font-bold whitespace-pre-wrap"></div>
+            </div>
+        </section>
+
+        <!-- THEME PARK RIDE CHECK -->
+        <section class="bg-indigo-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-indigo-500">
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="flex-1">
+                    <h2 class="text-3xl font-black text-indigo-600 mb-4 flex items-center gap-3">
+                        <i data-lucide="ticket" class="w-10 h-10"></i> Theme Park Ride Check 🎢
+                    </h2>
+                    <p class="text-xl text-slate-700 font-bold mb-4 bg-white p-4 rounded-xl shadow-sm border border-indigo-200">
+                        <strong>Scenario:</strong> Can you go on the big roller coaster?
+                    </p>
+                    
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-indigo-200 mb-6">
+                        <h3 class="font-black text-xl text-orange-500 mb-3 border-b-2 border-orange-100 pb-2">Discussion:</h3>
+                        <ul class="space-y-3 text-lg font-bold text-slate-600">
+                            <li>1. In real life, we don't let just anyone ride the big rides - for safety!</li>
+                            <li>2. There are rules: If you're tall enough, you can ride.</li>
+                            <li>3. Otherwise, you have to wait or pick a smaller ride.</li>
+                            <li>4. Just like we follow rules, computers follow rules using if, elif, and else!</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Image Placeholder -->
+                <div class="w-full md:w-64 h-auto bg-indigo-200 rounded-3xl border-4 border-dashed border-indigo-400 flex flex-col items-center justify-center text-indigo-600 font-bold float-anim shadow-inner p-4 min-h-[250px]">
+                    <span class="text-6xl mb-2">🎢</span>
+                    <span class="text-center px-2 text-lg">Image Placeholder:<br>Kids on a roller coaster</span>
+                </div>
+            </div>
+
+            <!-- Playground -->
+            <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border-4 border-slate-800 flex flex-col mt-6">
+                <div class="bg-slate-800 px-4 py-3 border-b-2 border-slate-700 flex items-center gap-2">
+                    <div class="w-4 h-4 rounded-full bg-rose-500 shadow-sm"></div>
+                    <div class="w-4 h-4 rounded-full bg-yellow-400 shadow-sm"></div>
+                    <div class="w-4 h-4 rounded-full bg-green-500 shadow-sm"></div>
+                    <span class="text-slate-400 font-mono text-sm ml-2 font-bold tracking-widest uppercase">theme_park.py</span>
+                </div>
+                
+                <div class="p-6 font-mono text-lg text-white flex-grow font-semibold overflow-x-auto">
+                    <p><span class="var">height</span> = <span class="func">int</span>(<span class="func">input</span>(<span class="str">"What is your height in cm? "</span>))</p><br>
+                    <p><span class="kw">if</span> <span class="var">height</span> >= <span class="num">140</span>:</p>
+                    <p class="pl-8"><span class="func">print</span>(<span class="str">"You can ride the roller coaster! "</span>)</p>
+                    <p><span class="kw">elif</span> <span class="num">120</span> <= <span class="var">height</span> < <span class="num">140</span>:</p>
+                    <p class="pl-8"><span class="func">print</span>(<span class="str">"You can ride the smaller rides! "</span>)</p>
+                    <p><span class="kw">else</span>:</p>
+                    <p class="pl-8"><span class="func">print</span>(<span class="str">"Sorry, you need to grow a little more for the rides! "</span>)</p>
+                </div>
+                
+                <div class="bg-slate-800 p-4 border-t-2 border-slate-700">
+                    <button onclick="runSim('btn3', 'out3', '> What is your height in cm? <span class=\'text-white\'>130</span><br>> You can ride the smaller rides! 🎠')" id="btn3" class="w-full bg-indigo-500 hover:bg-indigo-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#4338ca] hover:shadow-[0_2px_0_#4338ca] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                        <i data-lucide="play" class="w-6 h-6 fill-current"></i> Run Code!
+                    </button>
+                </div>
+                <div id="out3" class="hidden bg-black p-6 font-mono text-green-400 text-lg border-t-4 border-slate-700 font-bold whitespace-pre-wrap"></div>
+            </div>
+        </section>
+
+        <!-- LET'S MAKE IT MORE COMPLEX (BONUS) -->
+        <section class="bg-purple-100 rounded-[2rem] p-8 shadow-xl border-t-8 border-purple-500">
+            <h2 class="text-3xl font-black text-purple-600 mb-6 flex items-center gap-3">
+                <i data-lucide="puzzle" class="w-10 h-10"></i> Let's make it more complex 🧩
+            </h2>
+            
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-purple-200 mb-6">
+                <ol class="space-y-4 text-lg font-bold text-slate-700 list-decimal pl-6">
+                    <li>Why do you think the amusement park sets these rules?</li>
+                    <li>What two things do they check before letting you ride?</li>
+                    <li>If you meet one condition but not the other, can you ride?</li>
+                    <li>How would a computer decide whether you can ride or not?</li>
+                    <li>How many possible situations do you think there are?</li>
+                    <li>How would we write this using Python?</li>
+                </ol>
+            </div>
+            
+            <p class="text-xl text-slate-700 font-bold mb-4 bg-purple-200/50 p-4 rounded-xl shadow-sm border border-purple-300">
+                <strong>Scenario Details:</strong> You must be at least 10 years old. You must be at least 140 cm tall.
+            </p>
+
+            <!-- Playground -->
+            <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border-4 border-slate-800 flex flex-col">
+                <div class="bg-slate-800 px-4 py-3 border-b-2 border-slate-700 flex items-center gap-2">
+                    <div class="w-4 h-4 rounded-full bg-rose-500 shadow-sm"></div>
+                    <div class="w-4 h-4 rounded-full bg-yellow-400 shadow-sm"></div>
+                    <div class="w-4 h-4 rounded-full bg-green-500 shadow-sm"></div>
+                    <span class="text-slate-400 font-mono text-sm ml-2 font-bold tracking-widest uppercase">bonus_ride.py</span>
+                </div>
+                
+                <div class="p-6 font-mono text-lg text-white flex-grow font-semibold overflow-x-auto">
+                    <p class="cmt"># Bonus</p>
+                    <p><span class="var">age</span> = <span class="func">int</span>(<span class="func">input</span>(<span class="str">"Enter your age: "</span>))</p>
+                    <p><span class="var">height</span> = <span class="func">int</span>(<span class="func">input</span>(<span class="str">"Enter your height in cm: "</span>))</p><br>
+                    <p><span class="kw">if</span> <span class="var">age</span> >= <span class="num">10</span> <span class="kw">and</span> <span class="var">height</span> >= <span class="num">140</span>:</p>
+                    <p class="pl-8"><span class="func">print</span>(<span class="str">"You can ride the big roller coaster!"</span>)</p>
+                    <p><span class="kw">elif</span> <span class="var">age</span> >= <span class="num">10</span> <span class="kw">and</span> <span class="var">height</span> < <span class="num">140</span>:</p>
+                    <p class="pl-8"><span class="func">print</span>(<span class="str">"You are old enough, but not tall enough yet."</span>)</p>
+                    <p><span class="kw">else</span>:</p>
+                    <p class="pl-8"><span class="func">print</span>(<span class="str">"Sorry, you need to be older and taller to ride."</span>)</p>
+                </div>
+                
+                <div class="bg-slate-800 p-4 border-t-2 border-slate-700">
+                    <button onclick="runSim('btn4', 'out4', '> Enter your age: <span class=\'text-white\'>11</span><br>> Enter your height in cm: <span class=\'text-white\'>135</span><br>> You are old enough, but not tall enough yet. 📏')" id="btn4" class="w-full bg-purple-500 hover:bg-purple-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#9333ea] hover:shadow-[0_2px_0_#9333ea] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                        <i data-lucide="play" class="w-6 h-6 fill-current"></i> Run Code!
+                    </button>
+                </div>
+                <div id="out4" class="hidden bg-black p-6 font-mono text-green-400 text-lg border-t-4 border-slate-700 font-bold whitespace-pre-wrap"></div>
+            </div>
+        </section>
+
+        <!-- DO YOU REMEMBER LOGIC GATES? -->
+        <section class="bg-white rounded-[2rem] p-8 shadow-xl border-4 border-sky-200">
+            <h2 class="text-4xl font-black text-slate-800 mb-6 flex items-center gap-3">
+                <i data-lucide="cpu" class="w-10 h-10 text-orange-500"></i> Review & Warm-Up: Do you Remember Logic gates?
+            </h2>
+            
+            <div class="bg-sky-50 p-6 rounded-2xl border-2 border-sky-200 mb-8 text-lg font-bold text-slate-700 space-y-2">
+                <p>Computers make decisions just like us - by asking YES or NO questions.</p>
+                <p>They use Logic Gates to decide what to do based on answers.</p>
+                <p>Think of them like tiny brain switches that say "Yes" or "No" X!</p>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse rounded-2xl overflow-hidden shadow-sm">
+                    <thead>
+                        <tr class="bg-orange-500 text-white text-xl">
+                            <th class="p-4 border-b-2 border-orange-600">Logic Gate</th>
+                            <th class="p-4 border-b-2 border-orange-600">Real-World Example</th>
+                            <th class="p-4 border-b-2 border-orange-600">Meaning</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-lg font-semibold text-slate-700">
+                        <tr class="bg-orange-50 border-b border-orange-200">
+                            <td class="p-4 font-black text-orange-600">AND</td>
+                            <td class="p-4">Must have both key AND password to open a door.</td>
+                            <td class="p-4 text-green-600">Both conditions must be true</td>
+                        </tr>
+                        <tr class="bg-sky-50 border-b border-sky-200">
+                            <td class="p-4 font-black text-sky-600">OR</td>
+                            <td class="p-4">Win a prize if you score high OR find the hidden treasure.</td>
+                            <td class="p-4 text-sky-600">At least one condition must be true.</td>
+                        </tr>
+                        <tr class="bg-purple-50">
+                            <td class="p-4 font-black text-purple-600">NOT</td>
+                            <td class="p-4">If NOT raining, go outside.</td>
+                            <td class="p-4 text-purple-600">Reverses the condition.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- TRAVELING SYSTEM & SHOPPING CART -->
+        <section class="grid md:grid-cols-2 gap-8">
+            
+            <!-- TRAVELING SYSTEM -->
+            <div class="bg-blue-100 rounded-[2rem] p-6 shadow-xl border-t-8 border-blue-500 flex flex-col">
+                <h2 class="text-2xl font-black text-blue-600 mb-4 flex items-center gap-2">
+                    <i data-lucide="plane" class="w-8 h-8"></i> Traveling System ✈️
+                </h2>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-blue-200 mb-4 flex-grow">
+                    <p class="font-bold text-slate-700 mb-2"><strong>Scenario:</strong> A travel system checks if you are eligible to travel abroad, based on whether you have a valid passport, visa, and whether you have received all vaccinations required by the destination country.</p>
+                    <p class="font-bold text-blue-500 mb-1 border-b-2 border-blue-100 pb-1">Discussion:</p>
+                    <ul class="list-disc pl-5 text-slate-600 font-semibold text-sm space-y-1">
+                        <li>1. AND: All 3 conditions must be true to allow travel.</li>
+                        <li>2. If any condition fails (e.g., missing visa or passport), the traveler cannot proceed.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl overflow-hidden shadow-lg border-2 border-slate-800">
+                    <div class="bg-slate-800 px-3 py-2 border-b border-slate-700 flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-rose-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <div class="p-4 font-mono text-sm text-white font-semibold overflow-x-auto">
+                        <p class="cmt"># Travel</p>
+                        <p><span class="var">passport_valid</span> = <span class="func">input</span>(<span class="str">"Do you have a valid passport? (yes/no): "</span>)</p>
+                        <p><span class="var">visa_valid</span> = <span class="func">input</span>(<span class="str">"Do you have a valid visa for the destination? (yes/no): "</span>)</p>
+                        <p><span class="var">vaccinations_complete</span> = <span class="func">input</span>(<span class="str">"Have you received all required vaccinations? (yes/no): "</span>)</p>
+                        <p><span class="kw">if</span> <span class="var">passport_valid</span> == <span class="str">"yes"</span> <span class="kw">and</span> <span class="var">visa_valid</span> == <span class="str">"yes"</span> <span class="kw">and</span> <span class="var">vaccinations_complete</span> == <span class="str">"yes"</span>:</p>
+                        <p class="pl-4"><span class="func">print</span>(<span class="str">"You're good to go! Have a great trip! "</span>)</p>
+                        <p><span class="kw">else</span>:</p>
+                        <p class="pl-4"><span class="func">print</span>(<span class="str">"Please ensure all requirements are met before traveling."</span>)</p>
+                    </div>
+                    <div class="bg-slate-800 p-3 border-t border-slate-700">
+                        <button onclick="runSim('btn5', 'out5', '> Do you have a valid passport? (yes/no): <span class=\'text-white\'>yes</span><br>> Do you have a valid visa for the destination? (yes/no): <span class=\'text-white\'>yes</span><br>> Have you received all required vaccinations? (yes/no): <span class=\'text-white\'>no</span><br>> Please ensure all requirements are met before traveling. 🚫')" id="btn5" class="w-full bg-blue-500 hover:bg-blue-400 text-white font-black py-2 rounded-lg transition-all shadow-[0_4px_0_#2563eb] hover:shadow-[0_2px_0_#2563eb] hover:translate-y-[2px] flex items-center justify-center gap-2">
+                            <i data-lucide="play" class="w-5 h-5 fill-current"></i> Run!
+                        </button>
+                    </div>
+                    <div id="out5" class="hidden bg-black p-4 font-mono text-green-400 text-sm border-t-2 border-slate-700 font-bold whitespace-pre-wrap"></div>
+                </div>
+            </div>
+
+            <!-- SHOPPING CART -->
+            <div class="bg-teal-100 rounded-[2rem] p-6 shadow-xl border-t-8 border-teal-500 flex flex-col">
+                <h2 class="text-2xl font-black text-teal-600 mb-4 flex items-center gap-2">
+                    <i data-lucide="shopping-cart" class="w-8 h-8"></i> Shopping Cart Validation 🛒
+                </h2>
+                <div class="bg-white p-4 rounded-xl shadow-sm border border-teal-200 mb-4 flex-grow">
+                    <p class="font-bold text-slate-700 mb-2"><strong>Scenario:</strong> Before proceeding to checkout in an online store, the website must check that:</p>
+                    <p class="font-bold text-teal-500 mb-1 border-b-2 border-teal-100 pb-1">Discussion:</p>
+                    <ul class="list-disc pl-5 text-slate-600 font-semibold text-sm space-y-1">
+                        <li>1. The cart is not empty.</li>
+                        <li>2. The user has a valid coupon.</li>
+                        <li>3. The total amount is above a minimum for free shipping.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-slate-900 rounded-2xl overflow-hidden shadow-lg border-2 border-slate-800">
+                    <div class="bg-slate-800 px-3 py-2 border-b border-slate-700 flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-rose-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <div class="p-4 font-mono text-sm text-white font-semibold overflow-x-auto">
+                        <p class="cmt">#Shopping cart validation</p>
+                        <p><span class="var">cart_items</span> = <span class="func">int</span>(<span class="func">input</span>(<span class="str">"How many items are in your cart? "</span>))</p>
+                        <p><span class="var">coupon_valid</span> = <span class="func">input</span>(<span class="str">"Do you have a valid coupon? (yes/no): "</span>)</p>
+                        <p><span class="var">total_amount</span> = <span class="func">float</span>(<span class="func">input</span>(<span class="str">"Enter the total amount of your cart in EGP: "</span>))</p>
+                        <p><span class="kw">if</span> <span class="var">cart_items</span> > <span class="num">0</span> <span class="kw">and</span> <span class="var">coupon_valid</span> == <span class="str">"yes"</span> <span class="kw">and</span> <span class="var">total_amount</span> >= <span class="num">50</span>:</p>
+                        <p class="pl-4"><span class="func">print</span>(<span class="str">"Proceed to checkout. Free shipping applied!"</span>)</p>
+                        <p><span class="kw">elif</span> <span class="var">cart_items</span> == <span class="num">0</span>:</p>
+                        <p class="pl-4"><span class="func">print</span>(<span class="str">"Your cart is empty. Please add some items first."</span>)</p>
+                        <p><span class="kw">elif</span> <span class="var">coupon_valid</span> == <span class="str">"no"</span>:</p>
+                        <p class="pl-4"><span class="func">print</span>(<span class="str">"Please apply a valid coupon to get discounts."</span>)</p>
+                        <p><span class="kw">elif</span> <span class="var">total_amount</span> < <span class="num">50</span>:</p>
+                        <p class="pl-4"><span class="func">print</span>(<span class="str">"Add more items to get free shipping."</span>)</p>
+                        <p><span class="kw">else</span>:</p>
+                        <p class="pl-4"><span class="func">print</span>(<span class="str">"There's an issue with your cart. Please check."</span>)</p>
+                    </div>
+                    <div class="bg-slate-800 p-3 border-t border-slate-700">
+                        <button onclick="runSim('btn6', 'out6', '> How many items are in your cart? <span class=\'text-white\'>3</span><br>> Do you have a valid coupon? (yes/no): <span class=\'text-white\'>yes</span><br>> Enter the total amount of your cart in EGP: <span class=\'text-white\'>120.5</span><br>> Proceed to checkout. Free shipping applied! 📦')" id="btn6" class="w-full bg-teal-500 hover:bg-teal-400 text-white font-black py-2 rounded-lg transition-all shadow-[0_4px_0_#0f766e] hover:shadow-[0_2px_0_#0f766e] hover:translate-y-[2px] flex items-center justify-center gap-2">
+                            <i data-lucide="play" class="w-5 h-5 fill-current"></i> Run!
+                        </button>
+                    </div>
+                    <div id="out6" class="hidden bg-black p-4 font-mono text-green-400 text-sm border-t-2 border-slate-700 font-bold whitespace-pre-wrap"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOMEWORK (H.W) -->
+        <section class="bg-yellow-300 rounded-[2rem] p-8 shadow-xl border-b-8 border-yellow-500 relative overflow-hidden">
+            <!-- Notebook styling elements -->
+            <div class="absolute top-0 left-8 w-4 h-full border-l-4 border-double border-red-400/50"></div>
+            <div class="absolute top-0 left-16 w-1 h-full bg-red-400/20"></div>
+
+            <div class="ml-10 relative z-10">
+                <h2 class="text-4xl font-black text-slate-800 mb-6 flex items-center gap-3">
+                    <i data-lucide="book-open" class="w-10 h-10 text-orange-600"></i> H.W 📝
+                </h2>
+                
+                <div class="bg-white/60 p-6 rounded-2xl border-2 border-yellow-400 shadow-sm backdrop-blur-sm space-y-6">
+                    
+                    <div class="bg-white p-5 rounded-xl border border-yellow-300 shadow-sm">
+                        <p class="text-xl font-bold text-slate-800 mb-3 flex items-start gap-3">
+                            <span class="bg-orange-500 text-white px-3 py-1 rounded-lg text-lg">Task 1:</span>
+                            Write a Python program that asks for the current temperature (as input) and decides whether it's a good day for swimming or not based on the temperature.
+                        </p>
+                        <ul class="list-disc pl-14 text-lg font-semibold text-slate-600 space-y-2">
+                            <li>If the temperature is above 30°C, print: "It's a great day for swimming!"</li>
+                            <li>If the temperature is between 20°C and 30°C, print: "It's warm enough, but not ideal for swimming."</li>
+                            <li>If the temperature is below 20°C, print: "Too cold for swimming, stay warm!"</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-yellow-300 shadow-sm">
+                        <p class="text-xl font-bold text-slate-800 flex items-start gap-3 leading-relaxed">
+                            <span class="bg-sky-500 text-white px-3 py-1 rounded-lg text-lg">Task 2:</span>
+                            Create a Python program that asks the user if they want to go to the movies. The user should type 'yes' or 'no'. If they say 'yes', the program should print: "Enjoy the movie!" If they say 'no', it should print: "Maybe next time!"
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center text-slate-500 py-10 font-bold text-lg mt-12 border-t-4 border-sky-200 border-dashed">
+        <p class="text-slate-800">© MegaMinds Academy. All rights reserved.</p>
+        <p class="mt-2 text-orange-500">Learning How to Make Decisions with Python!</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Checklist toggle logic
+        function toggleCheck(element) {
+            const icon = element.querySelector('.icon-box');
+            
+            if (element.classList.contains('completed')) {
+                element.classList.remove('completed');
+                icon.setAttribute('data-lucide', 'square');
+                icon.classList.remove('text-green-500');
+                icon.classList.add('text-sky-400');
+            } else {
+                element.classList.add('completed');
+                icon.setAttribute('data-lucide', 'check-square');
+                icon.classList.remove('text-sky-400');
+                icon.classList.add('text-green-500');
+            }
+            lucide.createIcons();
+        }
+
+        // Generic Code Simulator Logic
+        function runSim(btnId, outputId, outputText) {
+            const btn = document.getElementById(btnId);
+            const output = document.getElementById(outputId);
+            const originalHTML = btn.innerHTML; // Store original button content
+            
+            btn.innerHTML = '<i data-lucide="loader-2" class="w-6 h-6 animate-spin"></i> Running...';
+            lucide.createIcons();
+            btn.disabled = true;
+            btn.classList.add('opacity-80', 'cursor-not-allowed');
+
+            output.classList.remove('hidden');
+            output.innerHTML = "<span class='text-slate-500'>[Executing code...]</span>";
+
+            setTimeout(() => {
+                output.innerHTML = outputText + "<br><br><span class='text-slate-500 mt-2 block font-normal'>[Process completed successfully]</span>";
+                
+                btn.innerHTML = '<i data-lucide="rotate-ccw" class="w-6 h-6"></i> Run Again!';
+                lucide.createIcons();
+                btn.disabled = false;
+                btn.classList.remove('opacity-80', 'cursor-not-allowed');
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
