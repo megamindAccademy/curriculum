@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 2 Session 4: Recursion - MegaMinds Academy</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Playful Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Nunito', sans-serif; }
+        
+        /* Custom friendly scrollbar */
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #e0f2fe; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #7dd3fc; border-radius: 10px; border: 3px solid #e0f2fe; }
+        ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+
+        /* Bouncy animation for placeholders */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-anim { animation: float 3s ease-in-out infinite; }
+        
+        /* Checkbox styling */
+        .check-item.completed {
+            background-color: #f0fdf4 !important;
+            border-color: #86efac !important;
+            color: #166534 !important;
+            opacity: 0.8;
+        }
+        .check-item.completed span {
+            text-decoration: line-through;
+        }
+        
+        /* Syntax highlighting colors */
+        .kw { color: #f472b6; font-weight: bold; } /* Keywords: def, if, else, return */
+        .func { color: #fb923c; } /* Functions: print, input, len */
+        .str { color: #4ade80; } /* Strings */
+        .var { color: #38bdf8; } /* Variables */
+        .num { color: #c084fc; } /* Numbers */
+        .cmt { color: #94a3b8; font-style: italic; } /* Comments */
+    </style>
+</head>
+<body class="min-h-screen bg-sky-50 text-slate-800 pb-16 selection:bg-orange-300">
+
+    <!-- HEADER -->
+    <header class="bg-gradient-to-br from-orange-400 to-orange-500 text-white shadow-xl rounded-b-[3rem] mb-10 relative overflow-hidden border-b-8 border-orange-600">
+        <div class="absolute top-10 right-10 w-32 h-32 bg-white opacity-20 rounded-full blur-xl"></div>
+        <div class="absolute bottom-[-20px] left-10 w-48 h-48 bg-sky-300 opacity-30 rounded-full blur-2xl"></div>
+        
+        <div class="max-w-4xl mx-auto px-6 py-12 text-center relative z-10">
+            <div class="inline-block bg-white/25 px-5 py-2 rounded-full text-sm font-black tracking-widest mb-6 border-2 border-white/50 uppercase shadow-sm">
+                Level 2 : Session 4
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black mb-4 drop-shadow-lg tracking-tight">
+                PROBLEM SOLVING 🧠
+            </h1>
+            <p class="text-xl md:text-3xl font-bold text-orange-50 mb-8 drop-shadow-md">
+                What if a function called itself again and again? 🔁
+            </p>
+            <div class="flex justify-center items-center gap-3 font-bold text-lg bg-black/10 w-fit mx-auto px-6 py-3 rounded-2xl backdrop-blur-sm">
+                <span class="text-white">MegaMinds Academy</span>
+                <span class="text-orange-200">|</span>
+                <span class="text-sky-200">STEM Accredited 🏆</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 space-y-12">
+
+        <!-- INTRO (PREF) -->
+        <section class="bg-white rounded-[2rem] p-8 shadow-xl border-4 border-sky-200 flex flex-col md:flex-row gap-8 items-center transform hover:scale-[1.01] transition-transform">
+            <div class="flex-1">
+                <h2 class="text-3xl font-black text-sky-500 mb-4 flex items-center gap-2">
+                    <i data-lucide="sparkles" class="w-8 h-8 text-orange-400"></i> Welcome Back Problem Solvers!
+                </h2>
+                <div class="bg-sky-50 p-5 rounded-xl border border-sky-100">
+                    <p class="text-xl text-slate-700 font-bold mb-2 text-orange-500">What did we do last session? 🤔</p>
+                    <p class="text-lg text-slate-600 font-semibold leading-relaxed">
+                        We learned how to store, access, and work with key-value pairs using dictionaries in Python. Today, we are unlocking a new superpower: <strong class="text-sky-600">Recursion!</strong>
+                    </p>
+                </div>
+            </div>
+            <div class="w-full md:w-64 h-64 bg-sky-100 rounded-3xl border-4 border-dashed border-sky-300 flex flex-col items-center justify-center text-sky-500 font-bold float-anim shadow-inner p-4 text-center">
+                <span class="text-6xl mb-2">🪞</span>
+                <span>Image Placeholder:<br>Boy looking into a mirror</span>
+            </div>
+        </section>
+
+        <!-- CHECKLIST: TODAY'S MISSION -->
+        <section class="bg-sky-500 rounded-[2rem] p-8 shadow-xl border-b-8 border-sky-700 text-white">
+            <h2 class="text-3xl font-black mb-6 flex items-center gap-3">
+                <i data-lucide="target" class="w-10 h-10 text-orange-300"></i>
+                TODAY'S MISSION: 🎯
+            </h2>
+            <div class="grid gap-4 md:grid-cols-2" id="mission-list">
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-lg">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box flex-shrink-0"></i>
+                    <span>Understand what recursion means.</span>
+                </div>
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-lg">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box flex-shrink-0"></i>
+                    <span>Learn how a function calls itself.</span>
+                </div>
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-lg">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box flex-shrink-0"></i>
+                    <span>Understand the Base Case.</span>
+                </div>
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-lg">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box flex-shrink-0"></i>
+                    <span>Math Factorial & Turtle Spiral!</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHAT IS RECURSION? -->
+        <section class="bg-white rounded-[2rem] p-8 shadow-xl border-4 border-orange-200">
+            <h2 class="text-4xl font-black text-orange-500 mb-6 flex items-center gap-3">
+                <i data-lucide="refresh-cw" class="w-10 h-10"></i> What is Recursion? 🪞
+            </h2>
+            
+            <div class="bg-orange-50 p-6 rounded-2xl border-l-8 border-orange-400 mb-8 text-lg text-slate-700 font-semibold space-y-4">
+                <p>Imagine you are standing in front of two mirrors facing each other. You see yourself, and inside that reflection, you see yourself again, and again, and again!</p>
+                <p>In Python, <strong class="text-orange-600 text-xl">recursion</strong> happens when a function calls itself to solve a smaller piece of a big problem.</p>
+                <div class="bg-red-100 border-l-4 border-red-500 p-4 text-red-800 rounded-r-lg mt-4 shadow-sm">
+                    <strong>⚠️ WARNING:</strong> Every recursive function needs a <strong>base case</strong> to know when to STOP. Without it, the function will run forever!
+                </div>
+            </div>
+        </section>
+
+        <!-- EXAMPLE 1: COUNTDOWN TIMER -->
+        <section class="bg-blue-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-blue-500">
+            <h2 class="text-3xl font-black text-blue-600 mb-6 flex items-center gap-3">
+                <i data-lucide="rocket" class="w-10 h-10"></i> Countdown Timer 🚀
+            </h2>
+
+            <p class="text-lg text-slate-700 font-bold mb-6 bg-white p-4 rounded-xl shadow-sm border border-blue-200">
+                <strong>Scenario:</strong> You are launching a rocket! Create a countdown timer that prints numbers from N down to 1, then prints "Blastoff! 🚀"
+            </p>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Code Area -->
+                <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-xl border-4 border-slate-800 flex flex-col">
+                    <div class="bg-slate-800 px-4 py-3 border-b-2 border-slate-700 flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full bg-rose-500"></div>
+                        <div class="w-4 h-4 rounded-full bg-yellow-400"></div>
+                        <div class="w-4 h-4 rounded-full bg-green-500"></div>
+                        <span class="text-slate-400 font-mono text-sm ml-2 font-bold tracking-widest">countdown.py</span>
+                    </div>
+                    <div class="p-6 font-mono text-sm md:text-base text-white flex-grow font-semibold overflow-x-auto leading-relaxed">
+                        <p><span class="kw">def</span> <span class="func">countdown</span>(<span class="var">n</span>):</p>
+                        <p class="pl-8"><span class="kw">if</span> <span class="var">n</span> <= <span class="num">0</span>: <span class="cmt"># Base Case</span></p>
+                        <p class="pl-16"><span class="func">print</span>(<span class="str">"Blastoff! 🚀"</span>)</p>
+                        <p class="pl-8"><span class="kw">else</span>:</p>
+                        <p class="pl-16"><span class="func">print</span>(<span class="var">n</span>)</p>
+                        <p class="pl-16"><span class="func">countdown</span>(<span class="var">n</span> - <span class="num">1</span>)</p>
+                        <br>
+                        <p><span class="func">countdown</span>(<span class="num">5</span>)</p>
+                    </div>
+                    <div class="bg-slate-800 p-4 border-t-2 border-slate-700">
+                        <button onclick="runCountdown()" id="btn1" class="w-full bg-blue-500 hover:bg-blue-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#1e40af] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                            <i data-lucide="play" class="w-6 h-6 fill-current"></i> Run Code!
+                        </button>
+                    </div>
+                    <div id="out1" class="hidden bg-black p-6 font-mono text-green-400 text-lg border-t-4 border-slate-700 font-bold whitespace-pre-wrap"></div>
+                </div>
+
+                <!-- Discussion Area -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-blue-200">
+                    <h3 class="font-black text-2xl text-orange-500 mb-4 border-b-2 border-orange-100 pb-2">Discussion:</h3>
+                    <ul class="space-y-4 text-lg font-bold text-slate-600">
+                        <li class="flex gap-3"><span class="text-2xl">❓</span> What happens if we don't have <code class="bg-slate-100 px-2 rounded text-rose-500">if n <= 0</code>?</li>
+                        <li class="flex gap-3"><span class="text-2xl">❓</span> Why does the number decrease by 1 each time?</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXAMPLE 2: MATH FACTORIAL -->
+        <section class="bg-teal-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-teal-500">
+            <h2 class="text-3xl font-black text-teal-600 mb-6 flex items-center gap-3">
+                <i data-lucide="calculator" class="w-10 h-10"></i> Math Factorial (!) 🧮
+            </h2>
+
+            <p class="text-lg text-slate-700 font-bold mb-6 bg-white p-4 rounded-xl shadow-sm border border-teal-200">
+                <strong>Scenario:</strong> In math, the factorial of a number (like <strong>5!</strong>) means multiplying it by every number below it: <br>
+                <span class="text-teal-600 bg-teal-100 px-3 py-1 rounded inline-block mt-2 font-mono">5! = 5 * 4 * 3 * 2 * 1 = 120</span><br>
+                Recursion is PERFECT for this!
+            </p>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Code Area -->
+                <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-xl border-4 border-slate-800 flex flex-col">
+                    <div class="bg-slate-800 px-4 py-3 border-b-2 border-slate-700 flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full bg-rose-500"></div>
+                        <div class="w-4 h-4 rounded-full bg-yellow-400"></div>
+                        <div class="w-4 h-4 rounded-full bg-green-500"></div>
+                        <span class="text-slate-400 font-mono text-sm ml-2 font-bold tracking-widest">factorial.py</span>
+                    </div>
+                    <div class="p-6 font-mono text-sm md:text-base text-white flex-grow font-semibold overflow-x-auto leading-relaxed">
+                        <p><span class="kw">def</span> <span class="func">factorial</span>(<span class="var">n</span>):</p>
+                        <p class="pl-8"><span class="kw">if</span> <span class="var">n</span> == <span class="num">1</span>: <span class="cmt"># Base Case</span></p>
+                        <p class="pl-16"><span class="kw">return</span> <span class="num">1</span></p>
+                        <p class="pl-8"><span class="kw">else</span>:</p>
+                        <p class="pl-16 cmt"># Function calls itself!</p>
+                        <p class="pl-16"><span class="kw">return</span> <span class="var">n</span> * <span class="func">factorial</span>(<span class="var">n</span> - <span class="num">1</span>)</p>
+                        <br>
+                        <p><span class="func">print</span>(<span class="func">factorial</span>(<span class="num">5</span>))</p>
+                    </div>
+                    <div class="bg-slate-800 p-4 border-t-2 border-slate-700 flex gap-4 items-center">
+                        <input type="number" id="factInput" value="5" min="1" max="10" class="w-20 bg-slate-700 text-white font-bold p-3 rounded-lg text-center outline-none border border-slate-600 focus:border-teal-400">
+                        <button onclick="runFactorial()" id="btnFact" class="flex-grow bg-teal-500 hover:bg-teal-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#0f766e] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                            <i data-lucide="play" class="w-6 h-6 fill-current"></i> Calculate!
+                        </button>
+                    </div>
+                    <div id="outFact" class="hidden bg-black p-6 font-mono text-green-400 text-lg border-t-4 border-slate-700 font-bold whitespace-pre-wrap"></div>
+                </div>
+
+                <!-- Discussion Area -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-teal-200">
+                    <h3 class="font-black text-2xl text-orange-500 mb-4 border-b-2 border-orange-100 pb-2">How it works:</h3>
+                    <ul class="space-y-3 text-lg font-bold text-slate-600 font-mono">
+                        <li>▶️ factorial(5) = 5 * factorial(4)</li>
+                        <li>▶️ factorial(4) = 4 * factorial(3)</li>
+                        <li>▶️ factorial(3) = 3 * factorial(2)</li>
+                        <li>▶️ factorial(2) = 2 * factorial(1)</li>
+                        <li class="text-teal-600">🛑 factorial(1) = 1 (Base Case!)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXAMPLE 3: THE MAGIC BOX (GUESSING GAME) -->
+        <section class="bg-purple-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-purple-500">
+            <h2 class="text-3xl font-black text-purple-600 mb-6 flex items-center gap-3">
+                <i data-lucide="box" class="w-10 h-10"></i> The Magic Box (Guessing Game) 🎁
+            </h2>
+
+            <p class="text-lg text-slate-700 font-bold mb-6 bg-white p-4 rounded-xl shadow-sm border border-purple-200">
+                <strong>Scenario:</strong> A magic box asks you to guess its secret word. If you are wrong, it asks again.
+            </p>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Code Area -->
+                <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-xl border-4 border-slate-800 flex flex-col">
+                    <div class="bg-slate-800 px-4 py-3 border-b-2 border-slate-700 flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full bg-rose-500"></div>
+                        <div class="w-4 h-4 rounded-full bg-yellow-400"></div>
+                        <div class="w-4 h-4 rounded-full bg-green-500"></div>
+                        <span class="text-slate-400 font-mono text-sm ml-2 font-bold tracking-widest">magic_box.py</span>
+                    </div>
+                    <div class="p-6 font-mono text-sm md:text-base text-white flex-grow font-semibold overflow-x-auto leading-relaxed">
+                        <p><span class="kw">def</span> <span class="func">magic_box</span>():</p>
+                        <p class="pl-8"><span class="var">guess</span> = <span class="func">input</span>(<span class="str">"Guess the magic word: "</span>)</p>
+                        <p class="pl-8"><span class="kw">if</span> <span class="var">guess</span>.<span class="func">lower</span>() == <span class="str">"open sesame"</span>:</p>
+                        <p class="pl-16"><span class="func">print</span>(<span class="str">" You opened the box! 🎉"</span>)</p>
+                        <p class="pl-8"><span class="kw">else</span>:</p>
+                        <p class="pl-16"><span class="func">print</span>(<span class="str">" Wrong! Try again."</span>)</p>
+                        <p class="pl-16"><span class="func">magic_box</span>() <span class="cmt"># Function calls itself!</span></p>
+                        <br>
+                        <p><span class="func">magic_box</span>()</p>
+                    </div>
+                    <div class="bg-slate-800 p-4 border-t-2 border-slate-700">
+                        <button onclick="runMagicBox()" id="btn2" class="w-full bg-purple-500 hover:bg-purple-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#7e22ce] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                            <i data-lucide="play" class="w-6 h-6 fill-current"></i> Run Code!
+                        </button>
+                    </div>
+                    <div id="out2" class="hidden bg-black p-6 font-mono text-green-400 text-lg border-t-4 border-slate-700 font-bold whitespace-pre-wrap"></div>
+                </div>
+
+                <!-- Discussion Area -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-purple-200">
+                    <h3 class="font-black text-2xl text-orange-500 mb-4 border-b-2 border-orange-100 pb-2">Discussion:</h3>
+                    <ul class="space-y-4 text-lg font-bold text-slate-600">
+                        <li class="flex gap-3"><span class="text-2xl">❓</span> How does the function keep asking?</li>
+                        <li class="flex gap-3"><span class="text-2xl">❓</span> What is the "base case" that stops the game?</li>
+                        <li class="flex gap-3"><span class="text-2xl">❓</span> Can you think of other tasks where you repeat until done?</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXAMPLE 4: MINI TURTLE SPIRAL -->
+        <section class="bg-amber-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-amber-500">
+            <h2 class="text-3xl font-black text-amber-600 mb-6 flex items-center gap-3">
+                <i data-lucide="hurricane" class="w-10 h-10"></i> Mini Turtle Spiral 🐢🌀
+            </h2>
+
+            <p class="text-lg text-slate-700 font-bold mb-6 bg-white p-4 rounded-xl shadow-sm border border-amber-200">
+                <strong>Scenario:</strong> Let's use recursion to draw shapes! We tell the turtle to draw a line, turn, and then call itself to draw a slightly shorter line!
+            </p>
+
+            <div class="grid lg:grid-cols-5 gap-6">
+                <!-- Code Panel -->
+                <div class="lg:col-span-3 bg-slate-900 rounded-2xl overflow-hidden shadow-2xl border-4 border-slate-800 flex flex-col">
+                    <div class="bg-slate-800 px-4 py-3 border-b-2 border-slate-700 flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full bg-rose-500 shadow-sm"></div>
+                        <div class="w-4 h-4 rounded-full bg-yellow-400 shadow-sm"></div>
+                        <div class="w-4 h-4 rounded-full bg-green-500 shadow-sm"></div>
+                        <span class="text-slate-400 font-mono text-sm ml-2 font-bold tracking-widest">turtle_spiral.py</span>
+                    </div>
+                    
+                    <div class="p-6 font-mono text-sm text-white flex-grow font-semibold overflow-y-auto leading-loose custom-scrollbar">
+                        <p class="kw">import <span class="text-white">turtle</span></p>
+                        <p><span class="var">t</span> = turtle.Turtle()</p>
+                        <br>
+                        <p><span class="kw">def</span> <span class="func">draw_spiral</span>(<span class="var">length</span>):</p>
+                        <p class="pl-8"><span class="kw">if</span> <span class="var">length</span> < <span class="num">5</span>: <span class="cmt"># Base Case</span></p>
+                        <p class="pl-16"><span class="kw">return</span></p>
+                        <p class="pl-8"><span class="var">t</span>.forward(<span class="var">length</span>)</p>
+                        <p class="pl-8"><span class="var">t</span>.right(<span class="num">90</span>)</p>
+                        <p class="pl-8 cmt"># Call itself with a smaller length!</p>
+                        <p class="pl-8"><span class="func">draw_spiral</span>(<span class="var">length</span> - <span class="num">5</span>)</p>
+                        <br>
+                        <p><span class="func">draw_spiral</span>(<span class="num">100</span>)</p>
+                        <p>turtle.done()</p>
+                    </div>
+                </div>
+
+                <!-- Interactive Visual Simulator -->
+                <div class="lg:col-span-2 bg-white rounded-2xl shadow-xl border-4 border-amber-300 p-6 flex flex-col justify-between items-center">
+                    <h3 class="font-black text-xl text-slate-800 mb-4">Turtle Output 🎨</h3>
+                    
+                    <!-- Canvas Box -->
+                    <div class="bg-white border-4 border-slate-800 shadow-inner rounded-xl mb-6 flex items-center justify-center relative w-full h-48">
+                        <canvas id="spiralCanvas" width="200" height="150" class="absolute"></canvas>
+                        <div id="spiralTurtle" class="absolute text-xl transition-all" style="display: none;">🐢</div>
+                    </div>
+
+                    <button onclick="runSpiralSim()" id="spiralBtn" class="w-full bg-amber-500 hover:bg-amber-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#b45309] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                        <i data-lucide="play" class="w-6 h-6 fill-current"></i> Draw Spiral
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXAMPLE 5: ROBOT CLEANER -->
+        <section class="bg-green-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-green-500">
+            <h2 class="text-3xl font-black text-green-600 mb-6 flex items-center gap-3">
+                <i data-lucide="bot" class="w-10 h-10"></i> Robot Cleaner 🤖
+            </h2>
+
+            <p class="text-lg text-slate-700 font-bold mb-6 bg-white p-4 rounded-xl shadow-sm border border-green-200">
+                <strong>Scenario:</strong> Checking rooms... A robot moves from room 1 to room 5 and cleans any dirty room using recursion.
+            </p>
+
+            <div class="grid lg:grid-cols-5 gap-6">
+                <!-- Code Area -->
+                <div class="lg:col-span-3 bg-slate-900 rounded-3xl overflow-hidden shadow-xl border-4 border-slate-800 flex flex-col">
+                    <div class="bg-slate-800 px-4 py-3 border-b-2 border-slate-700 flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full bg-rose-500"></div>
+                        <div class="w-4 h-4 rounded-full bg-yellow-400"></div>
+                        <div class="w-4 h-4 rounded-full bg-green-500"></div>
+                        <span class="text-slate-400 font-mono text-sm ml-2 font-bold tracking-widest">robot_cleaner.py</span>
+                    </div>
+                    <div class="p-6 font-mono text-[14px] text-white flex-grow font-semibold overflow-y-auto max-h-[500px] leading-loose custom-scrollbar">
+                        <p class="cmt">#--Robot cleaner--</p>
+                        <p><span class="var">rooms</span> = [<span class="str">"dirty"</span>, <span class="str">"clean"</span>, <span class="str">"dirty"</span>, <span class="str">"dirty"</span>, <span class="str">"clean"</span>]</p>
+                        <br>
+                        <p><span class="kw">def</span> <span class="func">clean_room</span>(<span class="var">index</span>):</p>
+                        <p class="pl-8"><span class="kw">if</span> <span class="var">index</span> >= <span class="func">len</span>(<span class="var">rooms</span>):</p>
+                        <p class="pl-16"><span class="func">print</span>(<span class="str">" All rooms checked."</span>)</p>
+                        <p class="pl-16"><span class="kw">return</span></p>
+                        <br>
+                        <p class="pl-8"><span class="func">print</span>(<span class="str">f" Checking room {</span><span class="var">index</span> + <span class="num">1</span><span class="str">}..."</span>)</p>
+                        <br>
+                        <p class="pl-8"><span class="kw">if</span> <span class="var">rooms</span>[<span class="var">index</span>] == <span class="str">"dirty"</span>:</p>
+                        <p class="pl-16"><span class="func">print</span>(<span class="str">" Room is dirty. Cleaning now..."</span>)</p>
+                        <p class="pl-16"><span class="var">rooms</span>[<span class="var">index</span>] = <span class="str">"clean"</span></p>
+                        <p class="pl-8"><span class="kw">else</span>:</p>
+                        <p class="pl-16"><span class="func">print</span>(<span class="str">" Room is already clean."</span>)</p>
+                        <br>
+                        <p class="pl-8 cmt"># Move to the next room</p>
+                        <p class="pl-8"><span class="func">clean_room</span>(<span class="var">index</span> + <span class="num">1</span>)</p>
+                        <br>
+                        <p><span class="func">clean_room</span>(<span class="num">0</span>)</p>
+                    </div>
+                </div>
+
+                <!-- Simulation Output -->
+                <div class="lg:col-span-2 flex flex-col justify-between space-y-6">
+                    <div class="bg-slate-900 rounded-2xl shadow-xl border-4 border-slate-300 p-6 flex flex-col items-center flex-grow relative overflow-hidden">
+                        <h3 class="font-black text-xl text-green-400 mb-2 w-full text-center border-b border-slate-700 pb-2">Terminal Output</h3>
+                        <div id="out3" class="w-full text-left font-mono text-[14px] text-green-400 font-bold leading-relaxed pt-2 h-full">
+                            <!-- Output injected here via JS -->
+                        </div>
+                    </div>
+
+                    <div>
+                        <button onclick="runRobotCleaner()" id="btn3" class="w-full bg-green-500 hover:bg-green-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#15803d] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                            <i data-lucide="play" class="w-6 h-6 fill-current"></i> Start Cleaning!
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WRAP UP & REVISION -->
+        <section class="bg-sky-500 text-white rounded-[2rem] p-8 shadow-xl border-b-8 border-sky-700">
+            <h2 class="text-4xl font-black mb-6 text-center flex justify-center items-center gap-3">
+                <i data-lucide="check-circle-2" class="w-10 h-10 text-yellow-400"></i> Wrap Up & Revision
+            </h2>
+            <h3 class="text-2xl font-bold mb-6 text-center text-sky-100">What Did We Learn Today?</h3>
+            <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <div class="bg-sky-600 p-6 rounded-2xl border-2 border-sky-400 shadow-lg font-bold text-xl text-center hover:-translate-y-2 transition-transform">
+                    Recursion means a function that calls itself.
+                </div>
+                <div class="bg-sky-600 p-6 rounded-2xl border-2 border-sky-400 shadow-lg font-bold text-xl text-center hover:-translate-y-2 transition-transform">
+                    We saw countdown, factorials, turtle spirals, and robot bots.
+                </div>
+                <div class="bg-sky-600 p-6 rounded-2xl border-2 border-sky-400 shadow-lg font-bold text-xl text-center hover:-translate-y-2 transition-transform">
+                    Recursion always needs a base case to stop.
+                </div>
+            </div>
+        </section>
+
+        <!-- SPECIAL MISSION: INTERACTIVE HERO CHALLENGE -->
+        <section class="bg-gradient-to-br from-slate-900 to-indigo-900 rounded-[2rem] p-8 shadow-2xl border-t-8 border-indigo-500 text-white relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 opacity-20"><i data-lucide="wand-2" class="w-64 h-64"></i></div>
+            
+            <div class="relative z-10">
+                <h2 class="text-4xl font-black text-indigo-300 mb-4 flex items-center gap-3">
+                    <i data-lucide="swords" class="w-10 h-10 text-yellow-400"></i> Hero Challenge: The Recursive Wizard 🧙‍♂️
+                </h2>
+                <p class="text-lg text-indigo-100 font-semibold mb-6">
+                    The wizard needs to walk down the magical staircase to reach the bottom (Step 0). <br>
+                    Every time you click the button, he takes one step down. The function is calling itself! Help him reach the Base Case!
+                </p>
+
+                <div class="bg-slate-800 p-6 rounded-2xl border-2 border-indigo-500/50 flex flex-col items-center">
+                    <div class="text-center mb-6">
+                        <h3 class="font-bold text-xl text-yellow-400 mb-2 font-mono">def stepDown(stairs):</h3>
+                        <p class="font-mono text-sky-300">if stairs == 0: print("Reached the bottom!")</p>
+                        <p class="font-mono text-sky-300">else: stepDown(stairs - 1)</p>
+                    </div>
+                    
+                    <div class="flex gap-8 items-end justify-center w-full relative h-48 border-b-4 border-slate-600">
+                        <div id="wizard" class="text-6xl absolute transition-all duration-500 ease-in-out" style="left: 20%; bottom: 120px;">🧙‍♂️</div>
+                        
+                        <!-- Visual Stairs -->
+                        <div class="w-16 h-8 bg-slate-600 absolute bottom-0 left-[35%]"></div>
+                        <div class="w-16 h-16 bg-slate-600 absolute bottom-0 left-[50%]"></div>
+                        <div class="w-16 h-24 bg-slate-600 absolute bottom-0 left-[65%]"></div>
+                        <div class="w-16 h-32 bg-slate-600 absolute bottom-0 left-[80%]"></div>
+                    </div>
+
+                    <p id="stair-count" class="font-black text-2xl text-white mt-6">Current Step: 4</p>
+                    
+                    <button onclick="wizardStep()" id="wizardBtn" class="mt-6 w-64 bg-indigo-600 hover:bg-indigo-500 text-white font-black py-3 rounded-xl transition-all shadow-[0_4px_0_#4338ca] hover:translate-y-[2px] flex items-center justify-center gap-2">
+                        stepDown(stairs - 1)
+                    </button>
+                    <button onclick="resetWizard()" id="wizardReset" class="mt-4 hidden text-sm text-indigo-300 underline hover:text-white">Reset Wizard</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOMEWORK (H.W) -->
+        <section class="bg-yellow-300 rounded-[2rem] p-8 shadow-xl border-b-8 border-yellow-500 relative overflow-hidden">
+            <!-- Notebook styling elements -->
+            <div class="absolute top-0 left-8 w-4 h-full border-l-4 border-double border-red-400/50"></div>
+            <div class="absolute top-0 left-16 w-1 h-full bg-red-400/20"></div>
+
+            <div class="ml-10 relative z-10">
+                <h2 class="text-4xl font-black text-slate-800 mb-6 flex items-center gap-3">
+                    <i data-lucide="book-open" class="w-10 h-10 text-orange-600"></i> H.W 📝
+                </h2>
+                
+                <div class="bg-white/60 p-6 rounded-2xl border-2 border-yellow-400 shadow-sm backdrop-blur-sm">
+                    <p class="text-2xl font-black text-slate-800 mb-4 leading-relaxed flex items-start gap-3">
+                        <span class="bg-orange-500 text-white p-2 rounded-xl mt-1"><i data-lucide="shopping-bag"></i></span>
+                        "You walk into your favorite snack shop. You must choose something available from the menu."
+                    </p>
+                    <p class="text-lg text-slate-700 font-bold ml-14">
+                        (Write a recursive function that keeps asking you to pick a snack until you guess one that is actually on the menu!)
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center text-slate-500 py-10 font-bold text-lg mt-12 border-t-4 border-sky-200 border-dashed">
+        <p class="text-slate-800">© MegaMinds Academy. All rights reserved.</p>
+        <p class="mt-2 text-orange-500">Recursion: What if a function called itself again and again? 🔁</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Checklist toggle logic
+        function toggleCheck(element) {
+            const icon = element.querySelector('.icon-box');
+            
+            if (element.classList.contains('completed')) {
+                element.classList.remove('completed');
+                icon.setAttribute('data-lucide', 'square');
+                icon.classList.remove('text-green-500');
+                icon.classList.add('text-sky-400');
+            } else {
+                element.classList.add('completed');
+                icon.setAttribute('data-lucide', 'check-square');
+                icon.classList.remove('text-sky-400');
+                icon.classList.add('text-green-500');
+            }
+            lucide.createIcons();
+        }
+
+        // Countdown Simulator Logic
+        function runCountdown() {
+            const btn = document.getElementById('btn1');
+            const output = document.getElementById('out1');
+            btn.disabled = true;
+            output.classList.remove('hidden');
+            output.innerHTML = "";
+            
+            let count = 5;
+            
+            function tick() {
+                if (count <= 0) {
+                    output.innerHTML += "Blastoff! 🚀\n";
+                    btn.disabled = false;
+                } else {
+                    output.innerHTML += count + "\n";
+                    count--;
+                    setTimeout(tick, 500);
+                }
+            }
+            tick();
+        }
+
+        // Factorial Simulator Logic
+        function runFactorial() {
+            const btn = document.getElementById('btnFact');
+            const output = document.getElementById('outFact');
+            const inputVal = parseInt(document.getElementById('factInput').value);
+            
+            btn.disabled = true;
+            output.classList.remove('hidden');
+            output.innerHTML = `> Calculating factorial(${inputVal})...\n`;
+            
+            let current = inputVal;
+            let result = 1;
+            
+            if(isNaN(inputVal) || inputVal < 1 || inputVal > 10) {
+                output.innerHTML = "Please enter a number between 1 and 10.";
+                btn.disabled = false;
+                return;
+            }
+
+            function calcStep() {
+                if (current === 1) {
+                    output.innerHTML += `> factorial(1) = 1 (Base Case reached!)\n`;
+                    setTimeout(() => {
+                        output.innerHTML += `\n> Final Result: ${inputVal}! = ${result} 🎉\n`;
+                        btn.disabled = false;
+                    }, 800);
+                } else {
+                    result *= current;
+                    output.innerHTML += `> factorial(${current}) = ${current} * factorial(${current - 1})\n`;
+                    current--;
+                    setTimeout(calcStep, 800);
+                }
+            }
+            calcStep();
+        }
+
+        // Magic Box Simulator Logic
+        function runMagicBox() {
+            const btn = document.getElementById('btn2');
+            const output = document.getElementById('out2');
+            btn.disabled = true;
+            output.classList.remove('hidden');
+            output.innerHTML = "";
+            
+            function ask() {
+                setTimeout(() => {
+                    let guess = prompt("Guess the magic word:");
+                    output.innerHTML += `> Guess the magic word: <span class='text-white'>${guess || ''}</span>\n`;
+                    
+                    if (guess && guess.toLowerCase() === "open sesame") {
+                        output.innerHTML += "> You opened the box! 🎉\n";
+                        btn.disabled = false;
+                    } else {
+                        output.innerHTML += "> Wrong! Try again.\n";
+                        ask(); 
+                    }
+                }, 300);
+            }
+            ask();
+        }
+
+        // Turtle Spiral Simulator Logic
+        function runSpiralSim() {
+            const btn = document.getElementById('spiralBtn');
+            const canvas = document.getElementById('spiralCanvas');
+            const ctx = canvas.getContext('2d');
+            const turtleDiv = document.getElementById('spiralTurtle');
+            
+            btn.disabled = true;
+            
+            // Setup canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            
+            // Starting position (centerish)
+            let x = 30;
+            let y = 30;
+            let length = 130;
+            let angle = 0; // 0 is right, 90 is down
+            
+            ctx.moveTo(x, y);
+            turtleDiv.style.display = 'block';
+            
+            function drawLine() {
+                if (length < 5) {
+                    btn.disabled = false;
+                    setTimeout(() => { turtleDiv.style.display = 'none'; }, 1000);
+                    return; // Base case
+                }
+
+                // Calculate next point
+                let rad = angle * (Math.PI / 180);
+                x += length * Math.cos(rad);
+                y += length * Math.sin(rad);
+
+                // Draw path
+                ctx.lineTo(x, y);
+                ctx.strokeStyle = '#f59e0b'; // orange-500
+                ctx.lineWidth = 3;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.stroke();
+
+                // Move visual turtle (adjust offset for emoji centering)
+                turtleDiv.style.left = (x - 12) + 'px';
+                turtleDiv.style.top = (y - 15) + 'px';
+                // Rotate turtle emoji
+                turtleDiv.style.transform = `rotate(${angle}deg)`;
+
+                // Recursion prep
+                angle += 90;
+                length -= 15;
+                
+                // Recursive call with delay for animation effect
+                setTimeout(drawLine, 200);
+            }
+            
+            drawLine();
+        }
+
+        // Robot Cleaner Simulator Logic
+        function runRobotCleaner() {
+            const btn = document.getElementById('btn3');
+            const output = document.getElementById('out3');
+            btn.disabled = true;
+            output.innerHTML = "";
+            
+            const rooms = ["dirty", "clean", "dirty", "dirty", "clean"];
+            let i = 0;
+            
+            function cleanNext() {
+                if (i >= rooms.length) {
+                    output.innerHTML += "> All rooms checked.\n";
+                    btn.disabled = false;
+                    return;
+                }
+                
+                output.innerHTML += `> Checking room ${i + 1}...\n`;
+                setTimeout(() => {
+                    if (rooms[i] === "dirty") {
+                        output.innerHTML += "  Room is dirty. Cleaning now...\n";
+                    } else {
+                        output.innerHTML += "  Room is already clean.\n";
+                    }
+                    i++;
+                    setTimeout(cleanNext, 800); 
+                }, 800);
+            }
+            cleanNext();
+        }
+
+        // Hero Challenge Game Logic
+        let wizardStepCount = 4;
+        
+        function wizardStep() {
+            const wizard = document.getElementById('wizard');
+            const countText = document.getElementById('stair-count');
+            const btn = document.getElementById('wizardBtn');
+            const resetBtn = document.getElementById('wizardReset');
+            
+            if (wizardStepCount > 0) {
+                wizardStepCount--;
+                
+                // Visual movement map (approximate left% and bottom px)
+                const positions = [
+                    { left: '20%', bottom: '0px' },   // step 0
+                    { left: '35%', bottom: '32px' },  // step 1
+                    { left: '50%', bottom: '64px' },  // step 2
+                    { left: '65%', bottom: '96px' },  // step 3
+                    { left: '80%', bottom: '128px' }  // step 4
+                ];
+                
+                wizard.style.left = positions[wizardStepCount].left;
+                wizard.style.bottom = positions[wizardStepCount].bottom;
+                
+                if (wizardStepCount === 0) {
+                    countText.innerText = "Reached the bottom! (Base Case)";
+                    countText.className = "font-black text-2xl text-green-400 mt-6";
+                    btn.disabled = true;
+                    btn.classList.add('opacity-50', 'cursor-not-allowed');
+                    resetBtn.classList.remove('hidden');
+                } else {
+                    countText.innerText = `Current Step: ${wizardStepCount}`;
+                }
+            }
+        }
+        
+        function resetWizard() {
+            wizardStepCount = 4;
+            const wizard = document.getElementById('wizard');
+            const countText = document.getElementById('stair-count');
+            const btn = document.getElementById('wizardBtn');
+            const resetBtn = document.getElementById('wizardReset');
+            
+            wizard.style.left = '80%';
+            wizard.style.bottom = '128px';
+            
+            countText.innerText = `Current Step: ${wizardStepCount}`;
+            countText.className = "font-black text-2xl text-white mt-6";
+            
+            btn.disabled = false;
+            btn.classList.remove('opacity-50', 'cursor-not-allowed');
+            resetBtn.classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
