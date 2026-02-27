@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 3 Session 1: Bug Hunt - MegaMinds Academy</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Playful Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Nunito', sans-serif; }
+        
+        /* Custom friendly scrollbar */
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #e0f2fe; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #7dd3fc; border-radius: 10px; border: 3px solid #e0f2fe; }
+        ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+
+        /* Bouncy animation for placeholders */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-anim { animation: float 3s ease-in-out infinite; }
+        
+        /* Bug Zapper Animation */
+        @keyframes zap {
+            0% { background-color: #fde047; transform: scale(1); }
+            50% { background-color: #ef4444; transform: scale(1.1) rotate(5deg); }
+            100% { background-color: #fde047; transform: scale(1) rotate(0deg); }
+        }
+        .zap-anim { animation: zap 0.3s ease-out; }
+
+        /* Checkbox styling */
+        .check-item.completed {
+            background-color: #f0fdf4 !important;
+            border-color: #86efac !important;
+            color: #166534 !important;
+            opacity: 0.8;
+        }
+        .check-item.completed span {
+            text-decoration: line-through;
+        }
+        
+        /* Syntax highlighting colors */
+        .kw { color: #f472b6; font-weight: bold; }
+        .func { color: #fb923c; } 
+        .str { color: #4ade80; } 
+        .var { color: #38bdf8; } 
+        .num { color: #c084fc; } 
+        .cmt { color: #94a3b8; font-style: italic; }
+        .err { color: #ef4444; font-weight: bold; text-decoration: underline wavy red; } /* Error highlight */
+    </style>
+</head>
+<body class="min-h-screen bg-sky-50 text-slate-800 pb-16 selection:bg-orange-300">
+
+    <!-- HEADER -->
+    <header class="bg-gradient-to-br from-orange-400 to-orange-500 text-white shadow-xl rounded-b-[3rem] mb-10 relative overflow-hidden border-b-8 border-orange-600">
+        <div class="absolute top-10 right-10 w-32 h-32 bg-white opacity-20 rounded-full blur-xl"></div>
+        <div class="absolute bottom-[-20px] left-10 w-48 h-48 bg-sky-300 opacity-30 rounded-full blur-2xl"></div>
+        
+        <div class="max-w-4xl mx-auto px-6 py-12 text-center relative z-10">
+            <div class="inline-block bg-white/25 px-5 py-2 rounded-full text-sm font-black tracking-widest mb-6 border-2 border-white/50 uppercase shadow-sm">
+                Level 3 : Session 1
+            </div>
+            <h1 class="text-4xl md:text-6xl font-black mb-4 drop-shadow-lg tracking-tight">
+                PROBLEM SOLVING 🧠
+            </h1>
+            <p class="text-2xl md:text-3xl font-bold text-orange-50 mb-8 drop-shadow-md">
+                Bug Hunt! Let's Fix Broken Code! 🐛🔍
+            </p>
+            <div class="flex justify-center items-center gap-3 font-bold text-lg bg-black/10 w-fit mx-auto px-6 py-3 rounded-2xl backdrop-blur-sm">
+                <span class="text-white">MegaMinds Academy</span>
+                <span class="text-orange-200">|</span>
+                <span class="text-sky-200">STEM Accredited 🏆</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 space-y-12">
+
+        <!-- INTRO (PREF) -->
+        <section class="bg-white rounded-[2rem] p-8 shadow-xl border-4 border-sky-200 flex flex-col md:flex-row gap-8 items-center transform hover:scale-[1.01] transition-transform">
+            <div class="flex-1">
+                <h2 class="text-3xl font-black text-sky-500 mb-4 flex items-center gap-2">
+                    <i data-lucide="sparkles" class="w-8 h-8 text-orange-400"></i> Welcome Back Problem Solvers!
+                </h2>
+                <div class="bg-sky-50 p-5 rounded-xl border border-sky-100 mb-4">
+                    <p class="text-xl text-slate-700 font-bold mb-2 text-orange-500">What did we do last session? 🤔</p>
+                    <p class="text-lg text-slate-600 font-semibold leading-relaxed">
+                        We learned about recursion, functions calling themselves, and base cases.
+                    </p>
+                </div>
+                <p class="text-lg text-slate-700 font-bold leading-relaxed bg-orange-50 p-4 rounded-xl border border-orange-100">
+                    Today, we are learning how to spot, fix, and avoid common bugs in Python. Get your magnifying glasses ready! 🔎
+                </p>
+            </div>
+            <div class="w-full md:w-64 h-64 bg-sky-100 rounded-3xl border-4 border-dashed border-sky-300 flex flex-col items-center justify-center text-sky-500 font-bold float-anim shadow-inner p-4 text-center">
+                <span class="text-6xl mb-2">🕵️‍♂️</span>
+                <span>Image Placeholder:<br>Kid looking through a magnifying glass at a computer</span>
+            </div>
+        </section>
+
+        <!-- CHECKLIST: TODAY'S MISSION -->
+        <section class="bg-sky-500 rounded-[2rem] p-8 shadow-xl border-b-8 border-sky-700 text-white">
+            <h2 class="text-3xl font-black mb-6 flex items-center gap-3">
+                <i data-lucide="target" class="w-10 h-10 text-orange-300"></i>
+                TODAY'S MISSION: 🎯
+            </h2>
+            <div class="grid gap-4 md:grid-cols-2" id="mission-list">
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-lg">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box flex-shrink-0"></i>
+                    <span>Understand what bugs are and why they happen.</span>
+                </div>
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-lg">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box flex-shrink-0"></i>
+                    <span>Learn the 3 main types of bugs.</span>
+                </div>
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-lg">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box flex-shrink-0"></i>
+                    <span>Practice fixing broken code (Spot the Bug).</span>
+                </div>
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-lg">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box flex-shrink-0"></i>
+                    <span>Learn how to read error messages.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHAT IS A BUG? & REAL LIFE SCENARIO -->
+        <section class="bg-white rounded-[2rem] p-8 shadow-xl border-4 border-orange-200">
+            <div class="flex flex-col md:flex-row gap-8 items-center mb-8">
+                <div class="flex-1">
+                    <h2 class="text-4xl font-black text-orange-500 mb-6 flex items-center gap-3">
+                        <i data-lucide="bug" class="w-10 h-10"></i> What is a Bug? 🐛
+                    </h2>
+                    
+                    <div class="bg-orange-50 p-6 rounded-2xl border-l-8 border-orange-400 mb-6 font-bold text-lg text-slate-700">
+                        <p>A mistake or error in the code that stops it from running or makes it do the wrong thing.</p>
+                    </div>
+
+                    <div class="bg-sky-100 p-6 rounded-2xl border-2 border-sky-300 shadow-sm relative overflow-hidden">
+                        <i data-lucide="lightbulb" class="absolute -right-4 -top-4 w-24 h-24 text-sky-200 opacity-50"></i>
+                        <h3 class="font-black text-xl text-sky-800 mb-2 relative z-10">Fun Fact! 💡</h3>
+                        <p class="text-slate-700 font-semibold relative z-10">
+                            It's named after a real moth found inside an early computer in 1947 by Grace Hopper!
+                        </p>
+                    </div>
+                </div>
+                <!-- Moth Image Placeholder -->
+                <div class="w-full md:w-64 h-64 bg-orange-100 rounded-3xl border-4 border-dashed border-orange-300 flex flex-col items-center justify-center text-orange-500 font-bold float-anim shadow-inner p-4 text-center">
+                    <span class="text-6xl mb-2">🦋</span>
+                    <span>Image Placeholder:<br>Vintage moth in a computer logbook</span>
+                </div>
+            </div>
+
+            <!-- NEW: Real Life Scenario Broken Game -->
+            <div class="bg-purple-100 p-6 rounded-2xl border-4 border-dashed border-purple-300 shadow-sm transform hover:-translate-y-1 transition-transform">
+                <h3 class="font-black text-2xl text-purple-800 mb-3 flex items-center gap-2">
+                    <i data-lucide="gamepad-2" class="w-8 h-8"></i> Real-Life Scenario: The Broken Game! 🎮
+                </h3>
+                <p class="text-slate-700 font-bold text-lg leading-relaxed mb-2">
+                    Imagine you are playing your favorite video game. You jump to catch a coin, but suddenly, your character falls through the floor into an empty black screen! Or you win a level, but your score goes DOWN to zero! 😱
+                </p>
+                <p class="text-purple-700 font-black text-xl bg-white/60 p-3 rounded-xl inline-block mt-2">
+                    That is exactly what a BUG is! A mistake in the game's code that causes it to act weird.
+                </p>
+            </div>
+        </section>
+
+        <!-- TYPES OF BUGS -->
+        <section class="bg-slate-900 text-white rounded-[2rem] p-8 shadow-xl border-b-8 border-slate-700 relative overflow-hidden">
+            <h2 class="text-4xl font-black text-sky-400 mb-8 text-center flex justify-center items-center gap-3 relative z-10">
+                <i data-lucide="microscope" class="w-10 h-10 text-yellow-400"></i> The 3 Main Types of Bugs 🔬
+            </h2>
+            
+            <div class="grid md:grid-cols-3 gap-6 relative z-10">
+                <!-- 1. Syntax Error -->
+                <div class="bg-slate-800 p-6 rounded-3xl border-t-4 border-rose-500 hover:bg-slate-700 transition-colors shadow-lg flex flex-col">
+                    <span class="bg-rose-500 text-white w-10 h-10 flex items-center justify-center rounded-full font-black text-xl mb-4">1</span>
+                    <h3 class="font-black text-2xl text-rose-400 mb-2">Syntax Error</h3>
+                    <p class="text-slate-300 font-semibold mb-4 flex-grow">Like bad grammar in English. E.g., missing a quote or colon.</p>
+                    <div class="bg-black p-3 rounded-lg border border-slate-700 font-mono text-sm">
+                        <span class="func">print</span>(<span class="str">"Hello</span><span class="err">)</span>
+                    </div>
+                </div>
+                
+                <!-- 2. Runtime Error -->
+                <div class="bg-slate-800 p-6 rounded-3xl border-t-4 border-yellow-500 hover:bg-slate-700 transition-colors shadow-lg flex flex-col">
+                    <span class="bg-yellow-500 text-slate-900 w-10 h-10 flex items-center justify-center rounded-full font-black text-xl mb-4">2</span>
+                    <h3 class="font-black text-2xl text-yellow-400 mb-2">Runtime Error</h3>
+                    <p class="text-slate-300 font-semibold mb-4 flex-grow">Code makes sense but crashes while running. E.g., dividing by zero.</p>
+                    <div class="bg-black p-3 rounded-lg border border-slate-700 font-mono text-sm">
+                        <span class="func">print</span>(<span class="num">10</span> / <span class="err">0</span>)
+                    </div>
+                </div>
+
+                <!-- 3. Logical Error -->
+                <div class="bg-slate-800 p-6 rounded-3xl border-t-4 border-green-500 hover:bg-slate-700 transition-colors shadow-lg flex flex-col">
+                    <span class="bg-green-500 text-white w-10 h-10 flex items-center justify-center rounded-full font-black text-xl mb-4">3</span>
+                    <h3 class="font-black text-2xl text-green-400 mb-2">Logical Error</h3>
+                    <p class="text-slate-300 font-semibold mb-4 flex-grow">The code runs, but gives the wrong answer. E.g., adding instead of subtracting.</p>
+                    <div class="bg-black p-3 rounded-lg border border-slate-700 font-mono text-sm">
+                        <span class="func">print</span>(<span class="num">5</span> + <span class="num">2</span>) <span class="cmt"># Expected 3</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXAMPLE 1: THE MISSING QUOTE -->
+        <section class="bg-rose-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-rose-500">
+            <h2 class="text-3xl font-black text-rose-600 mb-6 flex items-center gap-3">
+                <i data-lucide="alert-triangle" class="w-10 h-10"></i> Example 1: The Missing Quote (Syntax Error) 💬
+            </h2>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Broken Code -->
+                <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-xl border-4 border-rose-400 flex flex-col">
+                    <div class="bg-rose-500 px-4 py-2 font-bold text-white text-center uppercase tracking-widest">
+                        Broken Code ❌
+                    </div>
+                    <div class="p-6 font-mono text-lg text-white flex-grow font-semibold overflow-x-auto">
+                        <p><span class="func">print</span>(<span class="str">"Welcome to MegaMinds!</span><span class="err">)</span></p>
+                    </div>
+                    <div class="bg-slate-800 p-4 border-t-2 border-slate-700">
+                        <button onclick="showError('out1', 'SyntaxError: unterminated string literal')" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#9f1239] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                            <i data-lucide="bug" class="w-6 h-6"></i> Run Broken Code
+                        </button>
+                    </div>
+                    <div id="out1" class="hidden bg-black p-4 font-mono text-rose-500 text-sm border-t-4 border-rose-800 font-bold whitespace-pre-wrap"></div>
+                </div>
+
+                <!-- Fixed Code -->
+                <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-xl border-4 border-green-400 flex flex-col">
+                    <div class="bg-green-500 px-4 py-2 font-bold text-white text-center uppercase tracking-widest">
+                        Fixed Code ✅
+                    </div>
+                    <div class="p-6 font-mono text-lg text-white flex-grow font-semibold overflow-x-auto">
+                        <p><span class="func">print</span>(<span class="str">"Welcome to MegaMinds!"</span>)</p>
+                    </div>
+                    <div class="bg-slate-800 p-4 border-t-2 border-slate-700">
+                        <button onclick="showSuccess('out1_fix', '> Welcome to MegaMinds!')" class="w-full bg-green-500 hover:bg-green-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#15803d] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                            <i data-lucide="wrench" class="w-6 h-6"></i> Run Fixed Code
+                        </button>
+                    </div>
+                    <div id="out1_fix" class="hidden bg-black p-4 font-mono text-green-400 text-lg border-t-4 border-green-800 font-bold whitespace-pre-wrap"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXAMPLE 2: THE INDENTATION TRAP -->
+        <section class="bg-amber-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-amber-500">
+            <h2 class="text-3xl font-black text-amber-600 mb-6 flex items-center gap-3">
+                <i data-lucide="space" class="w-10 h-10"></i> Example 2: The Indentation Trap (Syntax Error) 📏
+            </h2>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Broken Code -->
+                <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-xl border-4 border-amber-400 flex flex-col">
+                    <div class="bg-amber-500 px-4 py-2 font-bold text-white text-center uppercase tracking-widest">
+                        Broken Code ❌
+                    </div>
+                    <div class="p-6 font-mono text-lg text-white flex-grow font-semibold overflow-x-auto">
+                        <p><span class="kw">if</span> <span class="num">5</span> > <span class="num">3</span>:</p>
+                        <p class="err bg-rose-500/20"><span class="func">print</span>(<span class="str">"Math works!"</span>)</p>
+                    </div>
+                    <div class="bg-slate-800 p-4 border-t-2 border-slate-700">
+                        <button onclick="showError('out2', 'IndentationError: expected an indented block after \'if\' statement')" class="w-full bg-amber-600 hover:bg-amber-500 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#92400e] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                            <i data-lucide="bug" class="w-6 h-6"></i> Run Broken Code
+                        </button>
+                    </div>
+                    <div id="out2" class="hidden bg-black p-4 font-mono text-rose-500 text-sm border-t-4 border-rose-800 font-bold whitespace-pre-wrap"></div>
+                </div>
+
+                <!-- Fixed Code -->
+                <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-xl border-4 border-green-400 flex flex-col">
+                    <div class="bg-green-500 px-4 py-2 font-bold text-white text-center uppercase tracking-widest">
+                        Fixed Code ✅
+                    </div>
+                    <div class="p-6 font-mono text-lg text-white flex-grow font-semibold overflow-x-auto">
+                        <p><span class="kw">if</span> <span class="num">5</span> > <span class="num">3</span>:</p>
+                        <p class="pl-8 bg-green-500/20 rounded"><span class="func">print</span>(<span class="str">"Math works!"</span>)</p>
+                    </div>
+                    <div class="bg-slate-800 p-4 border-t-2 border-slate-700">
+                        <button onclick="showSuccess('out2_fix', '> Math works!')" class="w-full bg-green-500 hover:bg-green-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#15803d] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                            <i data-lucide="wrench" class="w-6 h-6"></i> Run Fixed Code
+                        </button>
+                    </div>
+                    <div id="out2_fix" class="hidden bg-black p-4 font-mono text-green-400 text-lg border-t-4 border-green-800 font-bold whitespace-pre-wrap"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXAMPLE 3: THE INFINITE LOOP -->
+        <section class="bg-purple-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-purple-500">
+            <h2 class="text-3xl font-black text-purple-600 mb-6 flex items-center gap-3">
+                <i data-lucide="infinity" class="w-10 h-10"></i> Example 3: The Infinite Loop (Runtime Error) 🌀
+            </h2>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Broken Code -->
+                <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-xl border-4 border-purple-400 flex flex-col">
+                    <div class="bg-purple-500 px-4 py-2 font-bold text-white text-center uppercase tracking-widest">
+                        Broken Code ❌
+                    </div>
+                    <div class="p-6 font-mono text-lg text-white flex-grow font-semibold overflow-x-auto">
+                        <p><span class="var">x</span> = <span class="num">5</span></p>
+                        <p><span class="kw">while</span> <span class="var">x</span> > <span class="num">0</span>:</p>
+                        <p class="pl-8"><span class="func">print</span>(<span class="str">"Counting down..."</span>)</p>
+                        <p class="pl-8 cmt"># forgot x = x - 1</p>
+                    </div>
+                    <div class="bg-slate-800 p-4 border-t-2 border-slate-700">
+                        <button onclick="showError('out3', 'Counting down...\nCounting down...\nCounting down...\n[Program crashed: memory exceeded!]')" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#6b21a8] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                            <i data-lucide="bug" class="w-6 h-6"></i> Run Broken Code
+                        </button>
+                    </div>
+                    <div id="out3" class="hidden bg-black p-4 font-mono text-yellow-500 text-sm border-t-4 border-yellow-800 font-bold whitespace-pre-wrap"></div>
+                </div>
+
+                <!-- Fixed Code -->
+                <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-xl border-4 border-green-400 flex flex-col">
+                    <div class="bg-green-500 px-4 py-2 font-bold text-white text-center uppercase tracking-widest">
+                        Fixed Code ✅
+                    </div>
+                    <div class="p-6 font-mono text-lg text-white flex-grow font-semibold overflow-x-auto">
+                        <p><span class="var">x</span> = <span class="num">5</span></p>
+                        <p><span class="kw">while</span> <span class="var">x</span> > <span class="num">0</span>:</p>
+                        <p class="pl-8"><span class="func">print</span>(<span class="str">"Counting down..."</span>)</p>
+                        <p class="pl-8 bg-green-500/20 rounded font-bold"><span class="var">x</span> = <span class="var">x</span> - <span class="num">1</span></p>
+                    </div>
+                    <div class="bg-slate-800 p-4 border-t-2 border-slate-700">
+                        <button onclick="showSuccess('out3_fix', '> Counting down...\n> Counting down...\n> Counting down...\n> Counting down...\n> Counting down...')" class="w-full bg-green-500 hover:bg-green-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#15803d] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                            <i data-lucide="wrench" class="w-6 h-6"></i> Run Fixed Code
+                        </button>
+                    </div>
+                    <div id="out3_fix" class="hidden bg-black p-4 font-mono text-green-400 text-lg border-t-4 border-green-800 font-bold whitespace-pre-wrap"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXAMPLE 4: MODULE NOT FOUND -->
+        <section class="bg-teal-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-teal-500">
+            <h2 class="text-3xl font-black text-teal-600 mb-6 flex items-center gap-3">
+                <i data-lucide="package-x" class="w-10 h-10"></i> Example 4: Module Not Found Error 📦
+            </h2>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Broken Code -->
+                <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-xl border-4 border-teal-400 flex flex-col">
+                    <div class="bg-teal-600 px-4 py-2 font-bold text-white text-center uppercase tracking-widest">
+                        Broken Code ❌
+                    </div>
+                    <div class="p-6 font-mono text-lg text-white flex-grow font-semibold overflow-x-auto">
+                        <p><span class="kw">import</span> <span class="err">turtel</span> <span class="cmt"># Typo in library name!</span></p>
+                        <p><span class="var">t</span> = <span class="err">turtel</span>.Turtle()</p>
+                    </div>
+                    <div class="bg-slate-800 p-4 border-t-2 border-slate-700">
+                        <button onclick="showError('out4', 'ModuleNotFoundError: No module named \'turtel\'')" class="w-full bg-teal-700 hover:bg-teal-600 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#0f766e] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                            <i data-lucide="bug" class="w-6 h-6"></i> Run Broken Code
+                        </button>
+                    </div>
+                    <div id="out4" class="hidden bg-black p-4 font-mono text-rose-500 text-sm border-t-4 border-rose-800 font-bold whitespace-pre-wrap"></div>
+                </div>
+
+                <!-- Fixed Code -->
+                <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-xl border-4 border-green-400 flex flex-col">
+                    <div class="bg-green-500 px-4 py-2 font-bold text-white text-center uppercase tracking-widest">
+                        Fixed Code ✅
+                    </div>
+                    <div class="p-6 font-mono text-lg text-white flex-grow font-semibold overflow-x-auto">
+                        <p><span class="kw">import</span> <span class="text-green-400 font-bold">turtle</span></p>
+                        <p><span class="var">t</span> = <span class="text-green-400 font-bold">turtle</span>.Turtle()</p>
+                    </div>
+                    <div class="bg-slate-800 p-4 border-t-2 border-slate-700">
+                        <button onclick="showSuccess('out4_fix', '> Turtle graphics window opened successfully! 🐢')" class="w-full bg-green-500 hover:bg-green-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#15803d] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                            <i data-lucide="wrench" class="w-6 h-6"></i> Run Fixed Code
+                        </button>
+                    </div>
+                    <div id="out4_fix" class="hidden bg-black p-4 font-mono text-green-400 text-lg border-t-4 border-green-800 font-bold whitespace-pre-wrap"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SPOT THE BUG -->
+        <section class="bg-indigo-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-indigo-500">
+            <h2 class="text-3xl font-black text-indigo-600 mb-6 flex items-center gap-3">
+                <i data-lucide="search" class="w-10 h-10"></i> Spot the Bug! 🔎
+            </h2>
+            <p class="text-lg text-slate-700 font-bold mb-6 bg-white p-4 rounded-xl shadow-sm border border-indigo-200">
+                Look closely at these code snippets. Can you spot the sneaky bugs hiding in them? Click to reveal!
+            </p>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Bug 1 -->
+                <div class="bg-slate-900 p-6 rounded-2xl border-4 border-slate-700 flex flex-col">
+                    <h3 class="text-white font-bold mb-4 flex items-center gap-2"><i data-lucide="file-code-2"></i> Snippet 1:</h3>
+                    <div class="font-mono text-lg text-sky-300 bg-black p-4 rounded-xl flex-grow mb-4 shadow-inner">
+                        <p><span class="var">score</span> = <span class="num">100</span></p>
+                        <p><span class="func">print</span>(<span class="var">Score</span>)</p>
+                    </div>
+                    <button onclick="document.getElementById('spot1').classList.toggle('hidden')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-lg transition-colors flex justify-center items-center gap-2">
+                        Reveal Bug 💡
+                    </button>
+                    <div id="spot1" class="hidden mt-4 p-4 bg-rose-100 text-rose-700 font-bold rounded-lg border border-rose-300 text-base leading-relaxed">
+                        <strong>NameError (Logical/Runtime)!</strong><br> Python is case-sensitive. <code>Score</code> (capital S) is completely different from <code>score</code> (small s).
+                    </div>
+                </div>
+
+                <!-- Bug 2 -->
+                <div class="bg-slate-900 p-6 rounded-2xl border-4 border-slate-700 flex flex-col">
+                    <h3 class="text-white font-bold mb-4 flex items-center gap-2"><i data-lucide="file-code-2"></i> Snippet 2:</h3>
+                    <div class="font-mono text-lg text-sky-300 bg-black p-4 rounded-xl flex-grow mb-4 shadow-inner">
+                        <p><span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="func">range</span>(<span class="num">5</span>)</p>
+                        <p class="pl-8"><span class="func">print</span>(<span class="str">"Hello!"</span>)</p>
+                    </div>
+                    <button onclick="document.getElementById('spot2').classList.toggle('hidden')" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-lg transition-colors flex justify-center items-center gap-2">
+                        Reveal Bug 💡
+                    </button>
+                    <div id="spot2" class="hidden mt-4 p-4 bg-rose-100 text-rose-700 font-bold rounded-lg border border-rose-300 text-base leading-relaxed">
+                        <strong>Syntax Error!</strong><br> Missing the magical colon <code>:</code> at the end of the `for` loop line!
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GROUP CHALLENGE -->
+        <section class="bg-blue-100 rounded-[2rem] p-8 shadow-xl border-t-8 border-blue-500">
+            <h2 class="text-3xl font-black text-blue-700 mb-6 flex items-center gap-3">
+                <i data-lucide="users" class="w-10 h-10"></i> Group Challenge: Fix the messy code 🐢
+            </h2>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Messy Code -->
+                <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-xl border-4 border-rose-400 flex flex-col">
+                    <div class="bg-rose-500 px-4 py-2 font-bold text-white text-center uppercase tracking-widest flex justify-between items-center">
+                        <span>Messy Code 😫</span>
+                        <span class="text-xs bg-white text-rose-500 px-2 rounded-full">Lots of Errors!</span>
+                    </div>
+                    <div class="p-6 font-mono text-sm md:text-base text-white flex-grow font-semibold overflow-x-auto leading-relaxed">
+                        <p><span class="err">imprt</span> turtle <span class="cmt"># typo</span></p>
+                        <p><span class="var">colors</span> = [<span class="str">"red"</span>, <span class="str">"green"</span>, <span class="str">"blue"</span> <span class="err"># mismatched bracket</span></p>
+                        <p><span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="func">range</span>(<span class="num">3</span>) <span class="err"># missing colon</span></p>
+                        <p><span class="err">print</span>(<span class="var">colors</span>[<span class="var">i</span><span class="err">)</span> <span class="cmt"># not indented</span></p>
+                        <p><span class="kw">if</span> <span class="var">i</span> <span class="err">=</span> <span class="num">2</span>: <span class="cmt"># single equals</span></p>
+                        <p><span class="err">print</span>(<span class="str">"Done"</span> <span class="cmt"># missing closing parenthesis</span></p>
+                        <p><span class="var">t</span> = turtle.Turtle()</p>
+                        <p><span class="var">t</span>.forward(<span class="num">100</span> <span class="err"># missing closing parenthesis</span></p>
+                        <p><span class="var">t</span>.left(<span class="num">90</span>)</p>
+                    </div>
+                </div>
+
+                <!-- Answer Code -->
+                <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-xl border-4 border-green-400 flex flex-col relative group">
+                    <div class="bg-green-500 px-4 py-2 font-bold text-white text-center uppercase tracking-widest">
+                        Answer (Fixed Code) ✨
+                    </div>
+                    
+                    <!-- Cover overlay for reveal -->
+                    <div id="challenge-cover" class="absolute inset-0 bg-slate-800 flex flex-col items-center justify-center z-10 top-[40px] cursor-pointer rounded-b-2xl" onclick="document.getElementById('challenge-cover').style.display='none'">
+                        <i data-lucide="eye" class="w-16 h-16 text-sky-400 mb-4 animate-pulse"></i>
+                        <p class="text-white font-bold text-xl">Click to Reveal Answer!</p>
+                    </div>
+
+                    <div class="p-6 font-mono text-sm md:text-base text-white flex-grow font-semibold overflow-x-auto leading-relaxed">
+                        <p><span class="cmt">#correction</span></p>
+                        <p><span class="kw">import</span> turtle <span class="cmt"># Fixed import</span></p>
+                        <p><span class="var">colors</span> = [<span class="str">"red"</span>, <span class="str">"green"</span>, <span class="str">"blue"</span><span class="text-green-400">]</span> <span class="cmt"># Fixed list</span></p>
+                        <p><span class="kw">for</span> <span class="var">i</span> <span class="kw">in</span> <span class="func">range</span>(<span class="num">3</span>)<span class="text-green-400">:</span> <span class="cmt"># Added colon</span></p>
+                        <p class="pl-8"><span class="func">print</span>(<span class="var">colors</span>[<span class="var">i</span><span class="text-green-400">]</span>) <span class="cmt"># Indented & fixed parenthesis</span></p>
+                        <p class="pl-8"><span class="kw">if</span> <span class="var">i</span> <span class="text-green-400">==</span> <span class="num">2</span>: <span class="cmt"># Correct operator</span></p>
+                        <p class="pl-16"><span class="func">print</span>(<span class="str">"Done"</span><span class="text-green-400">)</span></p>
+                        <p><span class="var">t</span> = turtle.Turtle()</p>
+                        <p><span class="var">t</span>.forward(<span class="num">100</span><span class="text-green-400">)</span> <span class="cmt"># Closed parenthesis</span></p>
+                        <p><span class="var">t</span>.left(<span class="num">90</span>)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DEBUGGING TIPS & WRAP UP -->
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Tips -->
+            <section class="bg-yellow-300 rounded-[2rem] p-8 shadow-xl border-b-8 border-yellow-500">
+                <h2 class="text-3xl font-black text-slate-800 mb-6 flex items-center gap-3">
+                    <i data-lucide="lightbulb" class="w-10 h-10 text-orange-600"></i> Debugging Tips 💡
+                </h2>
+                <ul class="space-y-4 text-lg font-bold text-slate-700">
+                    <li class="flex items-center gap-3 bg-white/60 p-3 rounded-xl"><span class="text-2xl">📖</span> Read error messages (They help!)</li>
+                    <li class="flex items-center gap-3 bg-white/60 p-3 rounded-xl"><span class="text-2xl">👀</span> Check your colons and indenting</li>
+                    <li class="flex items-center gap-3 bg-white/60 p-3 rounded-xl"><span class="text-2xl">🖨️</span> Print often (See what the program is doing)</li>
+                    <li class="flex items-center gap-3 bg-white/60 p-3 rounded-xl"><span class="text-2xl">🪜</span> Go step-by-step (Break big problems into small ones)</li>
+                </ul>
+            </section>
+
+            <!-- Wrap Up -->
+            <section class="bg-sky-500 text-white rounded-[2rem] p-8 shadow-xl border-b-8 border-sky-700">
+                <h2 class="text-3xl font-black mb-6 flex items-center gap-3">
+                    <i data-lucide="check-circle-2" class="w-10 h-10 text-yellow-400"></i> Wrap Up & Revision
+                </h2>
+                <ul class="space-y-4 text-lg font-bold text-sky-100">
+                    <li class="flex items-start gap-3 bg-sky-600 p-4 rounded-xl shadow-sm">
+                        <i data-lucide="bug" class="w-6 h-6 mt-1 flex-shrink-0 text-yellow-300"></i>
+                        Bugs are mistakes in code.
+                    </li>
+                    <li class="flex items-start gap-3 bg-sky-600 p-4 rounded-xl shadow-sm">
+                        <i data-lucide="layers" class="w-6 h-6 mt-1 flex-shrink-0 text-yellow-300"></i>
+                        Syntax, Runtime, Logical are the 3 main types.
+                    </li>
+                    <li class="flex items-start gap-3 bg-sky-600 p-4 rounded-xl shadow-sm">
+                        <i data-lucide="wrench" class="w-6 h-6 mt-1 flex-shrink-0 text-yellow-300"></i>
+                        Debugging is the process of fixing them.
+                    </li>
+                </ul>
+            </section>
+        </div>
+
+        <!-- QUICK TASK -->
+        <section class="bg-pink-100 rounded-[2rem] p-8 shadow-xl border-t-8 border-pink-500">
+            <h2 class="text-3xl font-black text-pink-600 mb-4 flex items-center gap-3">
+                <i data-lucide="zap" class="w-10 h-10"></i> Quick Task! ⚡
+            </h2>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border-2 border-pink-200 flex items-center gap-6">
+                <span class="text-6xl hidden md:block">⏱️</span>
+                <p class="text-xl text-slate-700 font-bold leading-relaxed">
+                    Write a simple 3-line Python code on your computer, but intentionally hide <strong>ONE BUG</strong> in it! Swap seats with your friend next to you and see who can fix the other person's code the fastest! Let the Bug Hunt begin! 🏆
+                </p>
+            </div>
+        </section>
+
+        <!-- SPECIAL MISSION: INTERACTIVE HERO CHALLENGE -->
+        <section class="bg-gradient-to-br from-slate-900 to-indigo-900 rounded-[2rem] p-8 shadow-2xl border-t-8 border-indigo-500 text-white relative overflow-hidden" id="hero-challenge">
+            <div class="absolute -right-10 -bottom-10 opacity-20"><i data-lucide="zap" class="w-64 h-64"></i></div>
+            
+            <div class="relative z-10">
+                <h2 class="text-4xl font-black text-indigo-300 mb-4 flex items-center gap-3">
+                    <i data-lucide="swords" class="w-10 h-10 text-yellow-400"></i> Hero Challenge: The Bug Zapper ⚡
+                </h2>
+                <p class="text-lg text-indigo-100 font-semibold mb-6">
+                    A wild bug appeared in the code! Look at the snippet below and Zap it by selecting the correct Bug Type. Get 3 right to win!
+                </p>
+
+                <div class="bg-slate-800 p-6 rounded-2xl border-2 border-indigo-500/50 flex flex-col items-center">
+                    
+                    <div class="flex justify-between w-full mb-4 px-4 font-bold text-lg text-slate-400">
+                        <span>Score: <span id="quiz-score" class="text-green-400">0</span> / 3</span>
+                        <span>Level: <span id="quiz-level" class="text-yellow-400">1</span></span>
+                    </div>
+
+                    <!-- Code Display -->
+                    <div id="quiz-code-box" class="w-full bg-black p-8 rounded-xl font-mono text-xl text-center text-white border-4 border-slate-700 shadow-inner mb-8 min-h-[120px] flex items-center justify-center">
+                        <span id="quiz-code">print("Hello World)</span>
+                    </div>
+                    
+                    <!-- Choices -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full" id="quiz-buttons">
+                        <button onclick="checkAnswer('Syntax')" class="bg-rose-600 hover:bg-rose-500 text-white font-black py-4 rounded-xl transition-all shadow-[0_4px_0_#be123c] hover:translate-y-[2px] text-xl">Syntax Error</button>
+                        <button onclick="checkAnswer('Runtime')" class="bg-yellow-600 hover:bg-yellow-500 text-white font-black py-4 rounded-xl transition-all shadow-[0_4px_0_#ca8a04] hover:translate-y-[2px] text-xl">Runtime Error</button>
+                        <button onclick="checkAnswer('Logical')" class="bg-green-600 hover:bg-green-500 text-white font-black py-4 rounded-xl transition-all shadow-[0_4px_0_#16a34a] hover:translate-y-[2px] text-xl">Logical Error</button>
+                    </div>
+
+                    <!-- Result Msg -->
+                    <div id="quiz-msg" class="mt-6 font-black text-2xl text-center hidden"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOMEWORK (H.W) -->
+        <section class="bg-yellow-300 rounded-[2rem] p-8 shadow-xl border-b-8 border-yellow-500 relative overflow-hidden">
+            <!-- Notebook styling elements -->
+            <div class="absolute top-0 left-8 w-4 h-full border-l-4 border-double border-red-400/50"></div>
+            <div class="absolute top-0 left-16 w-1 h-full bg-red-400/20"></div>
+
+            <div class="ml-10 relative z-10">
+                <h2 class="text-4xl font-black text-slate-800 mb-6 flex items-center gap-3">
+                    <i data-lucide="book-open" class="w-10 h-10 text-orange-600"></i> H.W 📝
+                </h2>
+                
+                <div class="bg-white/60 p-8 rounded-2xl border-2 border-yellow-400 shadow-sm backdrop-blur-sm">
+                    <p class="text-2xl font-black text-slate-800 mb-6 leading-relaxed flex items-start gap-3">
+                        <span class="bg-orange-500 text-white p-2 rounded-xl mt-1"><i data-lucide="users"></i></span>
+                        "Write a Python program with one Syntax Error, one Runtime Error, and one Logical Error. Swap with a friend and try to fix their bugs!"
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center text-slate-500 py-10 font-bold text-lg mt-12 border-t-4 border-sky-200 border-dashed">
+        <p class="text-slate-800">© MegaMinds Academy. All rights reserved.</p>
+        <p class="mt-2 text-orange-500">Bug Hunt! Let's Fix Broken Code! 🐛🔍</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Checklist toggle logic
+        function toggleCheck(element) {
+            const icon = element.querySelector('.icon-box');
+            if (element.classList.contains('completed')) {
+                element.classList.remove('completed');
+                icon.setAttribute('data-lucide', 'square');
+                icon.classList.remove('text-green-500');
+                icon.classList.add('text-sky-400');
+            } else {
+                element.classList.add('completed');
+                icon.setAttribute('data-lucide', 'check-square');
+                icon.classList.remove('text-sky-400');
+                icon.classList.add('text-green-500');
+            }
+            lucide.createIcons();
+        }
+
+        // Simulators Output Logic
+        function showError(elementId, errorMsg) {
+            const el = document.getElementById(elementId);
+            el.classList.remove('hidden');
+            el.innerHTML = `<span class="text-rose-500">${errorMsg}</span>`;
+        }
+
+        function showSuccess(elementId, successMsg) {
+            const el = document.getElementById(elementId);
+            el.classList.remove('hidden');
+            el.innerHTML = `<span class="text-green-400">${successMsg}</span>`;
+        }
+
+        // Hero Challenge (Bug Zapper) Logic
+        const quizQuestions = [
+            { code: 'print("Hello World)', answer: 'Syntax', explanation: 'Missing closing quote!' },
+            { code: 'score = 100 / 0', answer: 'Runtime', explanation: 'Cannot divide by zero!' },
+            { code: 'total = 5 - 2  <span class="text-slate-500 italic"># Trying to add 5 and 2</span>', answer: 'Logical', explanation: 'Used minus instead of plus!' }
+        ];
+
+        let currentQ = 0;
+        let score = 0;
+
+        function checkAnswer(selected) {
+            const q = quizQuestions[currentQ];
+            const msgBox = document.getElementById('quiz-msg');
+            const codeBox = document.getElementById('quiz-code-box');
+
+            codeBox.classList.remove('zap-anim'); // reset animation
+            void codeBox.offsetWidth; // trigger reflow
+
+            if (selected === q.answer) {
+                // Correct
+                score++;
+                codeBox.classList.add('zap-anim'); // Play zap animation
+                msgBox.innerHTML = `ZAPPED! ⚡ Correct! <span class="block text-lg font-normal mt-1">${q.explanation}</span>`;
+                msgBox.className = "mt-6 font-black text-2xl text-center text-green-400";
+            } else {
+                // Incorrect
+                msgBox.innerHTML = `Ouch! 🤕 That was a ${q.answer} Error. <span class="block text-lg font-normal mt-1">${q.explanation}</span>`;
+                msgBox.className = "mt-6 font-black text-2xl text-center text-rose-500";
+            }
+            
+            msgBox.classList.remove('hidden');
+            document.getElementById('quiz-score').innerText = score;
+            
+            // Disable buttons temporarily
+            const btns = document.getElementById('quiz-buttons').querySelectorAll('button');
+            btns.forEach(b => b.disabled = true);
+
+            setTimeout(() => {
+                currentQ++;
+                if (currentQ < quizQuestions.length) {
+                    // Next question
+                    document.getElementById('quiz-level').innerText = currentQ + 1;
+                    document.getElementById('quiz-code').innerHTML = quizQuestions[currentQ].code;
+                    msgBox.classList.add('hidden');
+                    btns.forEach(b => b.disabled = false);
+                } else {
+                    // End of quiz
+                    document.getElementById('quiz-buttons').style.display = 'none';
+                    document.getElementById('quiz-code-box').style.display = 'none';
+                    if (score === 3) {
+                        msgBox.innerHTML = "🏆 PERFECT SCORE! You are a Master Bug Hunter! 🏆";
+                        msgBox.className = "mt-8 font-black text-3xl text-center text-yellow-400 drop-shadow-md";
+                    } else {
+                        msgBox.innerHTML = `🏁 Challenge Complete! You zapped ${score}/3 bugs.<br><button onclick="location.href='#hero-challenge';location.reload()" class="mt-4 text-sm text-indigo-300 underline">Play Again</button>`;
+                        msgBox.className = "mt-8 font-black text-2xl text-center text-white";
+                    }
+                }
+            }, 2500);
+        }
+        
+        // Initialize first question
+        document.getElementById('quiz-code').innerHTML = quizQuestions[0].code;
+
+    </script>
+</body>
+</html>
