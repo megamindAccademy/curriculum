@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 2 Session 3: Dictionaries - MegaMinds Academy</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Playful Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Nunito', sans-serif; }
+        
+        /* Custom friendly scrollbar */
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #e0f2fe; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #7dd3fc; border-radius: 10px; border: 3px solid #e0f2fe; }
+        ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+
+        /* Bouncy animation for placeholders */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-anim { animation: float 3s ease-in-out infinite; }
+        
+        /* Checkbox styling */
+        .check-item.completed {
+            background-color: #f0fdf4 !important;
+            border-color: #86efac !important;
+            color: #166534 !important;
+            opacity: 0.8;
+        }
+        .check-item.completed span {
+            text-decoration: line-through;
+        }
+        
+        /* Syntax highlighting colors */
+        .kw { color: #f472b6; font-weight: bold; } /* Keywords: for, in, if, else, def, while */
+        .func { color: #fb923c; } /* Functions: print, input, int, float, append, len, range */
+        .str { color: #4ade80; } /* Strings */
+        .var { color: #38bdf8; } /* Variables */
+        .num { color: #c084fc; } /* Numbers */
+        .cmt { color: #94a3b8; font-style: italic; } /* Comments */
+        .dict-key { color: #fde047; font-weight: bold; } /* Dictionary Keys */
+    </style>
+</head>
+<body class="min-h-screen bg-sky-50 text-slate-800 pb-16 selection:bg-orange-300">
+
+    <!-- HEADER -->
+    <header class="bg-gradient-to-br from-orange-400 to-orange-500 text-white shadow-xl rounded-b-[3rem] mb-10 relative overflow-hidden border-b-8 border-orange-600">
+        <div class="absolute top-10 right-10 w-32 h-32 bg-white opacity-20 rounded-full blur-xl"></div>
+        <div class="absolute bottom-[-20px] left-10 w-48 h-48 bg-sky-300 opacity-30 rounded-full blur-2xl"></div>
+        
+        <div class="max-w-4xl mx-auto px-6 py-12 text-center relative z-10">
+            <div class="inline-block bg-white/25 px-5 py-2 rounded-full text-sm font-black tracking-widest mb-6 border-2 border-white/50 uppercase shadow-sm">
+                Level 2 : Session 3
+            </div>
+            <h1 class="text-5xl md:text-6xl font-black mb-4 drop-shadow-lg tracking-tight">
+                PROBLEM SOLVING 🧠
+            </h1>
+            <p class="text-2xl md:text-3xl font-bold text-orange-50 mb-8 drop-shadow-md">
+                Dictionaries: Key-Value Magic! 📖
+            </p>
+            <div class="flex justify-center items-center gap-3 font-bold text-lg bg-black/10 w-fit mx-auto px-6 py-3 rounded-2xl backdrop-blur-sm">
+                <span class="text-white">MegaMinds Academy</span>
+                <span class="text-orange-200">|</span>
+                <span class="text-sky-200">STEM Accredited 🏆</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 space-y-12">
+
+        <!-- INTRO (PREF) -->
+        <section class="bg-white rounded-[2rem] p-8 shadow-xl border-4 border-sky-200 flex flex-col md:flex-row gap-8 items-center transform hover:scale-[1.01] transition-transform">
+            <div class="flex-1">
+                <h2 class="text-3xl font-black text-sky-500 mb-4 flex items-center gap-2">
+                    <i data-lucide="sparkles" class="w-8 h-8 text-orange-400"></i> Welcome Back Problem Solvers!
+                </h2>
+                <div class="bg-sky-50 p-5 rounded-xl border border-sky-100">
+                    <p class="text-xl text-slate-700 font-bold mb-2 text-orange-500">What are we learning today? 🤔</p>
+                    <p class="text-lg text-slate-600 font-semibold leading-relaxed">
+                        Today, you will learn how to store, access, and work with <strong>key-value pairs</strong> using magical containers called <strong class="text-sky-600">Dictionaries</strong> in Python! They are super helpful for organizing data!
+                    </p>
+                </div>
+            </div>
+            <div class="w-full md:w-64 h-64 bg-sky-100 rounded-3xl border-4 border-dashed border-sky-300 flex flex-col items-center justify-center text-sky-500 font-bold float-anim shadow-inner p-4 text-center">
+                <span class="text-6xl mb-2">📚</span>
+                <span>Image Placeholder:<br>Boy looking into a giant book</span>
+            </div>
+        </section>
+
+        <!-- CHECKLIST: TODAY'S MISSION -->
+        <section class="bg-sky-500 rounded-[2rem] p-8 shadow-xl border-b-8 border-sky-700 text-white">
+            <h2 class="text-3xl font-black mb-6 flex items-center gap-3">
+                <i data-lucide="target" class="w-10 h-10 text-orange-300"></i>
+                TODAY'S MISSION: 🎯
+            </h2>
+            <div class="grid gap-4" id="mission-list">
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-xl">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box flex-shrink-0"></i>
+                    <span>Understand what a dictionary is.</span>
+                </div>
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-xl">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box flex-shrink-0"></i>
+                    <span>Learn how to store and get values using keys.</span>
+                </div>
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-xl">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box flex-shrink-0"></i>
+                    <span>Create real-life examples using dictionaries.</span>
+                </div>
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-xl">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box flex-shrink-0"></i>
+                    <span>Practice with fun coding challenges.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHAT IS A DICTIONARY? -->
+        <section class="bg-white rounded-[2rem] p-8 shadow-xl border-4 border-orange-200">
+            <h2 class="text-4xl font-black text-orange-500 mb-6 flex items-center gap-3">
+                <i data-lucide="book-a" class="w-10 h-10"></i> What Is a Dictionary? 📖
+            </h2>
+            
+            <div class="bg-orange-50 p-6 rounded-2xl border-l-8 border-orange-400 mb-8 font-bold text-lg text-slate-700">
+                <p class="mb-4">In real life, a dictionary tells you the meaning of a word.</p>
+                <p>In Python, a dictionary stores data in pairs like:</p>
+                <div class="bg-slate-900 text-white p-4 rounded-xl font-mono mt-4 shadow-inner">
+                    <span class="var">student</span> = { <span class="dict-key">"name"</span>: <span class="str">"Ali"</span>, <span class="dict-key">"age"</span>: <span class="num">12</span>, <span class="dict-key">"grade"</span>: <span class="str">"6th"</span> }
+                </div>
+            </div>
+
+            <div class="bg-sky-100 p-6 rounded-2xl border-2 border-sky-300 shadow-sm flex items-center gap-4">
+                <span class="text-5xl">🔑</span>
+                <p class="text-xl font-black text-sky-800">
+                    We call "name", "age", and "grade" the <span class="text-orange-500 uppercase">keys</span>.<br>
+                    Their values "Ali", 12, and "6th" are the <span class="text-orange-500 uppercase">values</span>.
+                </p>
+            </div>
+        </section>
+
+        <!-- EXAMPLE 1: STUDENT ID CARD -->
+        <section class="bg-blue-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-blue-500">
+            <h2 class="text-3xl font-black text-blue-600 mb-6 flex items-center gap-3">
+                <i data-lucide="contact" class="w-10 h-10"></i> Student ID Card 🪪
+            </h2>
+
+            <p class="text-lg text-slate-700 font-bold mb-6 bg-white p-4 rounded-xl shadow-sm border border-blue-200">
+                <strong>Scenario:</strong> A student has a school ID with personal info like name, age, class, and favorite subject.
+            </p>
+
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- Code Area -->
+                <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-xl border-4 border-slate-800 flex flex-col">
+                    <div class="bg-slate-800 px-4 py-3 border-b-2 border-slate-700 flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full bg-rose-500"></div>
+                        <div class="w-4 h-4 rounded-full bg-yellow-400"></div>
+                        <div class="w-4 h-4 rounded-full bg-green-500"></div>
+                        <span class="text-slate-400 font-mono text-sm ml-2 font-bold tracking-widest">student_id.py</span>
+                    </div>
+                    <div class="p-6 font-mono text-sm md:text-base text-white flex-grow font-semibold overflow-x-auto leading-relaxed">
+                        <p><span class="var">student</span> = {</p>
+                        <p class="pl-8"><span class="dict-key">"name"</span>: <span class="str">"Yara"</span>,</p>
+                        <p class="pl-8"><span class="dict-key">"age"</span>: <span class="num">11</span>,</p>
+                        <p class="pl-8"><span class="dict-key">"grade"</span>: <span class="num">5</span>,</p>
+                        <p class="pl-8"><span class="dict-key">"favorite_subject"</span>: <span class="str">"Science"</span></p>
+                        <p>}</p>
+                        <br>
+                        <p><span class="func">print</span>(<span class="str">"Student Name:"</span>, <span class="var">student</span>[<span class="dict-key">"name"</span>])</p>
+                        <p><span class="func">print</span>(<span class="str">"Favorite Subject:"</span>, <span class="var">student</span>[<span class="dict-key">"favorite_subject"</span>])</p>
+                        <br>
+                        <p class="cmt"># Let's add and update info!</p>
+                        <p><span class="var">student</span>[<span class="dict-key">"phone"</span>] = <span class="str">"01012345678"</span></p>
+                        <p><span class="var">student</span>[<span class="dict-key">"grade"</span>] = <span class="num">6</span></p>
+                        <p><span class="func">print</span>(<span class="var">student</span>)</p>
+                    </div>
+                    <div class="bg-slate-800 p-4 border-t-2 border-slate-700">
+                        <button onclick="runSim('btn1', 'out1', '> Student Name: Yara<br>> Favorite Subject: Science<br>> {\'name\': \'Yara\', \'age\': 11, \'grade\': 6, \'favorite_subject\': \'Science\', \'phone\': \'01012345678\'}')" id="btn1" class="w-full bg-blue-500 hover:bg-blue-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#1e40af] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                            <i data-lucide="play" class="w-6 h-6 fill-current"></i> Run Code!
+                        </button>
+                    </div>
+                    <div id="out1" class="hidden bg-black p-6 font-mono text-green-400 text-lg border-t-4 border-slate-700 font-bold whitespace-pre-wrap"></div>
+                </div>
+
+                <!-- Discussion Area -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-blue-200">
+                    <h3 class="font-black text-2xl text-orange-500 mb-4 border-b-2 border-orange-100 pb-2">Discussion:</h3>
+                    <ul class="space-y-4 text-lg font-bold text-slate-600">
+                        <li class="flex gap-3"><span class="text-2xl">❓</span> What information is on your school ID?</li>
+                        <li class="flex gap-3"><span class="text-2xl">❓</span> Can you think of other examples where data is stored like this?</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXAMPLE 2: CUSTOM PROFILE BUILDER -->
+        <section class="bg-green-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-green-500">
+            <h2 class="text-3xl font-black text-green-600 mb-6 flex items-center gap-3">
+                <i data-lucide="user-cog" class="w-10 h-10"></i> Custom Profile Builder 🧑‍💻
+            </h2>
+
+            <p class="text-lg text-slate-700 font-bold mb-6 bg-white p-4 rounded-xl shadow-sm border border-green-200">
+                <strong>Scenario:</strong> Imagine your school is building a digital student profile system. Each student will fill out a form to store their name, age, and favorite color. This profile will help the school organize events and make everyone feel more welcome by knowing their preferences!
+            </p>
+
+            <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-xl border-4 border-slate-800 flex flex-col">
+                <div class="bg-slate-800 px-4 py-3 border-b-2 border-slate-700 flex items-center gap-2">
+                    <div class="w-4 h-4 rounded-full bg-rose-500"></div>
+                    <div class="w-4 h-4 rounded-full bg-yellow-400"></div>
+                    <div class="w-4 h-4 rounded-full bg-green-500"></div>
+                    <span class="text-slate-400 font-mono text-sm ml-2 font-bold tracking-widest">profile_builder.py</span>
+                </div>
+                <div class="p-6 font-mono text-sm md:text-base text-white flex-grow font-semibold overflow-x-auto leading-relaxed">
+                    <p><span class="var">student</span> = {}</p>
+                    <p><span class="var">student</span>[<span class="dict-key">"name"</span>] = <span class="func">input</span>(<span class="str">"Enter your name: "</span>)</p>
+                    <p><span class="var">student</span>[<span class="dict-key">"age"</span>] = <span class="func">input</span>(<span class="str">"Enter your age: "</span>)</p>
+                    <p><span class="var">student</span>[<span class="dict-key">"favorite_color"</span>] = <span class="func">input</span>(<span class="str">"What's your favorite color? "</span>)</p>
+                    <br>
+                    <p><span class="func">print</span>(<span class="var">student</span>)</p>
+                </div>
+                <div class="bg-slate-800 p-4 border-t-2 border-slate-700">
+                    <button onclick="runSim('btn2', 'out2', '> Enter your name: <span class=\'text-white\'>Omar</span><br>> Enter your age: <span class=\'text-white\'>13</span><br>> What\'s your favorite color? <span class=\'text-white\'>Blue</span><br>> {\'name\': \'Omar\', \'age\': \'13\', \'favorite_color\': \'Blue\'}')" id="btn2" class="w-full bg-green-500 hover:bg-green-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#15803d] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                        <i data-lucide="play" class="w-6 h-6 fill-current"></i> Run Code!
+                    </button>
+                </div>
+                <div id="out2" class="hidden bg-black p-6 font-mono text-green-400 text-lg border-t-4 border-slate-700 font-bold whitespace-pre-wrap"></div>
+            </div>
+        </section>
+
+        <!-- EXAMPLE 3: QUIZ APP -->
+        <section class="bg-purple-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-purple-500">
+            <h2 class="text-3xl font-black text-purple-600 mb-6 flex items-center gap-3">
+                <i data-lucide="help-circle" class="w-10 h-10"></i> Let's build a Quiz App ❓
+            </h2>
+
+            <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-xl border-4 border-slate-800 flex flex-col">
+                <div class="bg-slate-800 px-4 py-3 border-b-2 border-slate-700 flex items-center gap-2">
+                    <div class="w-4 h-4 rounded-full bg-rose-500"></div>
+                    <div class="w-4 h-4 rounded-full bg-yellow-400"></div>
+                    <div class="w-4 h-4 rounded-full bg-green-500"></div>
+                    <span class="text-slate-400 font-mono text-sm ml-2 font-bold tracking-widest">quiz_app.py</span>
+                </div>
+                <div class="p-6 font-mono text-sm md:text-base text-white flex-grow font-semibold overflow-x-auto leading-relaxed">
+                    <p class="cmt">#--let's build a quiz app--</p>
+                    <p><span class="var">question</span> = {</p>
+                    <p class="pl-8"><span class="dict-key">"q"</span>: <span class="str">"What is the capital of Egypt?"</span>,</p>
+                    <p class="pl-8"><span class="dict-key">"a"</span>: <span class="str">"Cairo"</span></p>
+                    <p>}</p>
+                    <br>
+                    <p><span class="var">answer</span> = <span class="func">input</span>(<span class="var">question</span>[<span class="dict-key">"q"</span>] + <span class="str">" "</span>)</p>
+                    <br>
+                    <p><span class="kw">if</span> <span class="var">answer</span>.<span class="func">lower</span>() == <span class="var">question</span>[<span class="dict-key">"a"</span>].<span class="func">lower</span>():</p>
+                    <p class="pl-8"><span class="func">print</span>(<span class="str">"Correct!"</span>)</p>
+                    <p><span class="kw">else</span>:</p>
+                    <p class="pl-8"><span class="func">print</span>(<span class="str">"Wrong answer."</span>)</p>
+                </div>
+                <div class="bg-slate-800 p-4 border-t-2 border-slate-700">
+                    <button onclick="runSim('btn3', 'out3', '> What is the capital of Egypt? <span class=\'text-white\'>cairo</span><br>> Correct! ✅')" id="btn3" class="w-full bg-purple-500 hover:bg-purple-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#7e22ce] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                        <i data-lucide="play" class="w-6 h-6 fill-current"></i> Run Code!
+                    </button>
+                </div>
+                <div id="out3" class="hidden bg-black p-6 font-mono text-green-400 text-lg border-t-4 border-slate-700 font-bold whitespace-pre-wrap"></div>
+            </div>
+        </section>
+
+        <!-- EXAMPLE 4: PERSONAL DASHBOARD (TURTLE) -->
+        <section class="bg-amber-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-amber-500">
+            <h2 class="text-3xl font-black text-amber-600 mb-6 flex items-center gap-3">
+                <i data-lucide="layout-dashboard" class="w-10 h-10"></i> Personal Dashboard (Turtle Graphics) 🐢
+            </h2>
+
+            <p class="text-lg text-slate-700 font-bold mb-6 bg-white p-4 rounded-xl shadow-sm border border-amber-200">
+                <strong>Scenario:</strong> You are creating a personal dashboard for a user. This dashboard will show: Name, Age, Favorite Color, Score, Favorite Animal. You'll use this data stored in a dictionary and visually display it using turtle.
+            </p>
+
+            <div class="grid lg:grid-cols-5 gap-6">
+                <!-- Code Panel -->
+                <div class="lg:col-span-3 bg-slate-900 rounded-2xl overflow-hidden shadow-2xl border-4 border-slate-800 flex flex-col">
+                    <div class="bg-slate-800 px-4 py-3 border-b-2 border-slate-700 flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full bg-rose-500 shadow-sm"></div>
+                        <div class="w-4 h-4 rounded-full bg-yellow-400 shadow-sm"></div>
+                        <div class="w-4 h-4 rounded-full bg-green-500 shadow-sm"></div>
+                        <span class="text-slate-400 font-mono text-sm ml-2 font-bold tracking-widest">dashboard.py</span>
+                    </div>
+                    
+                    <div class="p-6 font-mono text-[13px] text-white flex-grow font-semibold overflow-y-auto max-h-[500px] leading-loose custom-scrollbar">
+                        <p class="cmt">#--Personal Dashboard--</p>
+                        <p><span class="kw">import</span> <span class="white">turtle</span></p>
+                        <br>
+                        <p class="cmt"># Step 1: Collect user data</p>
+                        <p><span class="var">dashboard</span> = {}</p>
+                        <p><span class="var">dashboard</span>[<span class="dict-key">"name"</span>] = <span class="func">input</span>(<span class="str">"Enter your name: "</span>)</p>
+                        <p><span class="var">dashboard</span>[<span class="dict-key">"age"</span>] = <span class="func">input</span>(<span class="str">"Enter your age: "</span>)</p>
+                        <p><span class="var">dashboard</span>[<span class="dict-key">"favorite_color"</span>] = <span class="func">input</span>(<span class="str">"Enter your favorite color: "</span>)</p>
+                        <p><span class="var">dashboard</span>[<span class="dict-key">"score"</span>] = <span class="func">input</span>(<span class="str">"Enter your score: "</span>)</p>
+                        <p><span class="var">dashboard</span>[<span class="dict-key">"animal"</span>] = <span class="func">input</span>(<span class="str">"Enter your favorite animal: "</span>)</p>
+                        <br>
+                        <p class="cmt"># Step 2: Draw the dashboard</p>
+                        <p><span class="var">screen</span> = turtle.Screen()</p>
+                        <p><span class="var">screen</span>.bgcolor(<span class="str">"white"</span>)</p>
+                        <p><span class="var">pen</span> = turtle.Turtle()</p>
+                        <p><span class="var">pen</span>.penup()</p>
+                        <p><span class="var">pen</span>.goto(<span class="num">-150</span>, <span class="num">100</span>)</p>
+                        <p><span class="var">pen</span>.pendown()</p>
+                        <p><span class="var">pen</span>.pensize(<span class="num">3</span>)</p>
+                        <p><span class="var">pen</span>.color(<span class="str">"black"</span>)</p>
+                        <br>
+                        <p><span class="kw">for</span> <span class="var">_</span> <span class="kw">in</span> <span class="func">range</span>(<span class="num">2</span>):</p>
+                        <p class="pl-4"><span class="var">pen</span>.forward(<span class="num">300</span>)</p>
+                        <p class="pl-4"><span class="var">pen</span>.right(<span class="num">90</span>)</p>
+                        <p class="pl-4"><span class="var">pen</span>.forward(<span class="num">200</span>)</p>
+                        <p class="pl-4"><span class="var">pen</span>.right(<span class="num">90</span>)</p>
+                        <br>
+                        <p class="cmt"># Step 3: Write the dictionary info on the screen</p>
+                        <p><span class="var">pen</span>.penup()</p>
+                        <p><span class="var">pen</span>.goto(<span class="num">-140</span>, <span class="num">60</span>)</p>
+                        <p><span class="var">pen</span>.color(<span class="str">"blue"</span>)</p>
+                        <p><span class="var">pen</span>.write(<span class="str">f"Name: {</span><span class="var">dashboard</span>[<span class="dict-key">'name'</span>]<span class="str">}"</span>, font=(<span class="str">"Arial"</span>, <span class="num">14</span>, <span class="str">"bold"</span>))</p>
+                        <p><span class="var">pen</span>.goto(<span class="num">-140</span>, <span class="num">30</span>)</p>
+                        <p><span class="var">pen</span>.write(<span class="str">f"Age: {</span><span class="var">dashboard</span>[<span class="dict-key">'age'</span>]<span class="str">}"</span>, font=(<span class="str">"Arial"</span>, <span class="num">14</span>))</p>
+                        <p><span class="var">pen</span>.goto(<span class="num">-140</span>, <span class="num">0</span>)</p>
+                        <p><span class="var">pen</span>.write(<span class="str">f"Favorite Color: {</span><span class="var">dashboard</span>[<span class="dict-key">'favorite_color'</span>]<span class="str">}"</span>, font=(<span class="str">"Arial"</span>, <span class="num">14</span>))</p>
+                        <p><span class="var">pen</span>.goto(<span class="num">-140</span>, <span class="num">-30</span>)</p>
+                        <p><span class="var">pen</span>.write(<span class="str">f"Score: {</span><span class="var">dashboard</span>[<span class="dict-key">'score'</span>]<span class="str">}"</span>, font=(<span class="str">"Arial"</span>, <span class="num">14</span>))</p>
+                        <p><span class="var">pen</span>.goto(<span class="num">-140</span>, <span class="num">-60</span>)</p>
+                        <p><span class="var">pen</span>.write(<span class="str">f"Animal: {</span><span class="var">dashboard</span>[<span class="dict-key">'animal'</span>]<span class="str">}"</span>, font=(<span class="str">"Arial"</span>, <span class="num">14</span>))</p>
+                        <p><span class="var">pen</span>.hideturtle()</p>
+                        <p>turtle.done()</p>
+                    </div>
+                </div>
+
+                <!-- Interactive Visual Simulator -->
+                <div class="lg:col-span-2 flex flex-col justify-between space-y-6">
+                    <!-- Visual Result Box -->
+                    <div class="bg-white rounded-2xl shadow-xl border-4 border-slate-300 p-6 flex flex-col items-center justify-center flex-grow relative overflow-hidden h-64">
+                        <h3 class="font-black text-xl text-slate-400 mb-2 absolute top-4">Turtle Output</h3>
+                        
+                        <!-- Drawing Area -->
+                        <div id="turtleCanvas" class="hidden w-64 h-48 border-4 border-black relative bg-white">
+                            <div class="absolute top-4 left-4 text-blue-600 font-bold text-lg" id="dashName">Name: </div>
+                            <div class="absolute top-10 left-4 text-blue-600 font-semibold" id="dashAge">Age: </div>
+                            <div class="absolute top-16 left-4 text-blue-600 font-semibold" id="dashColor">Favorite Color: </div>
+                            <div class="absolute top-22 left-4 text-blue-600 font-semibold" id="dashScore">Score: </div>
+                            <div class="absolute top-28 left-4 text-blue-600 font-semibold" id="dashAnimal">Animal: </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button onclick="runDashboardSim()" id="dashBtn" class="w-full bg-amber-500 hover:bg-amber-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#b45309] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                            <i data-lucide="play" class="w-6 h-6 fill-current"></i> Create Dashboard!
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Discussion Area -->
+            <div class="bg-white p-6 rounded-3xl shadow-sm border border-amber-200 mt-8">
+                <h3 class="font-black text-2xl text-orange-500 mb-4 border-b-2 border-orange-100 pb-2">Discussion:</h3>
+                <ul class="space-y-4 text-lg font-bold text-slate-600">
+                    <li class="flex gap-3"><span class="text-2xl">❓</span> Why did we store all the information in a dictionary?</li>
+                    <li class="flex gap-3"><span class="text-2xl">❓</span> How could we make this dashboard show live data (like changing score)?</li>
+                    <li class="flex gap-3"><span class="text-2xl">❓</span> What would you add next: favorite subject, today's mood, or profile picture?</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- WRAP UP & REVISION -->
+        <section class="bg-sky-500 text-white rounded-[2rem] p-8 shadow-xl border-b-8 border-sky-700">
+            <h2 class="text-4xl font-black mb-6 text-center flex justify-center items-center gap-3">
+                <i data-lucide="check-circle-2" class="w-10 h-10 text-yellow-400"></i> Wrap Up & Revision
+            </h2>
+            <h3 class="text-2xl font-bold mb-6 text-center text-sky-100">Today We Learned:</h3>
+            <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <div class="bg-sky-600 p-6 rounded-2xl border-2 border-sky-400 shadow-lg font-bold text-xl text-center hover:-translate-y-2 transition-transform">
+                    What dictionaries are
+                </div>
+                <div class="bg-sky-600 p-6 rounded-2xl border-2 border-sky-400 shadow-lg font-bold text-xl text-center hover:-translate-y-2 transition-transform">
+                    How to store, access, update key-value data
+                </div>
+                <div class="bg-sky-600 p-6 rounded-2xl border-2 border-sky-400 shadow-lg font-bold text-xl text-center hover:-translate-y-2 transition-transform">
+                    How to apply it in real-world examples
+                </div>
+            </div>
+        </section>
+
+        <!-- SPECIAL MISSION: INTERACTIVE HERO CHALLENGE -->
+        <section class="bg-gradient-to-br from-slate-900 to-indigo-900 rounded-[2rem] p-8 shadow-2xl border-t-8 border-indigo-500 text-white relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 opacity-20"><i data-lucide="fingerprint" class="w-64 h-64"></i></div>
+            
+            <div class="relative z-10">
+                <h2 class="text-4xl font-black text-indigo-300 mb-4 flex items-center gap-3">
+                    <i data-lucide="user-check" class="w-10 h-10 text-yellow-400"></i> Hero Challenge: The Secret Agent Database 🕵️‍♂️
+                </h2>
+                <p class="text-lg text-indigo-100 font-semibold mb-6">
+                    HQ Security demands a complete Agent Profile! To unlock the safe, your <code class="bg-slate-800 px-2 rounded text-orange-400 font-mono">agent_profile</code> dictionary MUST contain the following key-value pairs exactly:
+                </p>
+                <div class="bg-black/40 p-4 rounded-xl font-mono text-center text-green-400 mb-8 border border-slate-700 font-bold">
+                    "role" : "spy" <br>
+                    "gadget" : "jetpack"
+                </div>
+
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Actions -->
+                    <div class="flex-1 bg-slate-800 p-6 rounded-2xl border-2 border-indigo-500/50">
+                        <h3 class="font-bold text-xl text-sky-400 mb-4">Add to Dictionary:</h3>
+                        
+                        <div class="flex gap-2 mb-4">
+                            <input type="text" id="agentKey" placeholder="Key (e.g. role)" class="w-1/2 p-2 rounded bg-slate-700 border border-slate-600 text-white font-mono placeholder-slate-400 focus:outline-none focus:border-indigo-400">
+                            <span class="text-2xl font-bold">:</span>
+                            <input type="text" id="agentValue" placeholder="Value (e.g. spy)" class="w-1/2 p-2 rounded bg-slate-700 border border-slate-600 text-white font-mono placeholder-slate-400 focus:outline-none focus:border-indigo-400">
+                        </div>
+
+                        <button onclick="addAgentData()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold p-3 rounded-lg border-b-4 border-indigo-800 transition-all active:translate-y-1 active:border-b-0 flex justify-center items-center gap-2">
+                            <i data-lucide="plus-circle" class="w-5 h-5"></i> Add Key-Value Pair
+                        </button>
+                        
+                        <button onclick="resetAgentData()" class="mt-4 text-sm text-indigo-300 underline hover:text-white block w-full text-center">Clear Dictionary</button>
+                    </div>
+
+                    <!-- Visual Dictionary -->
+                    <div class="flex-1 bg-black p-6 rounded-2xl border-2 border-slate-700 shadow-inner flex flex-col">
+                        <h3 class="font-bold text-xl text-green-400 mb-4 font-mono">agent_profile = {</h3>
+                        
+                        <div id="dict-display" class="flex-grow flex flex-col gap-2 pb-4 pl-8 font-mono text-lg text-white">
+                            <div class="text-slate-600 italic font-mono text-sm"># Empty...</div>
+                        </div>
+                        
+                        <h3 class="font-bold text-xl text-green-400 mb-6 font-mono">}</h3>
+
+                        <button onclick="checkAgentSafe()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-black text-xl py-3 rounded-xl transition-all shadow-[0_4px_0_#b45309] hover:translate-y-[2px] flex items-center justify-center gap-2">
+                            <i data-lucide="unlock" class="w-6 h-6"></i> Verify Profile & Unlock Safe!
+                        </button>
+                        <div id="safe-result" class="mt-4 font-black text-xl text-center hidden"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOMEWORK (H.W) -->
+        <section class="bg-yellow-300 rounded-[2rem] p-8 shadow-xl border-b-8 border-yellow-500 relative overflow-hidden">
+            <!-- Notebook styling elements -->
+            <div class="absolute top-0 left-8 w-4 h-full border-l-4 border-double border-red-400/50"></div>
+            <div class="absolute top-0 left-16 w-1 h-full bg-red-400/20"></div>
+
+            <div class="ml-10 relative z-10">
+                <h2 class="text-4xl font-black text-slate-800 mb-6 flex items-center gap-3">
+                    <i data-lucide="book-open" class="w-10 h-10 text-orange-600"></i> H.W 📝
+                </h2>
+                
+                <div class="bg-white/60 p-6 rounded-2xl border-2 border-yellow-400 shadow-sm backdrop-blur-sm">
+                    <p class="text-2xl font-black text-slate-800 mb-4 leading-relaxed flex items-start gap-3">
+                        <span class="bg-orange-500 text-white p-2 rounded-xl mt-1"><i data-lucide="paw-print"></i></span>
+                        "You're building your own Animal Explorer Dictionary! Start by listing your top 3 favorite animals and where they live. Then let your friend add their favorite animal and its habitat too!"
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center text-slate-500 py-10 font-bold text-lg mt-12 border-t-4 border-sky-200 border-dashed">
+        <p class="text-slate-800">© MegaMinds Academy. All rights reserved.</p>
+        <p class="mt-2 text-orange-500">Dictionaries: Key-Value Magic! 📖</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Checklist toggle logic
+        function toggleCheck(element) {
+            const icon = element.querySelector('.icon-box');
+            
+            if (element.classList.contains('completed')) {
+                element.classList.remove('completed');
+                icon.setAttribute('data-lucide', 'square');
+                icon.classList.remove('text-green-500');
+                icon.classList.add('text-sky-400');
+            } else {
+                element.classList.add('completed');
+                icon.setAttribute('data-lucide', 'check-square');
+                icon.classList.remove('text-sky-400');
+                icon.classList.add('text-green-500');
+            }
+            lucide.createIcons();
+        }
+
+        // Generic Code Simulator Logic
+        function runSim(btnId, outputId, outputText) {
+            const btn = document.getElementById(btnId);
+            const output = document.getElementById(outputId);
+            
+            btn.innerHTML = '<i data-lucide="loader-2" class="w-6 h-6 animate-spin"></i> Running...';
+            lucide.createIcons();
+            btn.disabled = true;
+            btn.classList.add('opacity-80', 'cursor-not-allowed');
+
+            output.classList.remove('hidden');
+            output.innerHTML = "<span class='text-slate-500'>[Executing code...]</span>";
+
+            setTimeout(() => {
+                output.innerHTML = outputText + "<br><br><span class='text-slate-500 mt-2 block font-normal'>[Process completed successfully]</span>";
+                
+                btn.innerHTML = '<i data-lucide="rotate-ccw" class="w-6 h-6"></i> Run Again!';
+                lucide.createIcons();
+                btn.disabled = false;
+                btn.classList.remove('opacity-80', 'cursor-not-allowed');
+            }, 1000);
+        }
+
+        // Turtle Dashboard Simulator Logic
+        function runDashboardSim() {
+            const btn = document.getElementById('dashBtn');
+            const canvas = document.getElementById('turtleCanvas');
+            
+            // Ask for inputs
+            let name = prompt("Enter your name:", "Aya") || "Unknown";
+            let age = prompt("Enter your age:", "15") || "0";
+            let color = prompt("Enter your favorite color:", "blue") || "black";
+            let score = prompt("Enter your score:", "99") || "0";
+            let animal = prompt("Enter your favorite animal:", "cat") || "None";
+
+            // Show canvas and update texts
+            canvas.classList.remove('hidden');
+            
+            document.getElementById('dashName').innerText = `Name: ${name}`;
+            document.getElementById('dashAge').innerText = `Age: ${age}`;
+            document.getElementById('dashColor').innerText = `Favorite Color: ${color}`;
+            document.getElementById('dashScore').innerText = `Score: ${score}`;
+            document.getElementById('dashAnimal').innerText = `Animal: ${animal}`;
+
+            btn.innerHTML = '<i data-lucide="rotate-ccw" class="w-6 h-6"></i> Redraw Dashboard!';
+            lucide.createIcons();
+        }
+
+        // Hero Challenge Game Logic
+        let agentDict = {};
+        
+        function updateDictUI() {
+            const display = document.getElementById('dict-display');
+            const keys = Object.keys(agentDict);
+            
+            if (keys.length === 0) {
+                display.innerHTML = '<div class="text-slate-600 italic font-mono text-sm"># Empty...</div>';
+                return;
+            }
+
+            display.innerHTML = '';
+            keys.forEach((key, index) => {
+                let comma = index < keys.length - 1 ? ',' : '';
+                display.innerHTML += `
+                    <div>
+                        <span class="text-yellow-400">"${key}"</span> : <span class="text-green-400">"${agentDict[key]}"</span><span class="text-white">${comma}</span>
+                    </div>
+                `;
+            });
+            
+            document.getElementById('safe-result').classList.add('hidden');
+        }
+
+        function addAgentData() {
+            const keyInput = document.getElementById('agentKey').value.trim().toLowerCase();
+            const valInput = document.getElementById('agentValue').value.trim().toLowerCase();
+            
+            if(keyInput && valInput) {
+                agentDict[keyInput] = valInput;
+                document.getElementById('agentKey').value = '';
+                document.getElementById('agentValue').value = '';
+                updateDictUI();
+            } else {
+                alert("Please enter both Key and Value!");
+            }
+        }
+
+        function resetAgentData() {
+            agentDict = {};
+            updateDictUI();
+        }
+
+        function checkAgentSafe() {
+            const resultDiv = document.getElementById('safe-result');
+            resultDiv.classList.remove('hidden');
+            
+            if (agentDict["role"] === "spy" && agentDict["gadget"] === "jetpack") {
+                resultDiv.innerHTML = "SAFE UNLOCKED! Welcome Agent 007! 💼💰";
+                resultDiv.className = "mt-4 font-black text-2xl text-center text-green-400 drop-shadow-md";
+            } else {
+                resultDiv.innerHTML = "SECURITY ALERT! 🚨 Incorrect Profile Data!<br><span class='text-sm font-bold text-slate-400'>Make sure keys 'role' and 'gadget' match the required values.</span>";
+                resultDiv.className = "mt-4 font-black text-xl text-center text-red-500 drop-shadow-md leading-relaxed";
+            }
+        }
+    </script>
+</body>
+</html>
