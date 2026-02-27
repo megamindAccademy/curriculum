@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Level 2 Session 1: Planning Solutions - MegaMinds Academy</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Playful Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Nunito', sans-serif; }
+        
+        /* Custom friendly scrollbar */
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #e0f2fe; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #7dd3fc; border-radius: 10px; border: 3px solid #e0f2fe; }
+        ::-webkit-scrollbar-thumb:hover { background: #38bdf8; }
+
+        /* Bouncy animation for placeholders */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .float-anim { animation: float 3s ease-in-out infinite; }
+        
+        /* Checkbox styling */
+        .check-item.completed {
+            background-color: #f0fdf4 !important;
+            border-color: #86efac !important;
+            color: #166534 !important;
+            opacity: 0.8;
+        }
+        .check-item.completed span {
+            text-decoration: line-through;
+        }
+        
+        /* Syntax highlighting colors */
+        .kw { color: #f472b6; font-weight: bold; } /* Keywords */
+        .func { color: #fb923c; } /* Functions */
+        .str { color: #4ade80; } /* Strings */
+        .var { color: #38bdf8; } /* Variables */
+        .num { color: #c084fc; } /* Numbers */
+        .cmt { color: #94a3b8; font-style: italic; } /* Comments */
+        
+        /* Flowchart Shapes */
+        .fc-oval { border-radius: 50px; }
+        .fc-rect { border-radius: 8px; }
+        .fc-diamond { transform: rotate(45deg); }
+        .fc-diamond > div { transform: rotate(-45deg); }
+        .fc-parallelogram { transform: skew(-20deg); }
+        .fc-parallelogram > div { transform: skew(20deg); }
+    </style>
+</head>
+<body class="min-h-screen bg-sky-50 text-slate-800 pb-16 selection:bg-orange-300">
+
+    <!-- HEADER -->
+    <header class="bg-gradient-to-br from-orange-400 to-orange-500 text-white shadow-xl rounded-b-[3rem] mb-10 relative overflow-hidden border-b-8 border-orange-600">
+        <div class="absolute top-10 right-10 w-32 h-32 bg-white opacity-20 rounded-full blur-xl"></div>
+        <div class="absolute bottom-[-20px] left-10 w-48 h-48 bg-sky-300 opacity-30 rounded-full blur-2xl"></div>
+        
+        <div class="max-w-4xl mx-auto px-6 py-12 text-center relative z-10">
+            <div class="inline-block bg-white/25 px-5 py-2 rounded-full text-sm font-black tracking-widest mb-6 border-2 border-white/50 uppercase shadow-sm">
+                Level 2 : Session 1
+            </div>
+            <h1 class="text-5xl md:text-6xl font-black mb-4 drop-shadow-lg tracking-tight">
+                PROBLEM SOLVING 🧠
+            </h1>
+            <p class="text-2xl md:text-3xl font-bold text-orange-50 mb-8 drop-shadow-md">
+                Planning Solutions Like Programmers 🗺️
+            </p>
+            <div class="flex justify-center items-center gap-3 font-bold text-lg bg-black/10 w-fit mx-auto px-6 py-3 rounded-2xl backdrop-blur-sm">
+                <span class="text-white">MegaMinds Academy</span>
+                <span class="text-orange-200">|</span>
+                <span class="text-sky-200">STEM Accredited 🏆</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-6 space-y-12">
+
+        <!-- INTRO (PREF) -->
+        <section class="bg-white rounded-[2rem] p-8 shadow-xl border-4 border-sky-200 flex flex-col md:flex-row gap-8 items-center transform hover:scale-[1.01] transition-transform">
+            <div class="flex-1">
+                <h2 class="text-3xl font-black text-sky-500 mb-4 flex items-center gap-2">
+                    <i data-lucide="sparkles" class="w-8 h-8 text-orange-400"></i> Welcome Back Problem Solvers!
+                </h2>
+                <div class="bg-sky-50 p-5 rounded-xl border border-sky-100">
+                    <p class="text-xl text-slate-700 font-bold mb-2 text-orange-500">What did we do last session? 🤔</p>
+                    <p class="text-lg text-slate-600 font-semibold leading-relaxed">
+                        We learned how to make our computers smart! Today, we are taking a huge step: we will learn how to <strong class="text-sky-600">PLAN</strong> our code before we write it, just like professional engineers do!
+                    </p>
+                </div>
+            </div>
+            <div class="w-full md:w-64 h-64 bg-sky-100 rounded-3xl border-4 border-dashed border-sky-300 flex flex-col items-center justify-center text-sky-500 font-bold float-anim shadow-inner">
+                <span class="text-6xl mb-2">🗺️</span>
+                <span class="text-center px-4">Image Placeholder:<br>Kids planning a map</span>
+            </div>
+        </section>
+
+        <!-- CHECKLIST: TODAY'S MISSION -->
+        <section class="bg-sky-500 rounded-[2rem] p-8 shadow-xl border-b-8 border-sky-700 text-white">
+            <h2 class="text-3xl font-black mb-6 flex items-center gap-3">
+                <i data-lucide="target" class="w-10 h-10 text-orange-300"></i>
+                TODAY'S MISSION: 🎯
+            </h2>
+            <div class="grid gap-4" id="mission-list">
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-xl">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box"></i>
+                    <span>Understand pseudocode and flowcharts</span>
+                </div>
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-xl">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box"></i>
+                    <span>Learn to plan before coding</span>
+                </div>
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-xl">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box"></i>
+                    <span>Use functions, loops, and if together in real projects</span>
+                </div>
+                <div onclick="toggleCheck(this)" class="check-item bg-white text-sky-800 flex items-center gap-4 p-5 rounded-2xl cursor-pointer transition-all border-4 border-sky-300 hover:scale-[1.02] hover:shadow-lg font-bold text-xl">
+                    <i data-lucide="square" class="w-8 h-8 text-sky-400 icon-box"></i>
+                    <span>Build a smart project using Turtle graphics</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHAT IS PSEUDOCODE -->
+        <section class="bg-white rounded-[2rem] p-8 shadow-xl border-4 border-orange-200">
+            <h2 class="text-4xl font-black text-orange-500 mb-6 flex items-center gap-3">
+                <i data-lucide="file-text" class="w-10 h-10"></i> What Is Pseudocode? 📝
+            </h2>
+            
+            <div class="bg-orange-50 p-6 rounded-2xl border-l-8 border-orange-400 mb-8 font-bold text-xl text-slate-700">
+                <p class="mb-2"><span class="text-orange-600">Pseudocode</span> = Writing code steps in simple English.</p>
+                <p class="text-slate-500 text-lg">To think before coding. Helps you and others understand your logic.</p>
+            </div>
+
+            <h3 class="text-3xl font-black text-sky-500 mb-6 flex items-center gap-3">
+                <i data-lucide="coffee" class="w-8 h-8 text-orange-400"></i> Making Tea Example ☕
+            </h3>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="bg-sky-50 p-4 rounded-xl text-center border-2 border-sky-200 shadow-sm font-bold text-sky-800"><span class="text-3xl block mb-2">🔥</span>1. Boil water</div>
+                <div class="bg-sky-50 p-4 rounded-xl text-center border-2 border-sky-200 shadow-sm font-bold text-sky-800"><span class="text-3xl block mb-2">🫖</span>2. Add tea bag</div>
+                <div class="bg-sky-50 p-4 rounded-xl text-center border-2 border-sky-200 shadow-sm font-bold text-sky-800"><span class="text-3xl block mb-2">🚰</span>3. Pour water into cup</div>
+                <div class="bg-sky-50 p-4 rounded-xl text-center border-2 border-sky-200 shadow-sm font-bold text-sky-800"><span class="text-3xl block mb-2">⏳</span>4. Wait</div>
+                <div class="bg-sky-50 p-4 rounded-xl text-center border-2 border-sky-200 shadow-sm font-bold text-sky-800"><span class="text-3xl block mb-2">🥄</span>5. Remove tea bag</div>
+                <div class="bg-orange-100 p-4 rounded-xl text-center border-2 border-orange-300 shadow-sm font-black text-orange-600 hover:-translate-y-1 transition-transform"><span class="text-3xl block mb-2">😋</span>6. Drink!</div>
+            </div>
+        </section>
+
+        <!-- WHAT IS A FLOWCHART -->
+        <section class="bg-slate-900 text-white rounded-[2rem] p-8 shadow-xl border-b-8 border-slate-700 relative overflow-hidden">
+            <h2 class="text-4xl font-black text-sky-400 mb-6 text-center flex justify-center items-center gap-3">
+                <i data-lucide="git-merge" class="w-10 h-10 text-yellow-400"></i> What Is a Flowchart? 🔀
+            </h2>
+            <div class="bg-slate-800 p-6 rounded-2xl border-2 border-slate-600 mb-8 text-center text-lg font-semibold text-sky-100 shadow-inner">
+                <p>It is a visual representation of the steps of a process in a clear, organized manner.</p>
+                <p class="text-orange-300 mt-2">It's a map of your logic. Programmers use it to plan before writing code.</p>
+            </div>
+
+            <!-- Flowchart Symbols Table -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse rounded-2xl overflow-hidden shadow-lg border-2 border-slate-700">
+                    <thead>
+                        <tr class="bg-sky-600 text-white text-xl">
+                            <th class="p-4 border-b-2 border-sky-700">Name</th>
+                            <th class="p-4 border-b-2 border-sky-700 text-center">Shape</th>
+                            <th class="p-4 border-b-2 border-sky-700">Symbol Usage</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-lg font-semibold bg-slate-800 text-slate-200">
+                        <tr class="border-b border-slate-700">
+                            <td class="p-4 font-black text-sky-300">Start/Stop</td>
+                            <td class="p-4 flex justify-center"><div class="w-24 h-10 bg-green-500 fc-oval border-2 border-green-300 flex items-center justify-center text-sm font-bold text-white">Oval</div></td>
+                            <td class="p-4">Used only at the beginning and end of the flowchart.</td>
+                        </tr>
+                        <tr class="border-b border-slate-700">
+                            <td class="p-4 font-black text-sky-300">Process</td>
+                            <td class="p-4 flex justify-center"><div class="w-24 h-12 bg-sky-500 fc-rect border-2 border-sky-300 flex items-center justify-center text-sm font-bold text-white">Rectangle</div></td>
+                            <td class="p-4">Used to 'do something' for example, assign a variable a value, or carry out a calculation.</td>
+                        </tr>
+                        <tr class="border-b border-slate-700">
+                            <td class="p-4 font-black text-sky-300">Decision</td>
+                            <td class="p-4 flex justify-center">
+                                <div class="w-16 h-16 bg-orange-500 fc-diamond border-2 border-orange-300 flex items-center justify-center">
+                                    <div class="text-xs font-bold text-white">Diamond</div>
+                                </div>
+                            </td>
+                            <td class="p-4">Used to change the direction of a program. This is the only block that can have more than 1 arrow coming out of it, and any arrows should be labelled with possible answers to the question posed.</td>
+                        </tr>
+                        <tr class="border-b border-slate-700">
+                            <td class="p-4 font-black text-sky-300">Input/ Output</td>
+                            <td class="p-4 flex justify-center">
+                                <div class="w-24 h-10 bg-purple-500 fc-parallelogram border-2 border-purple-300 flex items-center justify-center">
+                                    <div class="text-xs font-bold text-white px-2 text-center leading-none">Parallelogram</div>
+                                </div>
+                            </td>
+                            <td class="p-4">Used for a user input or to output or print something.</td>
+                        </tr>
+                        <tr class="border-b border-slate-700">
+                            <td class="p-4 font-black text-sky-300">Connector</td>
+                            <td class="p-4 flex justify-center"><div class="w-8 h-8 rounded-full bg-slate-500 border-2 border-slate-300 flex items-center justify-center text-white text-xs">O</div></td>
+                            <td class="p-4">If there is not enough space to fit the flowchart on one page, connectors can be used to show where the flowcharts should be joined together.</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-black text-sky-300">Direction of flow</td>
+                            <td class="p-4 flex justify-center"><i data-lucide="arrow-down" class="w-8 h-8 text-white"></i></td>
+                            <td class="p-4">Arrows show how to travel through the flowchart.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- EXAMPLE: SHOULD I WEAR A JACKET -->
+        <section class="bg-blue-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-blue-500">
+            <h2 class="text-3xl font-black text-blue-600 mb-6 flex items-center gap-3">
+                <i data-lucide="cloud-snow" class="w-10 h-10"></i> Example: Should I wear a jacket? 🧥
+            </h2>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Steps Text -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-blue-200">
+                    <h3 class="font-black text-2xl text-blue-500 mb-4 border-b-2 border-blue-100 pb-2">Steps (Pseudocode)</h3>
+                    <ul class="space-y-4 text-lg font-bold text-slate-700">
+                        <li><span class="bg-green-100 text-green-700 px-3 py-1 rounded-lg">1. Start</span></li>
+                        <li><span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg">2. Ask if it is cold</span></li>
+                        <li><span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-lg">3. If yes: wear jacket</span></li>
+                        <li><span class="bg-rose-100 text-rose-700 px-3 py-1 rounded-lg">4. If no: don't wear it</span></li>
+                        <li><span class="bg-red-100 text-red-700 px-3 py-1 rounded-lg">5. End</span></li>
+                    </ul>
+                </div>
+
+                <!-- Visual Flowchart -->
+                <div class="bg-slate-800 p-6 rounded-2xl shadow-inner border border-slate-700 flex flex-col items-center justify-start space-y-2">
+                    <h3 class="font-black text-xl text-white mb-2 w-full text-center">Flowchart Visual</h3>
+                    
+                    <!-- Start -->
+                    <div class="bg-yellow-400 text-slate-900 font-bold px-8 py-2 rounded-full border-2 border-yellow-200">Start</div>
+                    <i data-lucide="arrow-down" class="text-white"></i>
+                    
+                    <!-- Decision -->
+                    <div class="relative w-24 h-24 bg-orange-500 fc-diamond border-2 border-orange-300 flex items-center justify-center shadow-lg">
+                        <div class="text-white font-bold text-sm text-center leading-tight">Is it cold?</div>
+                    </div>
+                    
+                    <div class="flex w-full justify-center gap-12 mt-4 relative">
+                        <!-- Path Yes -->
+                        <div class="flex flex-col items-center">
+                            <span class="text-green-400 font-bold text-sm mb-1">yes</span>
+                            <i data-lucide="arrow-down" class="text-green-400"></i>
+                            <div class="bg-green-500 text-white font-bold px-4 py-3 rounded-lg border-2 border-green-300 mt-2">Wear Jacket</div>
+                            <i data-lucide="arrow-down" class="text-green-400 mt-2"></i>
+                        </div>
+                        
+                        <!-- Path No -->
+                        <div class="flex flex-col items-center">
+                            <span class="text-rose-400 font-bold text-sm mb-1">NO</span>
+                            <i data-lucide="arrow-down" class="text-rose-400"></i>
+                            <div class="bg-rose-500 text-white font-bold px-4 py-3 rounded-lg border-2 border-rose-300 mt-2 text-center">Don't wear it</div>
+                            <i data-lucide="arrow-down" class="text-rose-400 mt-2"></i>
+                        </div>
+                    </div>
+
+                    <!-- End -->
+                    <div class="bg-red-600 text-white font-bold px-8 py-2 rounded-full border-2 border-red-400 mt-2">End</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXAMPLE: CROSSING THE ROAD -->
+        <section class="bg-orange-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-orange-500">
+            <h2 class="text-3xl font-black text-orange-600 mb-4 flex items-center gap-3">
+                <i data-lucide="traffic-cone" class="w-10 h-10"></i> Crossing the Road 🚦
+            </h2>
+            <p class="text-lg text-slate-700 font-bold mb-6 bg-white p-4 rounded-xl shadow-sm border border-orange-200">
+                <strong>Scenario:</strong> You're walking with your friends and reach a street. There's a traffic light ahead. You need to decide if it's safe to cross the road or wait. Just like people follow traffic rules, computers also follow conditions to make decisions!
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Pseudocode -->
+                <div class="bg-slate-900 p-6 rounded-2xl shadow-xl border-2 border-slate-700 font-mono text-white text-sm md:text-base leading-loose overflow-x-auto">
+                    <h3 class="font-black text-xl text-sky-400 mb-4 border-b-2 border-slate-700 pb-2 font-sans tracking-wide">Lets start with Pseudocode</h3>
+                    <p>1. <span class="text-yellow-400">START</span></p>
+                    <p>2. Ask the user for the color of the traffic light</p>
+                    <p>3. <span class="kw">IF</span> color is <span class="str">"green"</span></p>
+                    <p class="pl-4">4. <span class="func">PRINT</span> <span class="str">"Go!"</span></p>
+                    <p>5. <span class="kw">ELIF</span> color is <span class="str">"yellow"</span></p>
+                    <p class="pl-4">6. <span class="func">PRINT</span> <span class="str">"Slow down or wait."</span></p>
+                    <p>7. <span class="kw">ELSE IF</span> color is <span class="str">"red"</span></p>
+                    <p class="pl-4">8. <span class="func">PRINT</span> <span class="str">"Stop!"</span></p>
+                    <p>9. <span class="kw">ELSE</span></p>
+                    <p class="pl-4">10. <span class="func">PRINT</span> <span class="str">"Invalid color. Please enter red, yellow, or green."</span></p>
+                    <p>11. <span class="text-red-400">END</span></p>
+                </div>
+
+                <!-- Flowchart -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-200 flex flex-col items-center justify-start text-sm font-bold text-slate-800">
+                    <h3 class="font-black text-xl text-orange-500 mb-4 font-sans tracking-wide">Lets start Flowchart</h3>
+                    
+                    <div class="border-2 border-slate-400 px-4 py-1 rounded-full mb-1">START</div>
+                    <i data-lucide="arrow-down" class="w-4 h-4 mb-1"></i>
+                    <div class="border-2 border-slate-400 px-4 py-2 bg-purple-50 rounded-lg mb-1 fc-parallelogram"><div class="px-2">ENTERTRAFFICLIGHTCOLOR</div></div>
+                    <i data-lucide="arrow-down" class="w-4 h-4 mb-1"></i>
+                    
+                    <!-- Green? -->
+                    <div class="border-2 border-slate-400 w-32 h-16 bg-sky-50 fc-diamond flex items-center justify-center mb-1"><div class="text-xs text-center">ISCOLORGREEN?</div></div>
+                    
+                    <div class="flex w-full justify-between px-4">
+                        <div class="flex flex-col items-center w-1/3">
+                            <span class="text-xs text-green-600">YES</span>
+                            <i data-lucide="arrow-down" class="w-4 h-4 mb-1 text-green-600"></i>
+                            <div class="border-2 border-green-400 bg-green-50 px-2 py-1 rounded-lg">GO!</div>
+                        </div>
+                        <div class="flex flex-col items-center w-2/3 border-l-2 border-dashed border-slate-200 pl-4">
+                            <span class="text-xs text-rose-500">NO</span>
+                            <i data-lucide="arrow-down" class="w-4 h-4 mb-1 text-rose-500"></i>
+                            
+                            <!-- Yellow? -->
+                            <div class="border-2 border-slate-400 w-32 h-16 bg-sky-50 fc-diamond flex items-center justify-center mb-1"><div class="text-xs text-center leading-tight">ISCOLORYELLOW?</div></div>
+                            
+                            <div class="flex w-full justify-between">
+                                <div class="flex flex-col items-center w-1/2">
+                                    <span class="text-xs text-green-600">YES</span>
+                                    <i data-lucide="arrow-down" class="w-4 h-4 mb-1 text-green-600"></i>
+                                    <div class="border-2 border-yellow-400 bg-yellow-50 px-2 py-1 rounded-lg text-[10px] text-center">SLOWDOWNORWAIT</div>
+                                </div>
+                                <div class="flex flex-col items-center w-1/2 border-l-2 border-dashed border-slate-200">
+                                    <span class="text-xs text-rose-500">NO</span>
+                                    <i data-lucide="arrow-down" class="w-4 h-4 mb-1 text-rose-500"></i>
+                                    
+                                    <!-- Red? -->
+                                    <div class="border-2 border-slate-400 w-24 h-12 bg-sky-50 fc-diamond flex items-center justify-center mb-1"><div class="text-[10px] text-center">ISCOLORRED?</div></div>
+                                    <div class="flex w-full gap-2">
+                                         <div class="flex flex-col items-center w-1/2">
+                                            <span class="text-[10px] text-green-600">YES</span>
+                                            <div class="border-2 border-red-400 bg-red-50 px-1 py-1 rounded-lg text-[10px]">STOPI</div>
+                                        </div>
+                                         <div class="flex flex-col items-center w-1/2">
+                                            <span class="text-[10px] text-rose-500">NO</span>
+                                            <div class="border-2 border-slate-400 bg-slate-50 px-1 py-1 rounded-lg text-[8px] text-center">INVALIDCOLOR</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <i data-lucide="arrow-down" class="w-4 h-4 mt-2 mb-1"></i>
+                    <div class="border-2 border-slate-400 px-6 py-1 rounded-full bg-slate-100">END</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DO YOU REMEMBER TURTLE -->
+        <section class="bg-green-50 rounded-[2rem] p-8 shadow-xl border-t-8 border-green-500">
+            <div class="flex flex-col md:flex-row gap-6 items-center border-b-4 border-green-200 pb-6 mb-6">
+                <div class="flex-1">
+                    <h2 class="text-3xl font-black text-green-600 mb-4 flex items-center gap-3">
+                        <i data-lucide="turtle" class="w-10 h-10"></i> Do you remember Turtle Library? 🐢
+                    </h2>
+                    <div class="flex gap-4 font-mono font-bold text-sm md:text-base flex-wrap">
+                        <span class="bg-slate-800 text-sky-400 px-4 py-2 rounded-lg shadow-sm">import turtle</span>
+                        <span class="bg-slate-800 text-pink-400 px-4 py-2 rounded-lg shadow-sm">while</span>
+                        <span class="bg-slate-800 text-white px-4 py-2 rounded-lg shadow-sm"><span class="text-pink-400">for</span> angle <span class="text-pink-400">in</span> <span class="text-orange-400">range</span>(<span class="text-purple-400">360</span>)</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="font-black text-2xl text-slate-800 mb-4">Project: Traffic Light Simulation 🚦</h3>
+            <p class="text-slate-600 font-bold mb-6 bg-white p-4 rounded-xl border border-green-200">
+                <strong>Scenario:</strong> Set up your Traffic Lights Screen. Ask the user and the screen is still open to make sure that the color is correct.
+            </p>
+
+            <div class="grid lg:grid-cols-5 gap-6">
+                <!-- Code Panel -->
+                <div class="lg:col-span-3 bg-slate-900 rounded-2xl overflow-hidden shadow-2xl border-4 border-slate-800 flex flex-col">
+                    <div class="bg-slate-800 px-4 py-3 border-b-2 border-slate-700 flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full bg-rose-500 shadow-sm"></div>
+                        <div class="w-4 h-4 rounded-full bg-yellow-400 shadow-sm"></div>
+                        <div class="w-4 h-4 rounded-full bg-green-500 shadow-sm"></div>
+                        <span class="text-slate-400 font-mono text-sm ml-2 font-bold tracking-widest">traffic_simulation.py</span>
+                    </div>
+                    
+                    <div class="p-6 font-mono text-[13px] text-white flex-grow font-semibold overflow-y-auto max-h-[500px] leading-loose custom-scrollbar">
+                        <p class="kw">import <span class="text-white">turtle</span></p>
+                        <br>
+                        <p class="cmt"># Setup screen</p>
+                        <p><span class="var">screen</span> = turtle.Screen()</p>
+                        <p><span class="var">screen</span>.title(<span class="str">"Traffic Light Simulation"</span>)</p>
+                        <br>
+                        <p class="cmt"># Create turtle for drawing traffic light box</p>
+                        <p><span class="var">box</span> = turtle.Turtle()</p>
+                        <p><span class="var">box</span>.penup()</p>
+                        <p><span class="var">box</span>.goto(<span class="num">-50</span>, <span class="num">-100</span>)</p>
+                        <p><span class="var">box</span>.pendown()</p>
+                        <p><span class="var">box</span>.fillcolor(<span class="str">"gray"</span>)</p>
+                        <p><span class="var">box</span>.begin_fill()</p>
+                        <p><span class="kw">for</span> _ <span class="kw">in</span> <span class="func">range</span>(<span class="num">2</span>):</p>
+                        <p class="pl-4"><span class="var">box</span>.forward(<span class="num">100</span>)</p>
+                        <p class="pl-4"><span class="var">box</span>.left(<span class="num">90</span>)</p>
+                        <p class="pl-4"><span class="var">box</span>.forward(<span class="num">200</span>)</p>
+                        <p class="pl-4"><span class="var">box</span>.left(<span class="num">90</span>)</p>
+                        <p><span class="var">box</span>.end_fill()</p>
+                        <p><span class="var">box</span>.hideturtle()</p>
+                        <br>
+                        <p class="cmt"># Create turtles for lights</p>
+                        <p><span class="var">red_light</span> = turtle.Turtle()</p>
+                        <p><span class="var">yellow_light</span> = turtle.Turtle()</p>
+                        <p><span class="var">green_light</span> = turtle.Turtle()</p>
+                        <br>
+                        <p><span class="kw">for</span> <span class="var">light</span> <span class="kw">in</span> [<span class="var">red_light</span>, <span class="var">yellow_light</span>, <span class="var">green_light</span>]:</p>
+                        <p class="pl-4"><span class="var">light</span>.shape(<span class="str">"circle"</span>)</p>
+                        <p class="pl-4"><span class="var">light</span>.penup()</p>
+                        <br>
+                        <p class="cmt"># Position lights</p>
+                        <p><span class="var">red_light</span>.goto(<span class="num">0</span>, <span class="num">80</span>)</p>
+                        <p><span class="var">yellow_light</span>.goto(<span class="num">0</span>, <span class="num">30</span>)</p>
+                        <p><span class="var">green_light</span>.goto(<span class="num">0</span>, <span class="num">-20</span>)</p>
+                        <br>
+                        <p class="cmt"># Function to turn on a light</p>
+                        <p><span class="kw">def</span> <span class="func">turn_on_light</span>(<span class="var">color</span>):</p>
+                        <p class="pl-4"><span class="var">red_light</span>.fillcolor(<span class="str">"gray"</span>)</p>
+                        <p class="pl-4"><span class="var">yellow_light</span>.fillcolor(<span class="str">"gray"</span>)</p>
+                        <p class="pl-4"><span class="var">green_light</span>.fillcolor(<span class="str">"gray"</span>)</p>
+                        <br>
+                        <p class="pl-4"><span class="kw">if</span> <span class="var">color</span> == <span class="str">"red"</span>:</p>
+                        <p class="pl-8"><span class="var">red_light</span>.fillcolor(<span class="str">"red"</span>)</p>
+                        <p class="pl-8"><span class="func">print</span>(<span class="str">"STOP!"</span>)</p>
+                        <p class="pl-4"><span class="kw">elif</span> <span class="var">color</span> == <span class="str">"yellow"</span>:</p>
+                        <p class="pl-8"><span class="var">yellow_light</span>.fillcolor(<span class="str">"yellow"</span>)</p>
+                        <p class="pl-8"><span class="func">print</span>(<span class="str">"WAIT!"</span>)</p>
+                        <p class="pl-4"><span class="kw">elif</span> <span class="var">color</span> == <span class="str">"green"</span>:</p>
+                        <p class="pl-8"><span class="var">green_light</span>.fillcolor(<span class="str">"green"</span>)</p>
+                        <p class="pl-8"><span class="func">print</span>(<span class="str">"GO!"</span>)</p>
+                        <p class="pl-4"><span class="kw">else</span>:</p>
+                        <p class="pl-8"><span class="func">print</span>(<span class="str">"Invalid input. Please enter red, yellow, or green."</span>)</p>
+                        <br>
+                        <p class="cmt"># Ask the user</p>
+                        <p><span class="var">user_input</span> = <span class="var">screen</span>.textinput(<span class="str">"Traffic Light"</span>, <span class="str">"Enter the traffic light color (red, yellow, green): "</span>)</p>
+                        <p><span class="func">turn_on_light</span>(<span class="var">user_input</span>)</p>
+                        <br>
+                        <p class="cmt"># Keep window open</p>
+                        <p><span class="var">screen</span>.mainloop()</p>
+                    </div>
+                </div>
+
+                <!-- Interactive Visual Simulator -->
+                <div class="lg:col-span-2 bg-white rounded-2xl shadow-xl border-4 border-slate-300 p-6 flex flex-col items-center justify-center">
+                    <h3 class="font-black text-xl text-slate-800 mb-6 text-center">Turtle Simulator 🎨</h3>
+                    
+                    <!-- Traffic Light Box UI -->
+                    <div class="bg-gray-700 w-32 h-72 rounded-3xl border-4 border-gray-900 shadow-[0_0_20px_rgba(0,0,0,0.5)] flex flex-col items-center justify-between py-6 mb-8 relative">
+                        <div class="absolute -top-4 w-16 h-4 bg-gray-800 rounded-t-lg"></div>
+                        <div id="sim-red" class="w-16 h-16 rounded-full bg-gray-500 border-4 border-gray-800 shadow-inner transition-colors duration-300"></div>
+                        <div id="sim-yellow" class="w-16 h-16 rounded-full bg-gray-500 border-4 border-gray-800 shadow-inner transition-colors duration-300"></div>
+                        <div id="sim-green" class="w-16 h-16 rounded-full bg-gray-500 border-4 border-gray-800 shadow-inner transition-colors duration-300"></div>
+                    </div>
+
+                    <button onclick="runTurtleSim()" class="w-full bg-green-500 hover:bg-green-400 text-white font-black text-xl py-3 rounded-xl transition-all shadow-[0_5px_0_#15803d] hover:translate-y-[3px] flex items-center justify-center gap-2">
+                        <i data-lucide="play" class="w-6 h-6 fill-current"></i> Run Simulation
+                    </button>
+                    <div id="sim-output" class="mt-4 font-bold text-center text-lg text-slate-700 h-8"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WRAP UP & REVISION -->
+        <section class="bg-sky-500 text-white rounded-[2rem] p-8 shadow-xl border-b-8 border-sky-700">
+            <h2 class="text-4xl font-black mb-6 text-center flex justify-center items-center gap-3">
+                <i data-lucide="check-circle-2" class="w-10 h-10 text-yellow-400"></i> Wrap Up & Revision
+            </h2>
+            <h3 class="text-2xl font-bold mb-6 text-center text-sky-100">What did we learn?</h3>
+            <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+                <div class="bg-sky-600 p-4 rounded-xl border border-sky-400 shadow-sm font-bold text-lg flex items-center gap-3">
+                    <span class="bg-white text-sky-600 w-8 h-8 rounded-full flex items-center justify-center">1</span>
+                    Pseudocode = Plan in words
+                </div>
+                <div class="bg-sky-600 p-4 rounded-xl border border-sky-400 shadow-sm font-bold text-lg flex items-center gap-3">
+                    <span class="bg-white text-sky-600 w-8 h-8 rounded-full flex items-center justify-center">2</span>
+                    Flowcharts = Visual plan
+                </div>
+                <div class="bg-sky-600 p-4 rounded-xl border border-sky-400 shadow-sm font-bold text-lg flex items-center gap-3">
+                    <span class="bg-white text-sky-600 w-8 h-8 rounded-full flex items-center justify-center">3</span>
+                    Used functions, loops, if-else
+                </div>
+                <div class="bg-sky-600 p-4 rounded-xl border border-sky-400 shadow-sm font-bold text-lg flex items-center gap-3">
+                    <span class="bg-white text-sky-600 w-8 h-8 rounded-full flex items-center justify-center">4</span>
+                    Real project: Traffic Light
+                </div>
+            </div>
+            <p class="text-center text-2xl font-black text-yellow-300 mt-8 drop-shadow-md">You are now programming like pros! ⭐</p>
+        </section>
+
+        <!-- SPECIAL MISSION: INTERACTIVE HERO CHALLENGE -->
+        <section class="bg-gradient-to-br from-slate-900 to-indigo-900 rounded-[2rem] p-8 shadow-2xl border-t-8 border-indigo-500 text-white relative overflow-hidden">
+            <div class="absolute -left-10 -bottom-10 opacity-20"><i data-lucide="bot" class="w-64 h-64"></i></div>
+            
+            <div class="relative z-10">
+                <h2 class="text-4xl font-black text-indigo-300 mb-4 flex items-center gap-3">
+                    <i data-lucide="zap" class="w-10 h-10 text-yellow-400"></i> Hero Challenge: The Confused Robot! 🤖
+                </h2>
+                <p class="text-lg text-indigo-100 font-semibold mb-6">
+                    A delivery robot is trying to cross a broken bridge, but its pseudocode logic is scrambled! <br>
+                    <strong>Click the steps below in the CORRECT ORDER</strong> to create the right Pseudocode and save the robot!
+                </p>
+
+                <div class="flex flex-col md:flex-row gap-8">
+                    <!-- Unsorted Steps -->
+                    <div class="flex-1 bg-slate-800 p-6 rounded-2xl border-2 border-indigo-500/50">
+                        <h3 class="font-bold text-xl text-yellow-400 mb-4">Mixed-Up Steps (Click me!):</h3>
+                        <div id="scrambled-steps" class="flex flex-col gap-3">
+                            <button onclick="addStep('IF bridge is broken THEN STOP', this)" class="bg-slate-700 hover:bg-slate-600 text-white font-mono p-3 rounded-lg border border-slate-500 text-left transition-colors">IF bridge is broken THEN STOP</button>
+                            <button onclick="addStep('END', this)" class="bg-slate-700 hover:bg-slate-600 text-white font-mono p-3 rounded-lg border border-slate-500 text-left transition-colors">END</button>
+                            <button onclick="addStep('START', this)" class="bg-slate-700 hover:bg-slate-600 text-white font-mono p-3 rounded-lg border border-slate-500 text-left transition-colors">START</button>
+                            <button onclick="addStep('ELSE Cross the bridge', this)" class="bg-slate-700 hover:bg-slate-600 text-white font-mono p-3 rounded-lg border border-slate-500 text-left transition-colors">ELSE Cross the bridge</button>
+                        </div>
+                        <button onclick="resetGame()" class="mt-4 text-sm text-indigo-300 underline hover:text-white">Reset Steps</button>
+                    </div>
+
+                    <!-- Ordered Steps (Memory) -->
+                    <div class="flex-1 bg-black p-6 rounded-2xl border-2 border-slate-700 shadow-inner flex flex-col">
+                        <h3 class="font-bold text-xl text-green-400 mb-4">Robot Memory (Your Code):</h3>
+                        <div id="robot-memory" class="flex-grow flex flex-col gap-2 font-mono text-sky-300">
+                            <!-- Steps will appear here -->
+                        </div>
+                        <div id="game-result" class="mt-4 font-black text-2xl text-center hidden"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOMEWORK (H.W) -->
+        <section class="bg-yellow-300 rounded-[2rem] p-8 shadow-xl border-b-8 border-yellow-500 relative overflow-hidden">
+            <!-- Notebook styling elements -->
+            <div class="absolute top-0 left-8 w-4 h-full border-l-4 border-double border-red-400/50"></div>
+            <div class="absolute top-0 left-16 w-1 h-full bg-red-400/20"></div>
+
+            <div class="ml-10 relative z-10">
+                <h2 class="text-4xl font-black text-slate-800 mb-6 flex items-center gap-3">
+                    <i data-lucide="book-open" class="w-10 h-10 text-orange-600"></i> H.W 📝
+                </h2>
+                
+                <div class="bg-white/60 p-6 rounded-2xl border-2 border-yellow-400 shadow-sm backdrop-blur-sm space-y-6">
+                    
+                    <div class="bg-white p-5 rounded-xl border border-yellow-300 shadow-sm">
+                        <p class="text-xl font-bold text-slate-800 mb-4 flex items-start gap-3">
+                            <span class="bg-orange-500 text-white px-3 py-1 rounded-lg text-lg whitespace-nowrap">Task 1:</span>
+                            1. Write pseudocode for a vending machine:
+                        </p>
+                        <ul class="list-disc pl-14 text-lg font-semibold text-slate-600 space-y-2">
+                            <li>Ask for money</li>
+                            <li>Ask what snack</li>
+                            <li>Check if enough money</li>
+                            <li>Give snack or show message</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-yellow-300 shadow-sm">
+                        <p class="text-xl font-bold text-slate-800 flex items-center gap-3">
+                            <span class="bg-sky-500 text-white px-3 py-1 rounded-lg text-lg whitespace-nowrap">Task 2:</span>
+                            2. Draw the flowchart
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl border border-yellow-300 shadow-sm">
+                        <p class="text-xl font-bold text-slate-800 flex flex-col gap-2">
+                            <span class="flex items-center gap-3">
+                                <span class="bg-purple-500 text-white px-3 py-1 rounded-lg text-lg whitespace-nowrap">Task 3:</span>
+                                3. Turn it into python code
+                            </span>
+                            <span class="text-base text-slate-500 font-semibold italic block pl-14 mt-1">Hint: use dictionary the snacks list</span>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center text-slate-500 py-10 font-bold text-lg mt-12 border-t-4 border-sky-200 border-dashed">
+        <p class="text-slate-800">© MegaMinds Academy. All rights reserved.</p>
+        <p class="mt-2 text-orange-500">Planning Solutions Like Programmers 🗺️</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Checklist toggle logic
+        function toggleCheck(element) {
+            const icon = element.querySelector('.icon-box');
+            
+            if (element.classList.contains('completed')) {
+                element.classList.remove('completed');
+                icon.setAttribute('data-lucide', 'square');
+                icon.classList.remove('text-green-500');
+                icon.classList.add('text-sky-400');
+            } else {
+                element.classList.add('completed');
+                icon.setAttribute('data-lucide', 'check-square');
+                icon.classList.remove('text-sky-400');
+                icon.classList.add('text-green-500');
+            }
+            lucide.createIcons();
+        }
+
+        // Turtle Simulator Logic
+        function runTurtleSim() {
+            const colors = ['red', 'yellow', 'green', 'blue']; // blue for error testing
+            const randomInput = colors[Math.floor(Math.random() * colors.length)];
+            const output = document.getElementById('sim-output');
+            
+            // Reset lights
+            document.getElementById('sim-red').classList.replace('bg-red-500', 'bg-gray-500');
+            document.getElementById('sim-yellow').classList.replace('bg-yellow-500', 'bg-gray-500');
+            document.getElementById('sim-green').classList.replace('bg-green-500', 'bg-gray-500');
+            
+            // Simulate Prompt & Process
+            const userInput = prompt("Enter the traffic light color (red, yellow, green):", "green")?.toLowerCase();
+            
+            if (!userInput) {
+                output.innerText = "Simulation Cancelled.";
+                output.className = "mt-4 font-bold text-center text-lg text-slate-500 h-8";
+                return;
+            }
+
+            if (userInput === 'red') {
+                document.getElementById('sim-red').classList.replace('bg-gray-500', 'bg-red-500');
+                output.innerText = "STOP! 🛑";
+                output.className = "mt-4 font-black text-center text-2xl text-red-600 h-8 drop-shadow-sm";
+            } else if (userInput === 'yellow') {
+                document.getElementById('sim-yellow').classList.replace('bg-gray-500', 'bg-yellow-500');
+                output.innerText = "WAIT! ⚠️";
+                output.className = "mt-4 font-black text-center text-2xl text-yellow-500 h-8 drop-shadow-sm";
+            } else if (userInput === 'green') {
+                document.getElementById('sim-green').classList.replace('bg-gray-500', 'bg-green-500');
+                output.innerText = "GO! ✅";
+                output.className = "mt-4 font-black text-center text-2xl text-green-600 h-8 drop-shadow-sm";
+            } else {
+                output.innerText = "Invalid input. Please enter red, yellow, or green.";
+                output.className = "mt-4 font-bold text-center text-lg text-slate-500 h-8";
+            }
+        }
+
+        // Hero Challenge Game Logic
+        let currentStepOrder = [];
+        const correctOrder = ["START", "IF bridge is broken THEN STOP", "ELSE Cross the bridge", "END"];
+
+        function addStep(stepText, btnElement) {
+            if(btnElement.disabled) return;
+            
+            // Disable clicked button
+            btnElement.disabled = true;
+            btnElement.classList.replace('bg-slate-700', 'bg-slate-900');
+            btnElement.classList.replace('text-white', 'text-slate-600');
+            btnElement.classList.replace('border-slate-500', 'border-slate-800');
+
+            // Add to memory
+            currentStepOrder.push(stepText);
+            const memoryDiv = document.getElementById('robot-memory');
+            const newLine = document.createElement('p');
+            newLine.innerText = `${currentStepOrder.length}. ${stepText}`;
+            memoryDiv.appendChild(newLine);
+
+            // Check Win Condition
+            if(currentStepOrder.length === 4) {
+                checkResult();
+            }
+        }
+
+        function checkResult() {
+            const resultDiv = document.getElementById('game-result');
+            resultDiv.classList.remove('hidden');
+            
+            let isCorrect = true;
+            for(let i=0; i<4; i++){
+                if(currentStepOrder[i] !== correctOrder[i]) {
+                    isCorrect = false;
+                    break;
+                }
+            }
+
+            if(isCorrect) {
+                resultDiv.innerText = "ROBOT SAVED! YOU WIN! 🏆🤖";
+                resultDiv.className = "mt-4 font-black text-2xl text-center text-green-400 drop-shadow-md";
+            } else {
+                resultDiv.innerHTML = "CRASH! 💥 The logic is wrong!<br><span class='text-lg font-bold text-slate-400 cursor-pointer underline hover:text-white' onclick='resetGame()'>Try Again</span>";
+                resultDiv.className = "mt-4 font-black text-2xl text-center text-red-500 drop-shadow-md";
+            }
+        }
+
+        function resetGame() {
+            currentStepOrder = [];
+            document.getElementById('robot-memory').innerHTML = '';
+            document.getElementById('game-result').classList.add('hidden');
+            
+            const buttons = document.getElementById('scrambled-steps').querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.disabled = false;
+                btn.className = "bg-slate-700 hover:bg-slate-600 text-white font-mono p-3 rounded-lg border border-slate-500 text-left transition-colors";
+            });
+        }
+    </script>
+</body>
+</html>
