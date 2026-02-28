@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEGAMINDS ACADEMY - AI Level 1 Session 1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* CSS Variables for Fun, Kid-friendly Theme */
+        :root {
+            --primary-blue: #0ea5e9;
+            --dark-blue: #0284c7;
+            --primary-orange: #f97316;
+            --light-orange: #fdba74;
+            --bg-color: #f0f9ff;
+            --white: #ffffff;
+            --text-dark: #334155;
+            --yellow-accent: #fde047;
+            --pink-accent: #ec4899;
+            --green-accent: #10b981;
+            --purple-accent: #8b5cf6;
+            --red-accent: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        /* Navbar & Header */
+        nav {
+            background-color: var(--white);
+            padding: 15px 5%;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 5px solid var(--primary-orange);
+            border-radius: 0 0 20px 20px;
+        }
+
+        .brand-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary-blue);
+            letter-spacing: 1px;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        .session-info {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-orange);
+            background: #fff7ed;
+            padding: 2px 10px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 5px;
+            width: fit-content;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #38bdf8 100%);
+            color: white;
+            padding: 60px 5% 80px 5%;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20px; left: 0; right: 0; height: 50px;
+            background: var(--bg-color);
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px var(--dark-blue);
+        }
+
+        .hero h1 span {
+            color: var(--yellow-accent);
+        }
+
+        .mascot-container {
+            position: relative;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .bear-mascot {
+            font-size: 7rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Project Banner */
+        .project-banner {
+            background-color: var(--white);
+            max-width: 800px;
+            margin: -40px auto 40px auto;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.15);
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            border: 4px dashed var(--primary-orange);
+            transform: rotate(-1deg);
+        }
+
+        .project-banner h2 {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .project-banner h3 {
+            font-size: 2.5rem;
+            color: var(--primary-orange);
+            margin-top: 5px;
+        }
+
+        /* Containers */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+
+        /* INTERACTIVE GAME 1: Train the Robot */
+        .game-box {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 60px;
+            text-align: center;
+            border: 5px solid var(--purple-accent);
+        }
+
+        .robot-brain-area {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            background: var(--bg-color);
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        .robot-face { font-size: 5rem; }
+        
+        .brain-bar-container {
+            width: 300px;
+            height: 30px;
+            background: #cbd5e1;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 3px solid var(--dark-blue);
+        }
+
+        .brain-fill {
+            width: 0%;
+            height: 100%;
+            background: var(--green-accent);
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .items-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .item-btn {
+            font-size: 4rem;
+            background: var(--bg-color);
+            border: 3px dashed #94a3b8;
+            border-radius: 15px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            user-select: none;
+        }
+
+        .item-btn:hover { transform: scale(1.1); }
+        .item-btn.collected { opacity: 0.3; pointer-events: none; transform: scale(0.8); }
+
+        /* INTERACTIVE GAME 2: Face Detection Scanner */
+        .camera-sim-container {
+            background: #1e293b;
+            border-radius: 25px;
+            padding: 30px;
+            position: relative;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            margin-bottom: 60px;
+            border: 5px solid var(--primary-orange);
+            text-align: center;
+        }
+
+        .camera-view {
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            background: #bae6fd;
+            margin: 0 auto;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            padding-bottom: 20px;
+            border: 4px solid #94a3b8;
+        }
+
+        .scan-object {
+            font-size: 6rem;
+            position: relative;
+            z-index: 5;
+        }
+
+        /* The Laser Scanner */
+        .scanner-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--green-accent);
+            box-shadow: 0 0 15px 5px var(--green-accent);
+            z-index: 20;
+            display: none;
+        }
+
+        .bounding-box {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 5px dashed var(--green-accent);
+            z-index: 10;
+            display: none;
+            top: -10px;
+            left: -15px;
+            border-radius: 10px;
+        }
+
+        .btn-action {
+            background: var(--primary-orange);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s;
+            box-shadow: 0 5px 0 #c2410c;
+        }
+        .btn-action:active { transform: translateY(5px); box-shadow: none; }
+
+        /* INTERACTIVE GAME 3: Detection vs Recognition */
+        .diff-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 60px;
+            flex-wrap: wrap;
+        }
+
+        .diff-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 4px solid var(--primary-blue);
+            width: 300px;
+        }
+
+        .faces-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            position: relative;
+            height: 100px;
+        }
+
+        .face-wrapper { position: relative; }
+        
+        .sq-box {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border: 3px solid transparent;
+            border-radius: 5px;
+            transition: border-color 0.3s;
+        }
+
+        .name-tag {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--purple-accent);
+            color: white;
+            font-size: 1rem;
+            padding: 2px 8px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-weight: bold;
+        }
+
+        /* Interactive Task List */
+        .task-container {
+             background: white;
+             border: 5px solid var(--pink-accent);
+             border-radius: 25px;
+             padding: 40px;
+             margin-bottom: 60px;
+        }
+        .task-list {
+            list-style: none;
+            padding: 0;
+            font-size: 1.2rem;
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .task-list li {
+            background: var(--bg-color);
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 5px solid var(--pink-accent);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .task-list li:hover {
+            transform: translateX(10px);
+            background: #fdf2f8; /* very light pink */
+        }
+        .task-list li.done {
+            opacity: 0.6;
+            text-decoration: line-through;
+            border-color: var(--green-accent);
+        }
+        .task-list li i {
+            color: var(--pink-accent);
+            font-size: 1.5rem;
+        }
+        .task-list li.done i {
+            color: var(--green-accent);
+        }
+
+        /* Block Builder Game */
+        .block-builder {
+            background: #fffbeb;
+            border: 5px dashed var(--yellow-accent);
+            border-radius: 25px;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .blocks-pool {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            min-height: 100px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #fcd34d;
+        }
+
+        .script-area {
+            background: #f8fafc;
+            border: 4px solid var(--text-dark);
+            border-radius: 15px;
+            min-height: 250px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+        }
+
+        .picto-block {
+            background: #ef4444;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px 20px 20px 5px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.2rem;
+            cursor: pointer;
+            user-select: none;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+            transition: transform 0.1s;
+        }
+        
+        .picto-block:active { transform: scale(0.95); }
+        .block-event { background: #f59e0b; }
+        .block-face { background: #3b82f6; }
+        .block-control { background: #f97316; }
+
+        /* Homework */
+        .homework-card {
+            background: var(--primary-orange);
+            color: white;
+            border-radius: 25px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(249, 115, 22, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .homework-card { flex-direction: column; text-align: center; }
+        }
+
+        .homework-card i.bg-icon {
+            position: absolute;
+            font-size: 200px;
+            right: -20px;
+            bottom: -50px;
+            opacity: 0.1;
+            transform: rotate(-15deg);
+        }
+
+        .hw-content h2 { color: var(--yellow-accent); font-size: 2.5rem; margin-bottom: 15px; }
+        .hw-content p { font-size: 1.2rem; }
+
+        /* Enhanced Footer Styles */
+        .main-footer {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, #1e3a8a 100%);
+            color: white;
+            padding: 40px 20px 30px 20px;
+            margin-top: 100px;
+            border-top: 8px dashed var(--yellow-accent);
+            border-radius: 40px 40px 0 0;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-btn {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.1);
+            border: 3px solid var(--light-orange);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--light-orange);
+            font-size: 1.8rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
+
+        .social-btn:hover {
+            background: var(--primary-orange);
+            color: white;
+            border-color: var(--primary-orange);
+            transform: translateY(-8px) rotate(15deg);
+            box-shadow: 0 10px 20px rgba(249, 115, 22, 0.4);
+        }
+
+        .footer-divider {
+            width: 100px;
+            height: 5px;
+            background: var(--pink-accent);
+            border-radius: 5px;
+        }
+
+        .footer-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: 1px;
+        }
+
+        .footer-subtext {
+            font-size: 1.1rem;
+            color: #bae6fd;
+            font-family: 'Fredoka', sans-serif;
+            margin-top: -15px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="brand-container">
+            <div class="brand-name">MEGAMINDS ACADEMY</div>
+            <div class="session-info">AI Level 1: Session 1</div>
+        </div>
+        <i class="fa-solid fa-robot" style="font-size: 2.5rem; color: var(--primary-orange);"></i>
+    </nav>
+
+    <header class="hero">
+        <h1>Welcome to <span>Artificial Intelligence!</span></h1>
+        <p style="font-size: 1.3rem; max-width: 600px; margin: 0 auto;">Today we will learn how to make computers smart, just like humans! We will teach the computer how to "see" and "think".</p>
+        <div class="mascot-container">
+            <div class="bear-mascot">🐻👓</div>
+        </div>
+    </header>
+
+    <div class="project-banner">
+        <h2>Today's Project</h2>
+        <h3><i class="fa-solid fa-expand"></i> Face Detection AI</h3>
+    </div>
+
+    <div class="container">
+
+        <!-- GAME 1: Train the Robot -->
+        <section>
+            <h2 class="section-title">1. What is AI?</h2>
+            <p class="section-subtitle">AI is teaching computers to learn! Let's train this robot to recognize Apples. Click ONLY on the apples to fill its brain! 🧠</p>
+            
+            <div class="game-box">
+                <div class="robot-brain-area">
+                    <div class="robot-face" id="train-robot">🤖</div>
+                    <div class="brain-bar-container">
+                        <div class="brain-fill" id="brain-fill"></div>
+                    </div>
+                    <div id="brain-status" style="font-weight:bold; font-size:1.5rem; color:var(--purple-accent);">0%</div>
+                </div>
+
+                <div class="items-grid" id="items-grid">
+                    <div class="item-btn" onclick="collectItem(this, 'apple')">🍎</div>
+                    <div class="item-btn" onclick="collectItem(this, 'banana')">🍌</div>
+                    <div class="item-btn" onclick="collectItem(this, 'apple')">🍎</div>
+                    <div class="item-btn" onclick="collectItem(this, 'banana')">🍌</div>
+                    <div class="item-btn" onclick="collectItem(this, 'apple')">🍎</div>
+                </div>
+                <p id="train-msg" style="font-size:1.5rem; font-weight:bold; color:var(--red-accent); height:30px; margin-top:20px;"></p>
+            </div>
+        </section>
+
+        <!-- GAME 2: Face Detection Radar -->
+        <section>
+            <h2 class="section-title">2. Face Detection</h2>
+            <p class="section-subtitle">The computer scans the picture to find "WHERE" the human face is. Click "Scan" to start the Radar! 📡</p>
+            
+            <div class="camera-sim-container">
+                <div class="camera-view" id="cam-view">
+                    <div class="scanner-line" id="scanner"></div>
+                    
+                    <div class="scan-object">🌲</div>
+                    <div class="scan-object">🐕</div>
+                    <div class="scan-object">
+                        👦
+                        <div class="bounding-box" id="ai-box">
+                            <div class="face-label">Face Found!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-action" id="btn-scan" onclick="startRadarScan()"><i class="fa-solid fa-radar"></i> Scan Picture</button>
+            </div>
+        </section>
+
+        <!-- GAME 3: Detection vs Recognition -->
+        <section>
+            <h2 class="section-title">3. Detection vs Recognition</h2>
+            <p class="section-subtitle">What is the difference? Try clicking the buttons below!</p>
+            
+            <div class="diff-container">
+                <!-- Detection Card -->
+                <div class="diff-card">
+                    <h3 style="color: var(--primary-blue);">Face Detection</h3>
+                    <div class="faces-group">
+                        <div class="face-wrapper">👨<div class="sq-box det-box"></div></div>
+                        <div class="face-wrapper">👩<div class="sq-box det-box"></div></div>
+                    </div>
+                    <button class="btn-action" style="font-size: 1.2rem; padding: 10px 20px; background: var(--primary-blue);" onclick="runDetection()">Detect</button>
+                    <p style="margin-top:15px; color:#64748b;">Finds WHERE the faces are.</p>
+                </div>
+
+                <!-- Recognition Card -->
+                <div class="diff-card" style="border-color: var(--purple-accent);">
+                    <h3 style="color: var(--purple-accent);">Face Recognition</h3>
+                    <div class="faces-group">
+                        <div class="face-wrapper">👨<div class="sq-box rec-box"></div><div class="name-tag">Dad</div></div>
+                        <div class="face-wrapper">👩<div class="sq-box rec-box"></div><div class="name-tag">Mom</div></div>
+                    </div>
+                    <button class="btn-action" style="font-size: 1.2rem; padding: 10px 20px; background: var(--purple-accent);" onclick="runRecognition()">Recognize</button>
+                    <p style="margin-top:15px; color:#64748b;">Knows WHO the person is!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Task List -->
+        <section>
+             <div class="task-container">
+                 <h2 class="section-title" style="color: var(--pink-accent);">Interactive Mini-Task!</h2>
+                 <p class="section-subtitle">Click on the steps in the correct order to setup our AI program in PictoBlox.</p>
+                 <ul class="task-list" id="task-list">
+                     <li onclick="toggleTask(this, 1)"><i class="fa-regular fa-square"></i> Turn on video on stage</li>
+                     <li onclick="toggleTask(this, 2)"><i class="fa-regular fa-square"></i> Show bounding box</li>
+                     <li onclick="toggleTask(this, 3)"><i class="fa-regular fa-square"></i> Analyze image from camera</li>
+                 </ul>
+                 <p id="task-msg" style="text-align: center; font-size: 1.5rem; font-weight: bold; color: var(--green-accent); margin-top: 20px; height: 30px;"></p>
+             </div>
+        </section>
+
+        <!-- GAME 4: PictoBlox Code Builder -->
+        <section>
+            <h2 class="section-title">4. Build The Code!</h2>
+            <p class="section-subtitle">Click the blocks to arrange them correctly. Start with the Green Flag! 🏁</p>
+
+            <div class="block-builder">
+                <h3 style="color: var(--primary-orange); margin-bottom: 10px;">Code Pool</h3>
+                <div class="blocks-pool" id="pool">
+                    <div class="picto-block block-face" onclick="moveBlock(this)">show bounding box</div>
+                    <div class="picto-block block-face" onclick="moveBlock(this)">turn on video on stage</div>
+                    <div class="picto-block block-control" onclick="moveBlock(this)">forever</div>
+                    <div class="picto-block block-event" onclick="moveBlock(this)">when green flag clicked</div>
+                    <div class="picto-block block-face" onclick="moveBlock(this)">analyze image from camera</div>
+                </div>
+
+                <h3 style="color: var(--dark-blue); margin-bottom: 10px;">Your Script</h3>
+                <div class="script-area" id="script"></div>
+                
+                <button class="btn-action" style="background: var(--green-accent); margin-top: 20px;" onclick="checkCode()"><i class="fa-solid fa-check"></i> Check Code</button>
+            </div>
+        </section>
+
+        <!-- 5. Homework -->
+        <section>
+            <div class="homework-card">
+                <i class="fa-solid fa-house-chimney-user bg-icon"></i>
+                <div>
+                    <i class="fa-solid fa-laptop-code" style="font-size: 80px;"></i>
+                </div>
+                <div class="hw-content">
+                    <h2>Homework Mission</h2>
+                    <p>Open PictoBlox on your computer, load the <strong>Face Detection Extension</strong>, and build the full code!</p>
+                    <ul style="margin-top: 15px; font-size: 1.1rem; line-height: 1.8;">
+                        <li><i class="fa-solid fa-star" style="color:var(--yellow-accent);"></i> Make the camera turn on.</li>
+                        <li><i class="fa-solid fa-star" style="color:var(--yellow-accent);"></i> Show the bounding box.</li>
+                        <li><i class="fa-solid fa-star" style="color:var(--yellow-accent);"></i> Try to make it recognize YOUR face!</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+            
+            <div class="footer-divider"></div>
+            
+            <div class="footer-text">
+                MEGAMINDS ACADEMY &copy; 2026
+            </div>
+            <div class="footer-subtext">
+                Empowering Young Minds with AI 🤖✨
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Game 1: Train the Robot ---
+        let applesCollected = 0;
+        function collectItem(btn, type) {
+            const msg = document.getElementById('train-msg');
+            const fill = document.getElementById('brain-fill');
+            const status = document.getElementById('brain-status');
+            const robot = document.getElementById('train-robot');
+
+            if(type === 'banana') {
+                msg.style.color = "var(--red-accent)";
+                msg.innerText = "Oops! That's a Banana 🍌";
+                robot.innerText = "😵";
+                setTimeout(() => { msg.innerText = ""; robot.innerText = "🤖"; }, 1500);
+            } else if (type === 'apple') {
+                btn.classList.add('collected');
+                applesCollected++;
+                let percentage = (applesCollected / 3) * 100;
+                fill.style.width = percentage + '%';
+                status.innerText = Math.round(percentage) + '%';
+                
+                msg.style.color = "var(--green-accent)";
+                msg.innerText = "Yummy Apple! 🍎";
+                robot.innerText = "😋";
+
+                if(applesCollected === 3) {
+                    setTimeout(() => {
+                        msg.innerText = "Yay! The AI learned what an Apple is! 🎉";
+                        robot.innerText = "🤩";
+                    }, 500);
+                } else {
+                    setTimeout(() => { msg.innerText = ""; robot.innerText = "🤖"; }, 1000);
+                }
+            }
+        }
+
+        // --- Game 2: Radar Scan ---
+        function startRadarScan() {
+            const scanner = document.getElementById('scanner');
+            const box = document.getElementById('ai-box');
+            const btn = document.getElementById('btn-scan');
+
+            if(btn.disabled) return;
+            btn.disabled = true;
+            box.style.display = 'none';
+            
+            // Show and animate scanner
+            scanner.style.display = 'block';
+            scanner.style.transition = 'top 2s linear';
+            
+            // Force reflow
+            void scanner.offsetWidth;
+            scanner.style.top = '100%'; // Move to bottom
+
+            setTimeout(() => {
+                // Scan complete
+                scanner.style.display = 'none';
+                scanner.style.top = '0'; // reset
+                scanner.style.transition = 'none';
+                
+                // Show face box
+                box.style.display = 'block';
+                
+                setTimeout(() => {
+                    btn.disabled = false;
+                }, 1000);
+            }, 2000);
+        }
+
+        // --- Game 3: Detection vs Recognition ---
+        function runDetection() {
+            const boxes = document.querySelectorAll('.det-box');
+            boxes.forEach(b => {
+                b.style.borderColor = 'var(--primary-blue)';
+            });
+            setTimeout(() => {
+                boxes.forEach(b => b.style.borderColor = 'transparent');
+            }, 2000);
+        }
+
+        function runRecognition() {
+            const boxes = document.querySelectorAll('.rec-box');
+            const tags = document.querySelectorAll('.name-tag');
+            
+            boxes.forEach(b => b.style.borderColor = 'var(--purple-accent)');
+            tags.forEach(t => t.style.opacity = '1');
+            
+            setTimeout(() => {
+                boxes.forEach(b => b.style.borderColor = 'transparent');
+                tags.forEach(t => t.style.opacity = '0');
+            }, 2500);
+        }
+        
+        // --- Interactive Task List ---
+        let currentTaskStep = 1;
+        function toggleTask(li, step) {
+            if(li.classList.contains('done')) return; // Already done
+            
+            const msg = document.getElementById('task-msg');
+            
+            if(step === currentTaskStep) {
+                li.classList.add('done');
+                li.querySelector('i').className = 'fa-solid fa-square-check';
+                currentTaskStep++;
+                msg.innerText = "Good job! Next step?";
+                
+                if(currentTaskStep > 3) {
+                    msg.innerText = "All steps completed! You are ready!";
+                }
+            } else {
+                msg.style.color = "var(--red-accent)";
+                msg.innerText = "Hmm, are you sure that's the next step?";
+                setTimeout(() => {
+                    msg.style.color = "var(--green-accent)";
+                    msg.innerText = "";
+                }, 1500);
+            }
+        }
+
+        // --- Game 4: Code Builder ---
+        const correctOrder = [
+            "when green flag clicked",
+            "turn on video on stage",
+            "show bounding box",
+            "forever",
+            "analyze image from camera"
+        ];
+
+        function moveBlock(element) {
+            const pool = document.getElementById('pool');
+            const script = document.getElementById('script');
+
+            if (element.parentElement.id === 'pool') {
+                if (script.innerHTML.includes('forever')) {
+                     element.style.marginLeft = "30px";
+                }
+                script.appendChild(element);
+            } else {
+                element.style.marginLeft = "0px";
+                pool.appendChild(element);
+            }
+        }
+
+        function checkCode() {
+            const script = document.getElementById('script');
+            const blocks = script.querySelectorAll('.picto-block');
+            
+            if (blocks.length < 5) {
+                alert("Please use all the blocks!");
+                return;
+            }
+
+            let isCorrect = true;
+            let currentItems = [];
+            blocks.forEach(b => currentItems.push(b.innerText));
+
+            if (currentItems[0] !== correctOrder[0]) isCorrect = false;
+            if (!currentItems.includes("forever")) isCorrect = false;
+            if (currentItems[4] !== "analyze image from camera") isCorrect = false;
+
+            if (isCorrect) {
+                alert("🎉 Amazing! You are an AI Coder!");
+            } else {
+                alert("Oops! Start with Green Flag, then Camera setup, then put 'analyze' inside the Forever loop.");
+            }
+        }
+    </script>
+</body>
+</html>

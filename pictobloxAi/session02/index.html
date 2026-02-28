@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEGAMINDS ACADEMY - AI Level 1 Session 2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* CSS Variables for Fun, Kid-friendly Theme */
+        :root {
+            --primary-blue: #0ea5e9;
+            --dark-blue: #0284c7;
+            --primary-orange: #f97316;
+            --light-orange: #fdba74;
+            --bg-color: #f0f9ff;
+            --white: #ffffff;
+            --text-dark: #334155;
+            --yellow-accent: #fde047;
+            --pink-accent: #ec4899;
+            --green-accent: #10b981;
+            --purple-accent: #8b5cf6;
+            --red-accent: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        /* Navbar & Header */
+        nav {
+            background-color: var(--white);
+            padding: 15px 5%;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 5px solid var(--primary-orange);
+            border-radius: 0 0 20px 20px;
+        }
+
+        .brand-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary-blue);
+            letter-spacing: 1px;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        .session-info {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-orange);
+            background: #fff7ed;
+            padding: 2px 10px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 5px;
+            width: fit-content;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #38bdf8 100%);
+            color: white;
+            padding: 60px 5% 80px 5%;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20px; left: 0; right: 0; height: 50px;
+            background: var(--bg-color);
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px var(--dark-blue);
+        }
+
+        .hero h1 span {
+            color: var(--yellow-accent);
+        }
+
+        .mascot-container {
+            position: relative;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .bear-mascot {
+            font-size: 7rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Project Banner */
+        .project-banner {
+            background-color: var(--white);
+            max-width: 800px;
+            margin: -40px auto 40px auto;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.15);
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            border: 4px dashed var(--primary-orange);
+            transform: rotate(-1deg);
+        }
+
+        .project-banner h2 {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .project-banner h3 {
+            font-size: 2.5rem;
+            color: var(--primary-orange);
+            margin-top: 5px;
+        }
+
+        /* Containers */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+
+        /* GAME 1: Coordinates Map */
+        .game-box {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 60px;
+            text-align: center;
+            border: 5px solid var(--purple-accent);
+        }
+
+        .coord-mission {
+            background: var(--yellow-accent);
+            color: #854d0e;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: inline-block;
+            border: 3px dashed #ca8a04;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(5, 60px);
+            grid-template-rows: repeat(5, 60px);
+            gap: 5px;
+            justify-content: center;
+            margin: 20px auto;
+            background: #cbd5e1;
+            padding: 10px;
+            border-radius: 15px;
+            width: fit-content;
+            position: relative;
+        }
+
+        /* Grid Axis Labels */
+        .axis-y { position: absolute; left: -30px; top: 0; height: 100%; display: flex; flex-direction: column; justify-content: space-around; font-weight: bold; color: var(--primary-blue); }
+        .axis-x { position: absolute; bottom: -30px; left: 0; width: 100%; display: flex; justify-content: space-around; font-weight: bold; color: var(--primary-orange); }
+
+        .grid-cell {
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        .grid-cell:hover { background: #e0f2fe; transform: scale(1.1); z-index: 2; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .grid-cell.wrong { background: var(--red-accent); color: white; animation: shake 0.3s; }
+        .grid-cell.correct { background: var(--green-accent); color: white; transform: scale(1.1); }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* GAME 2: Broadcast Megaphone */
+        .broadcast-container {
+            background: #1e293b;
+            border-radius: 25px;
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            margin-bottom: 60px;
+            border: 5px solid var(--pink-accent);
+            text-align: center;
+            color: white;
+        }
+
+        .broadcast-stage {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 30px;
+            background: #0f172a;
+            padding: 40px 20px;
+            border-radius: 20px;
+            border: 3px dashed #475569;
+        }
+
+        @media (max-width: 768px) {
+            .broadcast-stage { flex-direction: column; gap: 40px; }
+        }
+
+        .sender, .receiver {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .megaphone { font-size: 4rem; color: var(--yellow-accent); }
+        .character { font-size: 6rem; position: relative; }
+
+        /* The Mask on the character */
+        .char-mask {
+            position: absolute;
+            font-size: 4rem;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+        }
+
+        .wave {
+            font-size: 2rem;
+            color: var(--primary-orange);
+            opacity: 0;
+        }
+
+        .anim-wave {
+            animation: shootWave 1s ease-out;
+        }
+
+        @keyframes shootWave {
+            0% { transform: translateX(-50px) scale(0.5); opacity: 1; }
+            100% { transform: translateX(50px) scale(1.5); opacity: 0; }
+        }
+
+        .btn-broadcast {
+            background: var(--pink-accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 5px;
+            transition: 0.2s;
+            box-shadow: 0 4px 0 #be185d;
+        }
+        .btn-broadcast:active { transform: translateY(4px); box-shadow: none; }
+
+        /* GAME 3: Face Tracking Core Animation */
+        .tracking-container {
+            background: white;
+            border: 5px solid var(--primary-orange);
+            border-radius: 25px;
+            padding: 40px;
+            margin-bottom: 60px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.1);
+        }
+
+        .tracking-stage {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .tracking-stage { flex-direction: column; }
+        }
+
+        .camera-screen {
+            flex: 1.5;
+            height: 350px;
+            background: #bae6fd;
+            border: 4px solid var(--dark-blue);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        #moving-face {
+            font-size: 5rem;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 1s ease-in-out;
+            z-index: 5;
+        }
+
+        #tracking-mask {
+            font-size: 5rem;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            opacity: 0.5;
+            transition: all 0.2s linear;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .code-display {
+            flex: 1;
+            background: var(--code-bg);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            font-family: monospace;
+            font-size: 1.2rem;
+            border-left: 5px solid var(--primary-blue);
+            text-align: left;
+            line-height: 1.8;
+            width: 100%;
+        }
+
+        .code-line {
+            padding: 2px 5px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+        
+        .code-highlight { background: rgba(14, 165, 233, 0.4); }
+
+        .btn-action {
+            background: var(--primary-orange);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s;
+            box-shadow: 0 5px 0 #c2410c;
+        }
+        .btn-action:active { transform: translateY(5px); box-shadow: none; }
+
+        /* Interactive Simple Task */
+        .simple-task-container {
+             background: #fef3c7;
+             border: 5px dashed var(--yellow-accent);
+             border-radius: 25px;
+             padding: 40px;
+             margin-bottom: 60px;
+             text-align: center;
+        }
+
+        .options-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .option-btn {
+            background: white;
+            border: 3px solid var(--primary-orange);
+            color: var(--text-dark);
+            padding: 15px 30px;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            font-family: monospace;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .option-btn:hover {
+            background: var(--primary-orange);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .task-feedback {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 20px;
+            min-height: 35px;
+        }
+
+        /* Homework */
+        .homework-card {
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 25px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(14, 165, 233, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .homework-card { flex-direction: column; text-align: center; }
+        }
+
+        .homework-card i.bg-icon {
+            position: absolute;
+            font-size: 200px;
+            right: -20px;
+            bottom: -50px;
+            opacity: 0.1;
+            transform: rotate(-15deg);
+        }
+
+        .hw-content h2 { color: var(--yellow-accent); font-size: 2.5rem; margin-bottom: 15px; }
+        .hw-content p { font-size: 1.2rem; }
+
+        /* Enhanced Footer Styles */
+        .main-footer {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, #1e3a8a 100%);
+            color: white;
+            padding: 40px 20px 30px 20px;
+            margin-top: 100px;
+            border-top: 8px dashed var(--yellow-accent);
+            border-radius: 40px 40px 0 0;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-btn {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.1);
+            border: 3px solid var(--light-orange);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--light-orange);
+            font-size: 1.8rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
+
+        .social-btn:hover {
+            background: var(--primary-orange);
+            color: white;
+            border-color: var(--primary-orange);
+            transform: translateY(-8px) rotate(15deg);
+            box-shadow: 0 10px 20px rgba(249, 115, 22, 0.4);
+        }
+
+        .footer-divider {
+            width: 100px;
+            height: 5px;
+            background: var(--pink-accent);
+            border-radius: 5px;
+        }
+
+        .footer-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: 1px;
+        }
+
+        .footer-subtext {
+            font-size: 1.1rem;
+            color: #bae6fd;
+            font-family: 'Fredoka', sans-serif;
+            margin-top: -15px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="brand-container">
+            <div class="brand-name">MEGAMINDS ACADEMY</div>
+            <div class="session-info">AI Level 1: Session 2</div>
+        </div>
+        <i class="fa-solid fa-masks-theater" style="font-size: 2.5rem; color: var(--primary-orange);"></i>
+    </nav>
+
+    <header class="hero">
+        <h1>Magic Face <span>Filters!</span></h1>
+        <p style="font-size: 1.3rem; max-width: 600px; margin: 0 auto;">Today we will learn how to make funny masks follow our faces using Coordinates, Broadcasts, and AI!</p>
+        <div class="mascot-container">
+            <div class="bear-mascot">🐻🕶️</div>
+        </div>
+    </header>
+
+    <div class="project-banner">
+        <h2>Today's Project</h2>
+        <h3><i class="fa-solid fa-camera-retro"></i> Face Filter App</h3>
+    </div>
+
+    <div class="container">
+
+        <!-- GAME 1: Coordinate Treasure Hunt -->
+        <section>
+            <h2 class="section-title">1. Secret Map Coordinates! 🗺️</h2>
+            <p class="section-subtitle">Coordinates are like a secret map address made of X (left/right) and Y (up/down).<br>Can you find the hidden glasses at the exact address?</p>
+            
+            <div class="game-box">
+                <div class="coord-mission" id="coord-mission">
+                    Find the glasses at: <strong>X: 1, Y: -1</strong>
+                </div>
+
+                <div class="grid-container" id="grid-map">
+                    <!-- Labels -->
+                    <div class="axis-y"><span>2</span><span>1</span><span>0</span><span>-1</span><span>-2</span></div>
+                    <div class="axis-x"><span>-2</span><span>-1</span><span>0</span><span>1</span><span>2</span></div>
+                    
+                    <!-- 25 Cells generated by JS -->
+                </div>
+                
+                <p id="coord-feedback" style="font-size: 1.5rem; font-weight: bold; min-height: 30px;"></p>
+            </div>
+        </section>
+
+        <!-- GAME 2: Broadcast Concept -->
+        <section>
+            <h2 class="section-title">2. Broadcast: The Walkie-Talkie! 📻</h2>
+            <p class="section-subtitle">Broadcast is a way for sprites to talk to each other. Send a message to the boy so he changes his costume!</p>
+            
+            <div class="broadcast-container">
+                <div>
+                    <button class="btn-broadcast" onclick="sendBroadcast('Glasses', '🕶️')">Broadcast "Glasses"</button>
+                    <button class="btn-broadcast" onclick="sendBroadcast('Mustache', '摸')">Broadcast "Mustache"</button>
+                    <button class="btn-broadcast" onclick="sendBroadcast('Crown', '👑')">Broadcast "Crown"</button>
+                </div>
+
+                <div class="broadcast-stage">
+                    <div class="sender">
+                        <i class="fa-solid fa-bullhorn megaphone"></i>
+                        <h3 id="bc-msg">Waiting...</h3>
+                    </div>
+                    
+                    <div class="wave" id="bc-wave"><i class="fa-solid fa-wifi"></i></div>
+                    
+                    <div class="receiver">
+                        <div class="character">
+                            👦
+                            <div class="char-mask" id="bc-mask"></div>
+                        </div>
+                        <h3>Receiver Sprite</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GAME 3: Face Tracking Core Animation -->
+        <section>
+            <h2 class="section-title">3. The Tracking Magic! ✨</h2>
+            <p class="section-subtitle">How does the mask stay on the face? We tell it to always <strong>Go To X (of Face) and Y (of Face)</strong>!</p>
+            
+            <div class="tracking-container">
+                <div class="tracking-stage">
+                    <div class="camera-screen" id="track-screen">
+                        <div id="moving-face">👩</div>
+                        <div id="tracking-mask">👑</div>
+                    </div>
+
+                    <div class="code-display">
+                        <div class="code-line"><span style="color:var(--primary-orange)">forever:</span></div>
+                        <div class="code-line" style="margin-left:20px; color:#94a3b8;"># Find face first...</div>
+                        <div class="code-line" style="margin-left:20px;">analyze image from camera</div>
+                        <br>
+                        <div class="code-line" id="line-size" style="margin-left:20px;">
+                            set size to <span style="background:var(--purple-accent); padding:2px 5px; border-radius:5px;">get <strong>width</strong> of face 1</span>
+                        </div>
+                        <br>
+                        <div class="code-line" id="line-goto" style="margin-left:20px;">
+                            go to x: <span style="background:var(--primary-orange); padding:2px 5px; border-radius:5px;">get <strong>x position</strong> of face 1</span> <br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y: <span style="background:var(--primary-orange); padding:2px 5px; border-radius:5px;">get <strong>y position</strong> of face 1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-action" id="btn-track" onclick="toggleTracking()"><i class="fa-solid fa-play"></i> Turn on Face Tracking</button>
+            </div>
+        </section>
+
+        <!-- Interactive Mini Task -->
+        <section>
+             <div class="simple-task-container">
+                 <h2 style="font-size: 2.2rem; color: var(--primary-blue); margin-bottom: 10px;">Quick Quiz! 🧠</h2>
+                 <p style="font-size: 1.3rem;">Which block tells the mask how BIG or SMALL the face is, so it fits perfectly?</p>
+                 
+                 <div class="options-grid">
+                     <button class="option-btn" onclick="checkTask(false)">get x position of face</button>
+                     <button class="option-btn" onclick="checkTask(true)">get width of face</button>
+                     <button class="option-btn" onclick="checkTask(false)">analyse image from camera</button>
+                 </div>
+                 
+                 <div class="task-feedback" id="task-fb"></div>
+             </div>
+        </section>
+
+        <!-- Homework -->
+        <section>
+            <div class="homework-card">
+                <i class="fa-solid fa-star bg-icon"></i>
+                <div>
+                    <i class="fa-solid fa-laptop-code" style="font-size: 80px;"></i>
+                </div>
+                <div class="hw-content">
+                    <h2>Homework Mission</h2>
+                    <p>Open PictoBlox, load the <strong>Face Detection Extension</strong>, and build your Face Filter!</p>
+                    <ul style="margin-top: 15px; font-size: 1.1rem; line-height: 1.8;">
+                        <li><i class="fa-solid fa-check" style="color:var(--yellow-accent);"></i> Make buttons broadcast messages.</li>
+                        <li><i class="fa-solid fa-check" style="color:var(--yellow-accent);"></i> Make the mask receive the message and change costume.</li>
+                        <li><i class="fa-solid fa-check" style="color:var(--yellow-accent);"></i> <strong>Challenge:</strong> Try to draw your own custom mask costume!</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+            
+            <div class="footer-divider"></div>
+            
+            <div class="footer-text">
+                MEGAMINDS ACADEMY &copy; 2026
+            </div>
+            <div class="footer-subtext">
+                Empowering Young Minds with AI 🤖✨
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. Coordinate Game Logic ---
+        const grid = document.getElementById('grid-map');
+        const feedback = document.getElementById('coord-feedback');
+        const mission = document.getElementById('coord-mission');
+        
+        let targetX = 1;
+        let targetY = -1;
+
+        // Create 5x5 grid (Y from 2 to -2, X from -2 to 2)
+        for(let y = 2; y >= -2; y--) {
+            for(let x = -2; x <= 2; x++) {
+                let cell = document.createElement('div');
+                cell.className = 'grid-cell';
+                cell.onclick = () => checkCoordinate(cell, x, y);
+                grid.appendChild(cell);
+            }
+        }
+
+        function checkCoordinate(cell, x, y) {
+            // Remove previous classes
+            document.querySelectorAll('.grid-cell').forEach(c => {
+                c.classList.remove('wrong'); c.innerHTML = '';
+            });
+
+            if (x === targetX && y === targetY) {
+                cell.classList.add('correct');
+                cell.innerHTML = '🕶️';
+                feedback.style.color = "var(--green-accent)";
+                feedback.innerHTML = `<i class="fa-solid fa-check-circle"></i> You found it at (${x}, ${y})! Awesome!`;
+                
+                // Set new target after 2 seconds
+                setTimeout(() => {
+                    cell.classList.remove('correct');
+                    cell.innerHTML = '';
+                    targetX = Math.floor(Math.random() * 5) - 2;
+                    targetY = Math.floor(Math.random() * 5) - 2;
+                    mission.innerHTML = `Find the glasses at: <strong>X: ${targetX}, Y: ${targetY}</strong>`;
+                    feedback.innerHTML = '';
+                }, 2000);
+            } else {
+                cell.classList.add('wrong');
+                cell.innerHTML = '❌';
+                feedback.style.color = "var(--red-accent)";
+                feedback.innerHTML = `Oops! That is X: ${x}, Y: ${y}. Keep looking!`;
+            }
+        }
+
+        // --- 2. Broadcast Game Logic ---
+        function sendBroadcast(msg, emoji) {
+            const wave = document.getElementById('bc-wave');
+            const mask = document.getElementById('bc-mask');
+            const txt = document.getElementById('bc-msg');
+
+            txt.innerText = `Broadcasting "${msg}"!`;
+            
+            // Remove animation class to restart it
+            wave.classList.remove('anim-wave');
+            void wave.offsetWidth; // trigger reflow
+            wave.classList.add('anim-wave');
+
+            // Wait for wave to travel, then change costume
+            setTimeout(() => {
+                mask.innerText = emoji;
+                mask.style.opacity = '1';
+                
+                // Extra logic for specific emoji positioning
+                if(msg === 'Mustache') mask.style.top = '40px'; // lower
+                else mask.style.top = '10px'; // higher for hat/glasses
+                
+            }, 800);
+        }
+
+        // --- 3. Face Tracking Animation ---
+        let trackingInterval;
+        let isTracking = false;
+        
+        function toggleTracking() {
+            const btn = document.getElementById('btn-track');
+            const mask = document.getElementById('tracking-mask');
+            const face = document.getElementById('moving-face');
+            const lineGoto = document.getElementById('line-goto');
+            
+            if (isTracking) {
+                // Stop
+                clearInterval(trackingInterval);
+                isTracking = false;
+                btn.innerHTML = '<i class="fa-solid fa-play"></i> Turn on Face Tracking';
+                mask.style.opacity = '0.5';
+                mask.style.top = '10px';
+                mask.style.left = '10px';
+                lineGoto.classList.remove('code-highlight');
+            } else {
+                // Start
+                isTracking = true;
+                btn.innerHTML = '<i class="fa-solid fa-stop"></i> Stop Tracking';
+                mask.style.opacity = '1';
+                lineGoto.classList.add('code-highlight');
+                
+                // Start moving face randomly
+                trackingInterval = setInterval(() => {
+                    // Random positions between 20% and 80%
+                    let randomX = 20 + Math.random() * 60;
+                    let randomY = 20 + Math.random() * 60;
+                    
+                    face.style.left = randomX + '%';
+                    face.style.top = randomY + '%';
+                    
+                    // Mask follows slightly delayed (like real code executing)
+                    setTimeout(() => {
+                        if(isTracking) {
+                            mask.style.left = randomX + '%';
+                            // Slightly adjust top so crown sits ON head
+                            mask.style.top = (randomY - 20) + '%';
+                        }
+                    }, 200);
+
+                }, 1500);
+            }
+        }
+
+        // --- 4. Interactive Quiz ---
+        function checkTask(isCorrect) {
+            const fb = document.getElementById('task-fb');
+            if(isCorrect) {
+                fb.style.color = "var(--green-accent)";
+                fb.innerHTML = '<i class="fa-solid fa-circle-check"></i> Correct! Width sets the size of the mask.';
+            } else {
+                fb.style.color = "var(--red-accent)";
+                fb.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Oops! That does something else. Try again!';
+            }
+        }
+    </script>
+</body>
+</html>

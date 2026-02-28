@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEGAMINDS ACADEMY - AI Level 1 Session 3</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* CSS Variables for Fun, Kid-friendly Theme */
+        :root {
+            --primary-blue: #0ea5e9;
+            --dark-blue: #0284c7;
+            --primary-orange: #f97316;
+            --light-orange: #fdba74;
+            --bg-color: #f0f9ff;
+            --white: #ffffff;
+            --text-dark: #334155;
+            --yellow-accent: #fde047;
+            --pink-accent: #ec4899;
+            --green-accent: #10b981;
+            --purple-accent: #8b5cf6;
+            --red-accent: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        /* Navbar & Header */
+        nav {
+            background-color: var(--white);
+            padding: 15px 5%;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 5px solid var(--primary-orange);
+            border-radius: 0 0 20px 20px;
+        }
+
+        .brand-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-name {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary-blue);
+            letter-spacing: 1px;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        .session-info {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary-orange);
+            background: #fff7ed;
+            padding: 2px 10px;
+            border-radius: 10px;
+            display: inline-block;
+            margin-top: 5px;
+            width: fit-content;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, #38bdf8 100%);
+            color: white;
+            padding: 60px 5% 80px 5%;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20px; left: 0; right: 0; height: 50px;
+            background: var(--bg-color);
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px var(--dark-blue);
+        }
+
+        .hero h1 span {
+            color: var(--yellow-accent);
+        }
+
+        .mascot-container {
+            position: relative;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .bear-mascot {
+            font-size: 7rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Project Banner */
+        .project-banner {
+            background-color: var(--white);
+            max-width: 800px;
+            margin: -40px auto 40px auto;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.15);
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            border: 4px dashed var(--primary-orange);
+            transform: rotate(-1deg);
+        }
+
+        .project-banner h2 {
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .project-banner h3 {
+            font-size: 2.5rem;
+            color: var(--primary-orange);
+            margin-top: 5px;
+        }
+
+        /* Containers */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-dark);
+            margin-bottom: 40px;
+            font-weight: bold;
+        }
+
+        /* GAME 1: Face Landmarks */
+        .game-box {
+            background: white;
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 60px;
+            text-align: center;
+            border: 5px solid var(--purple-accent);
+        }
+
+        .landmark-stage {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .landmark-stage { flex-direction: column; }
+        }
+
+        .code-display {
+            background: #1e293b;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            font-family: monospace;
+            font-size: 1.2rem;
+            text-align: left;
+            border-left: 5px solid var(--green-accent);
+            min-width: 300px;
+        }
+
+        .code-line {
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+            margin-bottom: 5px;
+        }
+
+        .code-line.active {
+            background: rgba(16, 185, 129, 0.4);
+            border-left: 4px solid var(--green-accent);
+        }
+
+        .face-canvas {
+            width: 250px;
+            height: 300px;
+            background: #fef3c7;
+            border-radius: 125px 125px 100px 100px;
+            position: relative;
+            border: 6px solid #f59e0b;
+            box-shadow: inset 0 -20px rgba(0,0,0,0.05);
+        }
+
+        .landmark-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--green-accent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            box-shadow: 0 0 5px var(--green-accent);
+        }
+
+        /* Buttons */
+        .btn-action {
+            background: var(--primary-orange);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s;
+            box-shadow: 0 5px 0 #c2410c;
+        }
+        .btn-action:active { transform: translateY(5px); box-shadow: none; }
+        .btn-action:disabled { background: #94a3b8; box-shadow: 0 5px 0 #64748b; cursor: not-allowed; }
+
+        /* GAME 2: Emotion Scanner */
+        .emotion-container {
+            background: #e0f2fe;
+            border-radius: 25px;
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            margin-bottom: 60px;
+            border: 5px solid var(--primary-blue);
+            text-align: center;
+        }
+
+        .emotion-screen {
+            background: #0f172a;
+            border: 5px solid #475569;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            margin: 0 auto 30px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #emotion-face {
+            font-size: 8rem;
+            position: relative;
+            z-index: 5;
+            transition: transform 0.3s;
+        }
+
+        .scanner-hud {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150px;
+            height: 150px;
+            border: 4px dashed var(--yellow-accent);
+            z-index: 10;
+            display: none;
+            animation: pulseBox 1s infinite alternate;
+        }
+
+        @keyframes pulseBox {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; border-color: var(--green-accent); }
+        }
+
+        .emotion-buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .emo-btn {
+            background: white;
+            border: 3px solid var(--dark-blue);
+            font-size: 2rem;
+            padding: 10px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .emo-btn:hover { background: var(--yellow-accent); transform: scale(1.1); }
+
+        #ai-voice {
+            background: white;
+            color: var(--primary-blue);
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 20px;
+            border: 3px dashed var(--primary-blue);
+            min-height: 60px;
+        }
+
+        /* Interactive Simple Task */
+        .simple-task-container {
+             background: #fef3c7;
+             border: 5px dashed var(--yellow-accent);
+             border-radius: 25px;
+             padding: 40px;
+             margin-bottom: 60px;
+             text-align: center;
+        }
+
+        .options-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .option-btn {
+            background: white;
+            border: 3px solid var(--primary-orange);
+            color: var(--text-dark);
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-family: monospace;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .option-btn:hover {
+            background: var(--primary-orange);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .task-feedback {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 20px;
+            min-height: 35px;
+        }
+
+        /* Homework */
+        .homework-card {
+            background: var(--primary-orange);
+            color: white;
+            border-radius: 25px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(249, 115, 22, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .homework-card { flex-direction: column; text-align: center; }
+        }
+
+        .homework-card i.bg-icon {
+            position: absolute;
+            font-size: 200px;
+            right: -20px;
+            bottom: -50px;
+            opacity: 0.1;
+            transform: rotate(-15deg);
+        }
+
+        .hw-content h2 { color: var(--yellow-accent); font-size: 2.5rem; margin-bottom: 15px; }
+        .hw-content p { font-size: 1.2rem; }
+
+        /* Block representation */
+        .picto-block {
+            display: inline-block;
+            background: var(--red-accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.1rem;
+            margin: 5px 0;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+        }
+        .block-blue { background: var(--primary-blue); }
+
+        /* Enhanced Footer Styles */
+        .main-footer {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, #1e3a8a 100%);
+            color: white;
+            padding: 40px 20px 30px 20px;
+            margin-top: 100px;
+            border-top: 8px dashed var(--yellow-accent);
+            border-radius: 40px 40px 0 0;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 -10px 25px rgba(0,0,0,0.1);
+        }
+
+        .footer-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-btn {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.1);
+            border: 3px solid var(--light-orange);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--light-orange);
+            font-size: 1.8rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+        }
+
+        .social-btn:hover {
+            background: var(--primary-orange);
+            color: white;
+            border-color: var(--primary-orange);
+            transform: translateY(-8px) rotate(15deg);
+            box-shadow: 0 10px 20px rgba(249, 115, 22, 0.4);
+        }
+
+        .footer-divider {
+            width: 100px;
+            height: 5px;
+            background: var(--pink-accent);
+            border-radius: 5px;
+        }
+
+        .footer-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--white);
+            letter-spacing: 1px;
+        }
+
+        .footer-subtext {
+            font-size: 1.1rem;
+            color: #bae6fd;
+            font-family: 'Fredoka', sans-serif;
+            margin-top: -15px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="brand-container">
+            <div class="brand-name">MEGAMINDS ACADEMY</div>
+            <div class="session-info">AI Level 1: Session 3</div>
+        </div>
+        <i class="fa-solid fa-face-smile-beam" style="font-size: 2.5rem; color: var(--primary-orange);"></i>
+    </nav>
+
+    <header class="hero">
+        <h1>Face Landmarks & <span>Emotions!</span></h1>
+        <p style="font-size: 1.3rem; max-width: 600px; margin: 0 auto;">Today we will give our AI super-vision! We will teach it to find 68 magic dots on your face and read your feelings!</p>
+        <div class="mascot-container">
+            <div class="bear-mascot">🐻🎯</div>
+        </div>
+    </header>
+
+    <div class="project-banner">
+        <h2>Today's Concepts</h2>
+        <h3><i class="fa-solid fa-draw-polygon"></i> 68 Face Landmarks</h3>
+    </div>
+
+    <div class="container">
+
+        <!-- GAME 1: Face Landmark Animation -->
+        <section>
+            <h2 class="section-title">1. What is a Face Landmark?</h2>
+            <p class="section-subtitle">The computer draws an invisible mask of <strong>68 dots</strong> on your face to know exactly where your eyes, nose, and mouth are! Let's clone them!</p>
+            
+            <div class="game-box">
+                <div class="landmark-stage">
+                    <div class="code-display">
+                        <div class="code-line" id="l-repeat"><span style="color:var(--yellow-accent)">repeat</span> 68:</div>
+                        <div class="code-line" id="l-change" style="margin-left: 20px;">change landmark by 1</div>
+                        <div class="code-line" id="l-clone" style="margin-left: 20px;"><span style="color:var(--primary-orange)">create clone of myself</span></div>
+                        <br>
+                        <div class="code-line" style="color:#94a3b8;"># Clone Instructions:</div>
+                        <div class="code-line" id="l-goto">
+                            <span style="color:var(--primary-blue)">go to x:</span> get x of landmark<br>
+                            <span style="color:var(--primary-blue)">y:</span> get y of landmark
+                        </div>
+                    </div>
+
+                    <div class="face-canvas" id="face-canvas">
+                        <!-- Dots will be generated here -->
+                    </div>
+                </div>
+                
+                <button class="btn-action" id="btn-draw" onclick="drawLandmarks()"><i class="fa-solid fa-play"></i> Run Loop (Draw 68 Dots)</button>
+            </div>
+        </section>
+
+        <!-- GAME 2: Emotion Scanner -->
+        <section>
+            <h2 class="section-title">2. Face Expressions</h2>
+            <p class="section-subtitle">Is the person Happy? Sad? Angry? Surprised? The AI can guess your emotions! Try changing the face!</p>
+            
+            <div class="emotion-container">
+                <div class="emotion-screen">
+                    <div id="emotion-face">😐</div>
+                    <div class="scanner-hud" id="hud"></div>
+                </div>
+
+                <div class="emotion-buttons">
+                    <button class="emo-btn" onclick="setEmotion('happy', '😂')">😂 Happy</button>
+                    <button class="emo-btn" onclick="setEmotion('sad', '😢')">😢 Sad</button>
+                    <button class="emo-btn" onclick="setEmotion('fear', '😨')">😨 Fear</button>
+                    <button class="emo-btn" onclick="setEmotion('angry', '😡')">😡 Angry</button>
+                    <button class="emo-btn" onclick="setEmotion('surprised', '😲')">😲 Surprised</button>
+                    <button class="emo-btn" onclick="setEmotion('neutral', '😐')">😐 Neutral</button>
+                </div>
+
+                <div id="ai-voice">
+                    AI says: "I see a Neutral face!"
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <span class="picto-block block-blue">is expression of face 1 happy ▾</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Simple Task -->
+        <section>
+             <div class="simple-task-container">
+                 <h2 style="font-size: 2.2rem; color: var(--primary-blue); margin-bottom: 10px;">Quick Quiz! 🧠</h2>
+                 <p style="font-size: 1.3rem;">If you want to know the exact position of the tip of the nose (Dot #30), which block do you use?</p>
+                 
+                 <div class="options-grid">
+                     <button class="option-btn" onclick="checkTask(false)">is expression of face 1 happy?</button>
+                     <button class="option-btn" onclick="checkTask(true)">get x position of landmark 30</button>
+                     <button class="option-btn" onclick="checkTask(false)">analyse image from camera</button>
+                 </div>
+                 
+                 <div class="task-feedback" id="task-fb"></div>
+             </div>
+        </section>
+
+        <!-- Homework -->
+        <section>
+            <div class="homework-card">
+                <i class="fa-solid fa-face-angry bg-icon"></i>
+                <div>
+                    <i class="fa-solid fa-laptop-code" style="font-size: 80px;"></i>
+                </div>
+                <div class="hw-content">
+                    <h2>Homework Mission</h2>
+                    <p>Open PictoBlox, load the <strong>Face Detection Extension</strong>, and build an Emotion Checker!</p>
+                    <ul style="margin-top: 15px; font-size: 1.1rem; line-height: 1.8;">
+                        <li><i class="fa-solid fa-check" style="color:var(--yellow-accent);"></i> Use the <code>If / Then</code> block to check expressions.</li>
+                        <li><i class="fa-solid fa-check" style="color:var(--yellow-accent);"></i> Try to code the <strong>Angry</strong> and <strong>Fear</strong> expressions!</li>
+                        <li><i class="fa-solid fa-check" style="color:var(--yellow-accent);"></i> Make the sprite SAY the emotion out loud!</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="social-links">
+                <a href="#" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="social-btn"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+            
+            <div class="footer-divider"></div>
+            
+            <div class="footer-text">
+                MEGAMINDS ACADEMY &copy; 2026
+            </div>
+            <div class="footer-subtext">
+                Empowering Young Minds with AI 🤖✨
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- Game 1: Face Landmark Clone Simulation ---
+        const canvas = document.getElementById('face-canvas');
+        
+        // Generate pre-set coordinates to simulate a face shape
+        const dotsCoords = [];
+        // Jawline
+        for(let i=0; i<17; i++) {
+            let angle = Math.PI + (i * (Math.PI / 16));
+            dotsCoords.push({ x: 125 + Math.cos(angle)*100, y: 150 - Math.sin(angle)*120 });
+        }
+        // Right Brow
+        for(let i=0; i<5; i++) dotsCoords.push({ x: 60 + i*15, y: 80 - Math.sin(i)*10 });
+        // Left Brow
+        for(let i=0; i<5; i++) dotsCoords.push({ x: 140 + i*15, y: 70 + Math.sin(i)*10 });
+        // Nose bridge & base
+        for(let i=0; i<4; i++) dotsCoords.push({ x: 125, y: 100 + i*15 });
+        for(let i=0; i<5; i++) dotsCoords.push({ x: 100 + i*12, y: 160 });
+        // Right Eye
+        for(let i=0; i<6; i++) dotsCoords.push({ x: 70 + (i%3)*15, y: 110 + (i>2?10:0) });
+        // Left Eye
+        for(let i=0; i<6; i++) dotsCoords.push({ x: 150 + (i%3)*15, y: 110 + (i>2?10:0) });
+        // Mouth
+        for(let i=0; i<20; i++) {
+            let angle = i * (Math.PI*2 / 20);
+            dotsCoords.push({ x: 125 + Math.cos(angle)*30, y: 220 + Math.sin(angle)*15 });
+        }
+
+        // Create the dot elements (hidden initially)
+        const dotElements = [];
+        dotsCoords.forEach(coord => {
+            let dot = document.createElement('div');
+            dot.className = 'landmark-dot';
+            dot.style.left = coord.x + 'px';
+            dot.style.top = coord.y + 'px';
+            canvas.appendChild(dot);
+            dotElements.push(dot);
+        });
+
+        async function drawLandmarks() {
+            const btn = document.getElementById('btn-draw');
+            if(btn.disabled) return;
+            btn.disabled = true;
+
+            // Lines
+            const lRep = document.getElementById('l-repeat');
+            const lClone = document.getElementById('l-clone');
+            const lGoto = document.getElementById('l-goto');
+
+            // Reset
+            dotElements.forEach(dot => dot.style.display = 'none');
+            
+            lRep.classList.add('active');
+            
+            // Loop 68 times (using the actual array length which is ~68)
+            for(let i=0; i < dotElements.length; i++) {
+                lClone.classList.add('active');
+                lGoto.classList.add('active');
+                
+                dotElements[i].style.display = 'block';
+                
+                // Fast drawing effect
+                await new Promise(r => setTimeout(r, 30));
+                
+                lClone.classList.remove('active');
+                lGoto.classList.remove('active');
+            }
+
+            lRep.classList.remove('active');
+            
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-rotate-right"></i> Redraw Landmarks';
+            }, 1000);
+        }
+
+        // --- Game 2: Emotion Scanner ---
+        function setEmotion(name, emoji) {
+            const face = document.getElementById('emotion-face');
+            const voice = document.getElementById('ai-voice');
+            const hud = document.getElementById('hud');
+
+            // Set emoji immediately
+            face.innerText = emoji;
+            face.style.transform = 'scale(1.1)';
+            hud.style.display = 'block';
+            voice.style.color = "var(--text-dark)";
+            voice.innerText = "Scanning expression...";
+
+            setTimeout(() => {
+                face.style.transform = 'scale(1)';
+                hud.style.display = 'none';
+                
+                // AI Response
+                voice.style.color = "var(--primary-orange)";
+                voice.innerHTML = `AI says: "I see a <strong>${name.toUpperCase()}</strong> face!"`;
+            }, 1000);
+        }
+
+        // --- Interactive Quiz ---
+        function checkTask(isCorrect) {
+            const fb = document.getElementById('task-fb');
+            if(isCorrect) {
+                fb.style.color = "var(--green-accent)";
+                fb.innerHTML = '<i class="fa-solid fa-circle-check"></i> Correct! The Landmark block gives you exact X and Y points.';
+            } else {
+                fb.style.color = "var(--red-accent)";
+                fb.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Oops! That block does something else. Try again!';
+            }
+        }
+    </script>
+</body>
+</html>
