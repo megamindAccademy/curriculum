@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megaminds Academy: Turtle Studio - Session 8</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600;700&family=Fira+Code:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #fff7ed; /* Orange-50 */
+            color: #431407;
+        }
+
+        .font-code {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Canvas Styling */
+        canvas {
+            background-color: #ffffff;
+            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+            background-size: 20px 20px;
+            border-radius: 1rem;
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+        }
+
+        /* Turtle Icon Animation */
+        .turtle-icon {
+            transition: all 0.3s ease;
+        }
+        
+        /* Interactive Card Hover */
+        .game-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -5px rgba(249, 115, 22, 0.2);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track { background: #fff; }
+        ::-webkit-scrollbar-thumb { background: #f97316; border-radius: 4px; }
+    </style>
+    <!-- Application Structure Plan:
+         1. Header: Session 8 Branding (Orange Theme).
+         2. Hero: "Turtle Art Studio".
+         3. Module A: The Library Shelf.
+         4. Module B: Turtle Commander (Interactive Canvas).
+         5. Module C: Pattern Generator.
+         6. Module D: App Factory (.exe).
+         7. Boss Battle: Square Code Challenge.
+    -->
+</head>
+<body class="antialiased selection:bg-orange-200 selection:text-orange-900">
+
+    <!-- Header -->
+    <nav class="bg-orange-500 border-b-4 border-orange-600 sticky top-0 z-50 shadow-lg text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-4">
+                    <div class="bg-white p-2 rounded-xl shadow-inner text-orange-600">
+                        <span class="text-3xl">🐢</span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold tracking-tight">MEGAMINDS <span class="text-orange-100 opacity-80 font-normal">ACADEMY</span></h1>
+                        <div class="flex items-center gap-2 text-xs font-bold bg-orange-600/50 px-2 py-1 rounded-full w-fit">
+                            <span>LEVEL 2</span>
+                            <span class="text-orange-200">|</span>
+                            <span>SESSION 4 (8)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- XP System -->
+                <div class="hidden md:flex flex-col w-1/3 gap-1">
+                    <div class="flex justify-between text-xs font-bold text-orange-100 uppercase">
+                        <span>Digital Artist Rank</span>
+                        <span id="xp-display">0 / 100 XP</span>
+                    </div>
+                    <div class="w-full bg-orange-700/30 rounded-full h-3 overflow-hidden border border-orange-400/30">
+                        <div id="xp-bar" class="bg-yellow-400 h-3 rounded-full w-0 transition-all duration-500"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <!-- Hero Section -->
+        <section class="bg-white rounded-3xl shadow-xl border-2 border-orange-100 p-8 relative overflow-hidden game-card">
+            <div class="absolute -right-20 -top-20 w-64 h-64 bg-orange-50 rounded-full blur-3xl opacity-50"></div>
+            <div class="relative z-10 flex flex-col md:flex-row gap-8 items-center">
+                <div class="flex-1">
+                    <span class="inline-block px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-bold mb-3">🎨 CREATIVE CODING</span>
+                    <h2 class="text-4xl font-bold text-gray-800 mb-4">The Turtle Art Studio</h2>
+                    <p class="text-gray-600 text-lg mb-6 leading-relaxed">
+                        Welcome, Artist! Today we bridge code and creativity.
+                        <br>1. <span class="font-bold text-orange-500">Libraries</span>: Borrowing superpowers (code) from others.
+                        <br>2. <span class="font-bold text-green-500">Turtle Graphics</span>: Drawing with a digital robot.
+                        <br>3. <span class="font-bold text-purple-500">Executable (.exe)</span>: Convert your art into a real App.
+                    </p>
+                    <button onclick="scrollToSection('libraries')" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition transform hover:-translate-y-1 flex items-center gap-2">
+                        <span>⬇️ Start Creating</span>
+                    </button>
+                </div>
+                <div class="w-full md:w-1/3 flex justify-center">
+                    <div class="text-9xl animate-bounce">🐢</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 1: The Library Shelf -->
+        <section id="libraries">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-blue-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">1</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">The Library Shelf</h2>
+                    <p class="text-gray-500 text-sm">Libraries are pre-written code packs. Don't reinvent the wheel!</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-orange-100 hover:border-orange-300 transition group cursor-pointer text-center" onclick="installLib(this)">
+                    <div class="text-4xl mb-2 group-hover:scale-110 transition">🐢</div>
+                    <h3 class="font-bold text-gray-800">Turtle</h3>
+                    <p class="text-xs text-gray-500">Graphics & Drawing</p>
+                    <div class="mt-2 text-xs font-code bg-gray-100 p-1 rounded text-center text-gray-400 status-text">Click to Install</div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-blue-100 hover:border-blue-300 transition group cursor-pointer text-center" onclick="installLib(this)">
+                    <div class="text-4xl mb-2 group-hover:scale-110 transition">🐼</div>
+                    <h3 class="font-bold text-gray-800">Pandas</h3>
+                    <p class="text-xs text-gray-500">Data Analysis</p>
+                    <div class="mt-2 text-xs font-code bg-gray-100 p-1 rounded text-center text-gray-400 status-text">Click to Install</div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-green-100 hover:border-green-300 transition group cursor-pointer text-center" onclick="installLib(this)">
+                    <div class="text-4xl mb-2 group-hover:scale-110 transition">🎮</div>
+                    <h3 class="font-bold text-gray-800">PyGame</h3>
+                    <p class="text-xs text-gray-500">Game Dev</p>
+                    <div class="mt-2 text-xs font-code bg-gray-100 p-1 rounded text-center text-gray-400 status-text">Click to Install</div>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-purple-100 hover:border-purple-300 transition group cursor-pointer text-center" onclick="installLib(this)">
+                    <div class="text-4xl mb-2 group-hover:scale-110 transition">🤖</div>
+                    <h3 class="font-bold text-gray-800">TensorFlow</h3>
+                    <p class="text-xs text-gray-500">AI & ML</p>
+                    <div class="mt-2 text-xs font-code bg-gray-100 p-1 rounded text-center text-gray-400 status-text">Click to Install</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 2: The Turtle Commander -->
+        <section id="turtle-sim">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-green-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">2</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">Turtle Commander</h2>
+                    <p class="text-gray-500 text-sm">Control the turtle with commands: <span class="font-code bg-green-100 px-1 rounded">forward()</span>, <span class="font-code bg-green-100 px-1 rounded">right()</span></p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Canvas Area -->
+                <div class="lg:col-span-2 bg-white rounded-3xl shadow-lg border border-orange-100 p-4 relative">
+                    <canvas id="turtleCanvas" width="600" height="400" class="w-full h-auto cursor-crosshair"></canvas>
+                    <!-- Turtle Avatar Overlay -->
+                    <div id="turtleAvatar" class="absolute w-6 h-6 text-2xl turtle-icon" style="top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(90deg);">🐢</div>
+                </div>
+
+                <!-- Controls -->
+                <div class="bg-white rounded-3xl border border-gray-200 p-6 space-y-6">
+                    <div>
+                        <h4 class="font-bold text-gray-700 mb-2 text-center">Movement Controls</h4>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="moveTurtle('forward')" class="bg-green-100 hover:bg-green-200 text-green-700 font-bold py-2 rounded-lg transition">Forward (50)</button>
+                            <button onclick="moveTurtle('backward')" class="bg-red-100 hover:bg-red-200 text-red-700 font-bold py-2 rounded-lg transition">Backward (50)</button>
+                            <button onclick="rotateTurtle('left')" class="bg-blue-100 hover:bg-blue-200 text-blue-700 font-bold py-2 rounded-lg transition">Left (90°)</button>
+                            <button onclick="rotateTurtle('right')" class="bg-blue-100 hover:bg-blue-200 text-blue-700 font-bold py-2 rounded-lg transition">Right (90°)</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 class="font-bold text-gray-700 mb-2 text-center">Pen Tools</h4>
+                        <div class="flex gap-2 justify-center">
+                            <input type="color" id="penColor" value="#000000" class="h-10 w-10 rounded cursor-pointer" onchange="updateStyle()">
+                            <select id="penSize" class="border border-gray-300 rounded px-2 text-sm bg-gray-50" onchange="updateStyle()">
+                                <option value="2">Thin Pen</option>
+                                <option value="5">Medium Pen</option>
+                                <option value="10">Thick Pen</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-gray-100">
+                        <button onclick="resetCanvas()" class="w-full bg-gray-800 text-white font-bold py-2 rounded-lg hover:bg-black transition">Reset Canvas</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 3: Pattern Generator -->
+        <section>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-purple-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">3</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">The Loop Pattern Generator</h2>
+                    <p class="text-gray-500 text-sm">Combine <span class="font-bold text-purple-500">Loops</span> + <span class="font-bold text-green-500">Turtle</span> to generate instant art.</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-lg border-2 border-purple-100 p-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <button onclick="drawPattern('square')" class="p-6 bg-purple-50 rounded-2xl border-2 border-purple-100 hover:border-purple-400 hover:bg-purple-100 transition text-center group">
+                        <div class="text-4xl mb-2 group-hover:rotate-12 transition">🔲</div>
+                        <h3 class="font-bold text-purple-900">Square Loop</h3>
+                        <p class="text-xs text-purple-600 mt-1">4 iterations, 90° turns</p>
+                    </button>
+                    <button onclick="drawPattern('star')" class="p-6 bg-yellow-50 rounded-2xl border-2 border-yellow-100 hover:border-yellow-400 hover:bg-yellow-100 transition text-center group">
+                        <div class="text-4xl mb-2 group-hover:rotate-12 transition">⭐</div>
+                        <h3 class="font-bold text-yellow-900">Star Loop</h3>
+                        <p class="text-xs text-yellow-600 mt-1">5 iterations, 144° turns</p>
+                    </button>
+                    <button onclick="drawPattern('spiral')" class="p-6 bg-blue-50 rounded-2xl border-2 border-blue-100 hover:border-blue-400 hover:bg-blue-100 transition text-center group">
+                        <div class="text-4xl mb-2 group-hover:rotate-12 transition">🌀</div>
+                        <h3 class="font-bold text-blue-900">Spiral Loop</h3>
+                        <p class="text-xs text-blue-600 mt-1">Variable range loop</p>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 4: The Executable Lab -->
+        <section>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-orange-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">4</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">Software Factory (.exe)</h2>
+                    <p class="text-gray-500 text-sm">Convert your Python script into software that runs on any computer.</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-900 rounded-3xl p-8 text-white relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-orange-500 rounded-full blur-3xl opacity-10"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+                    <div>
+                        <h3 class="text-xl font-bold text-orange-400 mb-4">Command Center</h3>
+                        <p class="text-gray-400 text-sm mb-4">To share your game with friends who don't have Python, make it an <code>.exe</code>.</p>
+                        <div class="space-y-4 font-code text-sm">
+                            <div class="p-3 bg-gray-800 rounded border border-gray-700 flex items-center gap-3 cursor-pointer hover:bg-gray-700 transition" onclick="checkExeStep(1)">
+                                <div id="step-1-check" class="w-5 h-5 rounded border border-gray-500 flex items-center justify-center"></div>
+                                <span>1. pip install auto-py-to-exe</span>
+                            </div>
+                            <div class="p-3 bg-gray-800 rounded border border-gray-700 flex items-center gap-3 cursor-pointer hover:bg-gray-700 transition" onclick="checkExeStep(2)">
+                                <div id="step-2-check" class="w-5 h-5 rounded border border-gray-500 flex items-center justify-center"></div>
+                                <span>2. Run `auto-py-to-exe` in CMD</span>
+                            </div>
+                            <div class="p-3 bg-gray-800 rounded border border-gray-700 flex items-center gap-3 cursor-pointer hover:bg-gray-700 transition" onclick="checkExeStep(3)">
+                                <div id="step-3-check" class="w-5 h-5 rounded border border-gray-500 flex items-center justify-center"></div>
+                                <span>3. Select Script Location (.py)</span>
+                            </div>
+                            <div class="p-3 bg-gray-800 rounded border border-gray-700 flex items-center gap-3 cursor-pointer hover:bg-gray-700 transition" onclick="checkExeStep(4)">
+                                <div id="step-4-check" class="w-5 h-5 rounded border border-gray-500 flex items-center justify-center"></div>
+                                <span>4. Choose "One File" & Convert</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-center">
+                        <div id="exe-output" class="w-40 h-40 bg-gray-800 border-4 border-dashed border-gray-600 rounded-2xl flex flex-col items-center justify-center opacity-50 transition-all">
+                            <span class="text-4xl mb-2">📦</span>
+                            <span class="text-xs text-gray-400">game.exe</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Boss Battle (Homework) -->
+        <section class="bg-white rounded-3xl shadow-xl border-4 border-orange-500 p-8 relative overflow-hidden">
+            <div class="bg-orange-500 absolute top-0 left-0 w-full h-12 flex items-center px-6">
+                <h2 class="text-white font-bold flex items-center gap-2"><span class="text-xl">🏆</span> FINAL CHALLENGE: DRAW A SQUARE</h2>
+            </div>
+
+            <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                    <p class="text-gray-600 mb-4 text-sm font-bold">Write Python code to draw a square using the Turtle.<br>Hint: A square has 4 sides and 90 degree turns.</p>
+                    <div class="bg-gray-900 rounded-xl p-4 font-code text-sm text-gray-300">
+                        <div class="text-purple-400 mb-2">import turtle</div>
+                        <div class="text-blue-400 mb-2">t = turtle.Turtle()</div>
+                        <textarea id="hw-code" class="w-full h-32 bg-transparent text-white focus:outline-none resize-none" placeholder="# Type your code here...
+t.forward(100)
+t.right(90)
+..."></textarea>
+                    </div>
+                    <button onclick="runHomework()" class="mt-4 w-full bg-orange-600 hover:bg-orange-700 text-white font-bold py-3 rounded-xl transition shadow-md">
+                        ▶ Run Code
+                    </button>
+                    <div id="hw-feedback" class="mt-2 text-center h-6 font-bold"></div>
+                </div>
+                <div class="bg-gray-50 rounded-xl border border-gray-200 relative h-64 lg:h-auto">
+                    <canvas id="hwCanvas" width="300" height="300" class="w-full h-full object-contain"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-400 text-sm py-10 font-medium">
+            <p>Made with 🧡 by Megaminds Academy | Level 2: Session 4</p>
+        </footer>
+    </main>
+
+    <!-- JS Logic -->
+    <script>
+        // --- Navigation ---
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- XP System ---
+        let currentXP = 0;
+        function addXP(amount) {
+            currentXP = Math.min(currentXP + amount, 100);
+            document.getElementById('xp-display').innerText = `${currentXP} / 100 XP`;
+            document.getElementById('xp-bar').style.width = `${currentXP}%`;
+            
+            if (currentXP === 100) {
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            }
+        }
+
+        // --- Module 1: Libraries ---
+        function installLib(card) {
+            const status = card.querySelector('.status-text');
+            if (status.innerText !== "✅ Installed") {
+                status.innerText = "Installing...";
+                setTimeout(() => {
+                    status.innerText = "✅ Installed";
+                    status.classList.remove('bg-gray-100', 'text-gray-400');
+                    status.classList.add('bg-green-100', 'text-green-600');
+                    addXP(10);
+                }, 800);
+            }
+        }
+
+        // --- Turtle Engine ---
+        const canvas = document.getElementById('turtleCanvas');
+        const ctx = canvas.getContext('2d');
+        const avatar = document.getElementById('turtleAvatar');
+        
+        let turtle = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            angle: 0, // Degrees, 0 is pointing right (East)
+            penDown: true,
+            color: '#000000',
+            width: 2
+        };
+
+        function resetCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            turtle.x = canvas.width / 2;
+            turtle.y = canvas.height / 2;
+            turtle.angle = 0; // Reset to East
+            updateAvatar();
+            ctx.beginPath();
+            ctx.moveTo(turtle.x, turtle.y);
+        }
+
+        function updateAvatar() {
+            const visualAngle = turtle.angle; 
+            avatar.style.left = `${(turtle.x / canvas.width) * 100}%`;
+            avatar.style.top = `${(turtle.y / canvas.height) * 100}%`;
+            avatar.style.transform = `translate(-50%, -50%) rotate(${visualAngle}deg)`;
+        }
+
+        function updateStyle() {
+            turtle.color = document.getElementById('penColor').value;
+            turtle.width = parseInt(document.getElementById('penSize').value);
+        }
+
+        function moveTurtle(direction, distance = 50) {
+            ctx.lineWidth = turtle.width;
+            ctx.strokeStyle = turtle.color;
+            ctx.lineCap = "round";
+
+            const rad = (turtle.angle * Math.PI) / 180;
+            let moveDist = distance;
+            if (direction === 'backward') moveDist = -distance;
+
+            const newX = turtle.x + moveDist * Math.cos(rad);
+            const newY = turtle.y + moveDist * Math.sin(rad); // Canvas Y increases downwards
+
+            ctx.beginPath();
+            ctx.moveTo(turtle.x, turtle.y);
+            
+            if (turtle.penDown) {
+                ctx.lineTo(newX, newY);
+                ctx.stroke();
+            }
+
+            turtle.x = newX;
+            turtle.y = newY;
+            updateAvatar();
+        }
+
+        function rotateTurtle(dir, angle = 90) {
+            if (dir === 'right') turtle.angle += angle;
+            else turtle.angle -= angle;
+            updateAvatar();
+        }
+
+        // --- Module 3: Patterns ---
+        function drawPattern(type) {
+            resetCanvas();
+            // Start centered
+            
+            if (type === 'square') {
+                animateCommands([
+                    {cmd: 'move', val: 100}, {cmd: 'turn', val: 90},
+                    {cmd: 'move', val: 100}, {cmd: 'turn', val: 90},
+                    {cmd: 'move', val: 100}, {cmd: 'turn', val: 90},
+                    {cmd: 'move', val: 100}, {cmd: 'turn', val: 90}
+                ]);
+            } else if (type === 'star') {
+                turtle.color = "#fbbf24"; // Yellow
+                turtle.width = 3;
+                let cmds = [];
+                for(let i=0; i<5; i++) {
+                    cmds.push({cmd: 'move', val: 100});
+                    cmds.push({cmd: 'turn', val: 144});
+                }
+                animateCommands(cmds);
+            } else if (type === 'spiral') {
+                turtle.color = "#3b82f6"; // Blue
+                let cmds = [];
+                for(let i=0; i<20; i++) {
+                    cmds.push({cmd: 'move', val: 10 + (i*5)});
+                    cmds.push({cmd: 'turn', val: 90});
+                }
+                animateCommands(cmds);
+            }
+            addXP(15);
+        }
+
+        function animateCommands(commands) {
+            let i = 0;
+            function step() {
+                if (i >= commands.length) return;
+                const c = commands[i];
+                if (c.cmd === 'move') moveTurtle('forward', c.val);
+                if (c.cmd === 'turn') rotateTurtle('right', c.val);
+                i++;
+                setTimeout(step, 200);
+            }
+            step();
+        }
+
+        // --- Module 4: Exe Lab ---
+        let exeSteps = 0;
+        function checkExeStep(step) {
+            const el = document.getElementById(`step-${step}-check`);
+            if (!el.classList.contains('bg-green-500')) {
+                el.classList.remove('border-gray-500');
+                el.classList.add('bg-green-500', 'border-green-500');
+                el.innerHTML = '✓';
+                exeSteps++;
+                
+                if (exeSteps === 4) {
+                    const output = document.getElementById('exe-output');
+                    output.classList.remove('opacity-50', 'border-dashed', 'border-gray-600', 'bg-gray-800');
+                    output.classList.add('bg-orange-500', 'border-orange-400', 'shadow-xl', 'scale-110');
+                    output.innerHTML = '<span class="text-5xl">🚀</span><span class="font-bold text-white">Ready!</span>';
+                    addXP(25);
+                }
+            }
+        }
+
+        // --- Boss Battle ---
+        function runHomework() {
+            const code = document.getElementById('hw-code').value.toLowerCase();
+            const feedback = document.getElementById('hw-feedback');
+            const hwCanvas = document.getElementById('hwCanvas');
+            const hwCtx = hwCanvas.getContext('2d');
+
+            // Simple validation logic
+            const hasForward = code.includes('forward') || code.includes('fd');
+            const hasRight = code.includes('right') || code.includes('rt') || code.includes('left') || code.includes('lt');
+            const lines = code.split('\n').filter(l => l.trim() !== '').length;
+
+            hwCtx.clearRect(0,0,300,300);
+            hwCtx.strokeStyle = "#10b981";
+            hwCtx.lineWidth = 4;
+            
+            if (hasForward && hasRight && lines >= 4) {
+                // Simulate drawing a square
+                hwCtx.strokeRect(75, 75, 150, 150);
+                feedback.innerHTML = "<span class='text-green-600'>✅ Excellent! You drew a square!</span>";
+                addXP(35);
+            } else {
+                feedback.innerHTML = "<span class='text-red-500'>❌ Code incomplete. Try: forward(100), right(90)... 4 times.</span>";
+            }
+        }
+
+        // Init
+        resetCanvas();
+    </script>
+</body>
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megaminds Academy: Ping Pong Architect - Session 12</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600;700&family=Fira+Code:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #fff7ed; /* Orange-50 */
+            color: #431407;
+        }
+
+        .font-code {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Canvas Styling */
+        canvas {
+            background-color: #222;
+            border: 4px solid #f97316;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Animation Classes */
+        .slide-up { animation: slideUp 0.5s ease-out; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .highlight-code {
+            animation: flash 1s;
+        }
+        @keyframes flash {
+            0% { background-color: #fcd34d; }
+            100% { background-color: transparent; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1f2937; }
+        ::-webkit-scrollbar-thumb { background: #f97316; border-radius: 4px; }
+    </style>
+</head>
+<body class="antialiased selection:bg-orange-200 selection:text-orange-900">
+
+    <!-- Header -->
+    <nav class="bg-orange-500 border-b-4 border-orange-600 sticky top-0 z-50 shadow-lg text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-4">
+                    <div class="bg-white p-2 rounded-xl shadow-inner text-orange-600">
+                        <span class="text-3xl">🏓</span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold tracking-tight">MEGAMINDS <span class="text-orange-100 opacity-80 font-normal">ACADEMY</span></h1>
+                        <div class="flex items-center gap-2 text-xs font-bold bg-orange-600/50 px-2 py-1 rounded-full w-fit">
+                            <span>LEVEL 3</span>
+                            <span class="text-orange-200">|</span>
+                            <span>SESSION 3 (12)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- XP System -->
+                <div class="hidden md:flex flex-col w-1/3 gap-1">
+                    <div class="flex justify-between text-xs font-bold text-orange-100 uppercase">
+                        <span>Game Architect Rank</span>
+                        <span id="xp-display">0 / 100 XP</span>
+                    </div>
+                    <div class="w-full bg-orange-700/30 rounded-full h-3 overflow-hidden border border-orange-400/30">
+                        <div id="xp-bar" class="bg-yellow-400 h-3 rounded-full w-0 transition-all duration-500"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <!-- Hero Section -->
+        <section class="bg-white rounded-3xl shadow-xl border-2 border-orange-100 p-8 relative overflow-hidden slide-up">
+            <div class="absolute -right-20 -top-20 w-64 h-64 bg-orange-50 rounded-full blur-3xl opacity-50"></div>
+            <div class="relative z-10 flex flex-col md:flex-row gap-8 items-center">
+                <div class="flex-1">
+                    <span class="inline-block px-3 py-1 bg-green-100 text-green-600 rounded-full text-xs font-bold mb-3">🎮 PROJECT START</span>
+                    <h2 class="text-4xl font-bold text-gray-800 mb-4">The Ping Pong Architect</h2>
+                    <p class="text-gray-600 text-lg mb-6 leading-relaxed">
+                        Today we build a classic! You will learn how to:
+                        <br>1. <span class="font-bold text-orange-500">Setup</span> the Game Window.
+                        <br>2. <span class="font-bold text-blue-500">Forge</span> Objects (Paddles & Ball).
+                        <br>3. <span class="font-bold text-purple-500">Program</span> Physics & Movement.
+                    </p>
+                    <button onclick="scrollToSection('blueprint')" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition transform hover:-translate-y-1 flex items-center gap-2">
+                        <span>⬇️ Start Building</span>
+                    </button>
+                </div>
+                <div class="w-full md:w-1/3 flex justify-center">
+                    <div class="text-9xl animate-bounce">🎾</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 1: The Blueprint (Steps) -->
+        <section id="blueprint">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-blue-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">1</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">The Blueprint</h2>
+                    <p class="text-gray-500 text-sm">Every game follows these 4 main steps.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-b-4 border-blue-500 hover:scale-105 transition cursor-pointer group" onclick="showStepInfo(1)">
+                    <div class="text-4xl mb-2">🖥️</div>
+                    <h3 class="font-bold text-gray-800">1. Window Setup</h3>
+                    <p class="text-xs text-gray-500 mt-1">Screen size, Color, Title.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-b-4 border-red-500 hover:scale-105 transition cursor-pointer group" onclick="showStepInfo(2)">
+                    <div class="text-4xl mb-2">🧱</div>
+                    <h3 class="font-bold text-gray-800">2. Game Objects</h3>
+                    <p class="text-xs text-gray-500 mt-1">Ball, Paddles, Score.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-b-4 border-green-500 hover:scale-105 transition cursor-pointer group" onclick="showStepInfo(3)">
+                    <div class="text-4xl mb-2">🎮</div>
+                    <h3 class="font-bold text-gray-800">3. Movement</h3>
+                    <p class="text-xs text-gray-500 mt-1">Functions & Key bindings.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-b-4 border-purple-500 hover:scale-105 transition cursor-pointer group" onclick="showStepInfo(4)">
+                    <div class="text-4xl mb-2">🔄</div>
+                    <h3 class="font-bold text-gray-800">4. Game Loop</h3>
+                    <p class="text-xs text-gray-500 mt-1">Physics, Collision, Updates.</p>
+                </div>
+            </div>
+            
+            <div id="step-info-box" class="mt-4 bg-gray-900 p-4 rounded-xl font-code text-sm text-green-400 hidden animate-pulse">
+                <!-- Info injected here -->
+            </div>
+        </section>
+
+        <!-- Module 2: The Object Forge -->
+        <section id="forge">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-orange-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">2</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">The Object Forge</h2>
+                    <p class="text-gray-500 text-sm">Visualize how <code>shapesize()</code> creates paddles.</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-lg border-2 border-orange-100 p-8">
+                <div class="flex flex-col md:flex-row gap-8 items-center">
+                    <!-- Controls -->
+                    <div class="w-full md:w-1/3 space-y-4">
+                        <h3 class="font-bold text-gray-700">Turtle Configuration</h3>
+                        
+                        <div>
+                            <label class="text-xs text-gray-500 block mb-1">Shape</label>
+                            <select id="shape-select" class="w-full border rounded p-2" onchange="updateForge()">
+                                <option value="square">Square</option>
+                                <option value="circle">Circle</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="text-xs text-gray-500 block mb-1">Stretch Width (Height)</label>
+                            <input type="range" id="stretch-wid" min="1" max="10" value="5" class="w-full accent-orange-500" oninput="updateForge()">
+                            <span id="wid-val" class="text-xs font-bold text-orange-600">5</span>
+                        </div>
+
+                        <div>
+                            <label class="text-xs text-gray-500 block mb-1">Stretch Length (Width)</label>
+                            <input type="range" id="stretch-len" min="1" max="5" value="1" class="w-full accent-orange-500" oninput="updateForge()">
+                            <span id="len-val" class="text-xs font-bold text-orange-600">1</span>
+                        </div>
+                    </div>
+
+                    <!-- Visualizer -->
+                    <div class="flex-1 flex flex-col items-center justify-center bg-gray-100 rounded-2xl p-10 h-64 relative border-2 border-dashed border-gray-300">
+                        <div id="forge-object" class="bg-blue-600 transition-all duration-300 shadow-xl"></div>
+                        <div class="absolute bottom-2 right-2 text-xs text-gray-400 font-code">20px * scale</div>
+                    </div>
+                </div>
+
+                <!-- Code Preview -->
+                <div class="mt-6 bg-gray-900 rounded-xl p-4 font-code text-sm text-gray-300">
+                    <span class="text-purple-400">player</span> = turtle.Turtle()<br>
+                    player.shape(<span class="text-green-400" id="code-shape">"square"</span>)<br>
+                    player.shapesize(stretch_wid=<span class="text-orange-400" id="code-wid">5</span>, stretch_len=<span class="text-orange-400" id="code-len">1</span>)
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 3: Physics Engine -->
+        <section id="physics">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-purple-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">3</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">The Physics Engine</h2>
+                    <p class="text-gray-500 text-sm">Understand Coordinates (X, Y) and Collision Logic.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Canvas -->
+                <div class="lg:col-span-2">
+                    <canvas id="gameCanvas" width="600" height="400" class="w-full h-auto"></canvas>
+                    <div class="flex justify-between mt-2 text-xs text-gray-500 font-code">
+                        <span>(-300, -200)</span>
+                        <span>(0,0) Center</span>
+                        <span>(300, 200)</span>
+                    </div>
+                </div>
+
+                <!-- Live Data & Controls -->
+                <div class="bg-white rounded-3xl border border-gray-200 p-6 space-y-6">
+                    <div>
+                        <h4 class="font-bold text-gray-700 mb-2">Live Telemetry</h4>
+                        <div class="grid grid-cols-2 gap-2 font-code text-xs">
+                            <div class="bg-gray-100 p-2 rounded">Ball X: <span id="ball-x" class="text-blue-600">0</span></div>
+                            <div class="bg-gray-100 p-2 rounded">Ball Y: <span id="ball-y" class="text-blue-600">0</span></div>
+                            <div class="bg-gray-100 p-2 rounded">DX: <span id="ball-dx" class="text-purple-600">3</span></div>
+                            <div class="bg-gray-100 p-2 rounded">DY: <span id="ball-dy" class="text-purple-600">3</span></div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-900 rounded-lg p-3 font-code text-xs text-yellow-300 h-20 overflow-y-auto" id="collision-log">
+                        > Engine Ready...
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="startGame()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 rounded transition">▶ Start/Resume</button>
+                        <button onclick="pauseGame()" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 rounded transition">⏸ Pause</button>
+                        <button onclick="resetGame()" class="col-span-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded transition">↺ Reset</button>
+                    </div>
+                    
+                    <div class="text-xs text-gray-400 text-center">Use ⬆️ ⬇️ to move Right Paddle</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Boss Battle (Homework) -->
+        <section class="bg-gray-900 rounded-3xl shadow-2xl p-1 border-4 border-gray-800 relative overflow-hidden">
+            <div class="bg-gradient-to-r from-orange-600 to-red-600 p-6 rounded-t-[20px] text-white flex justify-between items-center relative z-10">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl">🏆</span>
+                    <div>
+                        <h2 class="text-2xl font-bold">Final Challenge: The Code Assembler</h2>
+                        <p class="text-orange-100 text-sm opacity-90">Arrange the logic for paddle movement.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6 md:p-10 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Task -->
+                <div class="text-gray-400 font-code text-sm space-y-4">
+                    <p class="text-orange-400"># Objective:</p>
+                    <p>Complete the function to move Player 1 UP.</p>
+                    <ul class="list-disc list-inside space-y-1 text-xs">
+                        <li>Current Y position?</li>
+                        <li>Add speed (20px).</li>
+                        <li>Set new Y position.</li>
+                    </ul>
+                </div>
+
+                <!-- Interactive Code -->
+                <div class="bg-black/40 backdrop-blur-md rounded-2xl p-6 border border-gray-700 font-code text-sm">
+                    <div class="text-purple-400">def</div> p1_move_up():<br>
+                    &nbsp;&nbsp;y = player1.<input type="text" id="hw-get" placeholder="ycor()" class="bg-transparent border-b border-gray-600 text-yellow-300 w-20 text-center outline-none"><br>
+                    &nbsp;&nbsp;y += <span class="text-green-400">20</span><br>
+                    &nbsp;&nbsp;player1.<input type="text" id="hw-set" placeholder="sety(y)" class="bg-transparent border-b border-gray-600 text-yellow-300 w-20 text-center outline-none">
+
+                    <button onclick="checkHomework()" class="mt-6 w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
+                        ▶ Verify Logic
+                    </button>
+                    
+                    <div id="hw-feedback" class="mt-4 text-center hidden font-bold"></div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-400 text-sm py-10 font-medium">
+            <p>Made with 🧡 by Megaminds Academy | Level 3: Session 3</p>
+        </footer>
+    </main>
+
+    <!-- JS Logic -->
+    <script>
+        // --- Navigation ---
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- XP System ---
+        let currentXP = 0;
+        function addXP(amount) {
+            currentXP = Math.min(currentXP + amount, 100);
+            document.getElementById('xp-display').innerText = `${currentXP} / 100 XP`;
+            document.getElementById('xp-bar').style.width = `${currentXP}%`;
+            if (currentXP === 100) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+        }
+
+        // --- Module 1: Blueprint Info ---
+        function showStepInfo(step) {
+            const box = document.getElementById('step-info-box');
+            box.classList.remove('hidden');
+            let content = "";
+            switch(step) {
+                case 1: content = "window = turtle.Screen() | window.setup(800, 600) | window.bgcolor('black')"; break;
+                case 2: content = "player1 = turtle.Turtle() | player1.shape('square') | player1.goto(-350, 0)"; break;
+                case 3: content = "def move_up(): y = p1.ycor() + 20 | window.listen() | window.onkeypress(move_up, 'w')"; break;
+                case 4: content = "while True: window.update() | ball.setx(ball.xcor() + ball.dx) | Check Collisions"; break;
+            }
+            box.innerHTML = `<span class="text-white">> Code Snippet:</span><br>${content}`;
+            addXP(5);
+        }
+
+        // --- Module 2: The Forge ---
+        function updateForge() {
+            const shape = document.getElementById('shape-select').value;
+            const wid = document.getElementById('stretch-wid').value;
+            const len = document.getElementById('stretch-len').value;
+            
+            document.getElementById('wid-val').innerText = wid;
+            document.getElementById('len-val').innerText = len;
+            
+            document.getElementById('code-shape').innerText = `"${shape}"`;
+            document.getElementById('code-wid').innerText = wid;
+            document.getElementById('code-len').innerText = len;
+
+            const obj = document.getElementById('forge-object');
+            
+            // Visual Update (20px is default turtle size)
+            obj.style.height = `${wid * 20}px`;
+            obj.style.width = `${len * 20}px`;
+            obj.style.borderRadius = shape === 'circle' ? '50%' : '0';
+        }
+
+        // --- Module 3: Physics Engine (Canvas) ---
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let ball = { x: 300, y: 200, dx: 3, dy: 3, r: 10 };
+        let paddleR = { x: 570, y: 150, w: 10, h: 80 }; // Right Paddle
+        let paddleL = { x: 20, y: 150, w: 10, h: 80 };  // Left Paddle (Auto)
+        let isRunning = false;
+        let animationId;
+
+        // Render Loop
+        function draw() {
+            // Clear
+            ctx.fillStyle = "#222";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw Center Line
+            ctx.strokeStyle = "#444";
+            ctx.setLineDash([10, 10]);
+            ctx.beginPath();
+            ctx.moveTo(300, 0);
+            ctx.lineTo(300, 400);
+            ctx.stroke();
+
+            // Draw Ball
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+            ctx.fillStyle = "#fff";
+            ctx.fill();
+            ctx.closePath();
+
+            // Draw Paddles
+            ctx.fillStyle = "blue"; // P1
+            ctx.fillRect(paddleL.x, paddleL.y, paddleL.w, paddleL.h);
+            ctx.fillStyle = "red"; // P2
+            ctx.fillRect(paddleR.x, paddleR.y, paddleR.w, paddleR.h);
+
+            // Telemetry Update
+            document.getElementById('ball-x').innerText = Math.round(ball.x - 300); // Relative to center
+            document.getElementById('ball-y').innerText = Math.round(300 - ball.y); // Inverted Y for visual logic
+            document.getElementById('ball-dx').innerText = ball.dx;
+            document.getElementById('ball-dy').innerText = ball.dy;
+        }
+
+        function update() {
+            if (!isRunning) return;
+
+            // Move Ball
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+
+            // Auto Move Left Paddle (Simple AI)
+            if (ball.y < paddleL.y + 40) paddleL.y -= 2.5;
+            if (ball.y > paddleL.y + 40) paddleL.y += 2.5;
+
+            // Wall Collision (Top/Bottom)
+            if (ball.y + ball.r > canvas.height || ball.y - ball.r < 0) {
+                ball.dy *= -1;
+                logCollision("Wall Hit (Y-Axis Inverted)");
+            }
+
+            // Paddle Collision (Right)
+            if (ball.x + ball.r > paddleR.x && 
+                ball.y > paddleR.y && ball.y < paddleR.y + paddleR.h) {
+                ball.dx *= -1;
+                logCollision("Paddle Hit!");
+                addXP(2);
+            }
+
+            // Paddle Collision (Left)
+            if (ball.x - ball.r < paddleL.x + paddleL.w && 
+                ball.y > paddleL.y && ball.y < paddleL.y + paddleL.h) {
+                ball.dx *= -1;
+            }
+
+            // Reset if out of bounds
+            if (ball.x > canvas.width || ball.x < 0) {
+                ball.x = 300; ball.y = 200; ball.dx *= -1;
+                logCollision("Score! Resetting...");
+            }
+
+            draw();
+            animationId = requestAnimationFrame(update);
+        }
+
+        function logCollision(msg) {
+            const log = document.getElementById('collision-log');
+            log.innerHTML += `<div>> ${msg}</div>`;
+            log.scrollTop = log.scrollHeight;
+        }
+
+        // Controls
+        function startGame() { 
+            if (!isRunning) { isRunning = true; update(); } 
+        }
+        function pauseGame() { isRunning = false; cancelAnimationFrame(animationId); }
+        function resetGame() {
+            isRunning = false; 
+            ball = { x: 300, y: 200, dx: 3, dy: 3, r: 10 };
+            paddleR.y = 150; paddleL.y = 150;
+            draw();
+            document.getElementById('collision-log').innerHTML = "> Board Reset.";
+        }
+
+        // Keyboard Input for Right Paddle
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowUp' && paddleR.y > 0) paddleR.y -= 20;
+            if (e.key === 'ArrowDown' && paddleR.y < canvas.height - paddleR.h) paddleR.y += 20;
+            if (!isRunning) draw(); // Redraw if paused
+        });
+
+        // --- Boss Battle ---
+        function checkHomework() {
+            const getVal = document.getElementById('hw-get').value.trim();
+            const setVal = document.getElementById('hw-set').value.trim();
+            const feedback = document.getElementById('hw-feedback');
+
+            feedback.classList.remove('hidden');
+
+            if (getVal === 'ycor()' && setVal === 'sety(y)') {
+                feedback.innerHTML = "<span class='text-green-500'>✅ Correct! Movement Logic Validated.</span>";
+                addXP(50);
+            } else {
+                feedback.innerHTML = "<span class='text-red-500'>❌ Syntax Error. Use ycor() to get and sety(y) to set.</span>";
+            }
+        }
+
+        // Init
+        updateForge();
+        draw();
+
+    </script>
+</body>
+</html>

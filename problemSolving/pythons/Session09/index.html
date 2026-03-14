@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megaminds Academy: Object Factory - Session 9</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600;700&family=Fira+Code:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #fff7ed; /* Orange-50 */
+            color: #431407;
+        }
+
+        .font-code {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Animations */
+        @keyframes assemble {
+            0% { transform: scale(0.8) translateY(20px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        
+        .new-object {
+            animation: assemble 0.5s ease-out forwards;
+        }
+
+        /* Interactive Card Hover */
+        .game-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -5px rgba(249, 115, 22, 0.2);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track { background: #fff; }
+        ::-webkit-scrollbar-thumb { background: #fb923c; border-radius: 4px; }
+    </style>
+    <!-- Application Structure Plan:
+         1. Header: Session 9 Branding (Orange/OOP Theme).
+         2. Hero: "Welcome to The Object Factory".
+         3. Module A: Blueprint Studio (Theory: Class vs Object).
+         4. Module B: Assembly Line (Instantiating Objects).
+         5. Module C: Interaction Lab (Methods & Self).
+         6. Boss Battle (Homework): Person Class Challenge.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased selection:bg-orange-200 selection:text-orange-900">
+
+    <!-- Header -->
+    <nav class="bg-orange-500 border-b-4 border-orange-600 sticky top-0 z-50 shadow-lg text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-4">
+                    <div class="bg-white p-2 rounded-xl shadow-inner text-orange-600">
+                        <span class="text-3xl">🏭</span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold tracking-tight">MEGAMINDS <span class="text-orange-100 opacity-80 font-normal">ACADEMY</span></h1>
+                        <div class="flex items-center gap-2 text-xs font-bold bg-orange-600/50 px-2 py-1 rounded-full w-fit">
+                            <span>LEVEL 3</span>
+                            <span class="text-orange-200">|</span>
+                            <span>SESSION 1 (9)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- XP System -->
+                <div class="hidden md:flex flex-col w-1/3 gap-1">
+                    <div class="flex justify-between text-xs font-bold text-orange-100 uppercase">
+                        <span>OOP Architect Rank</span>
+                        <span id="xp-display">0 / 100 XP</span>
+                    </div>
+                    <div class="w-full bg-orange-700/30 rounded-full h-3 overflow-hidden border border-orange-400/30">
+                        <div id="xp-bar" class="bg-yellow-400 h-3 rounded-full w-0 transition-all duration-500"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <!-- Hero Section -->
+        <section class="bg-white rounded-3xl shadow-xl border-2 border-orange-100 p-8 relative overflow-hidden game-card">
+            <div class="absolute -right-20 -top-20 w-64 h-64 bg-orange-50 rounded-full blur-3xl opacity-50"></div>
+            <div class="relative z-10 flex flex-col md:flex-row gap-8 items-center">
+                <div class="flex-1">
+                    <span class="inline-block px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-bold mb-3">🛠️ OOP FUNDAMENTALS</span>
+                    <h2 class="text-4xl font-bold text-gray-800 mb-4">The Object Factory</h2>
+                    <p class="text-gray-600 text-lg mb-6 leading-relaxed">
+                        Today we upgrade from writing code to building systems!
+                        <br>1. <span class="font-bold text-orange-500">Class</span>: The Blueprint (Design).
+                        <br>2. <span class="font-bold text-blue-500">Object</span>: The Product (Instance).
+                        <br>3. <span class="font-bold text-green-500">Methods</span>: The Actions (Behavior).
+                    </p>
+                    <button onclick="scrollToSection('blueprint')" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition transform hover:-translate-y-1 flex items-center gap-2">
+                        <span>⬇️ Start Production</span>
+                    </button>
+                </div>
+                <div class="w-full md:w-1/3 flex justify-center">
+                    <div class="text-9xl animate-pulse">🤖</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 1: The Blueprint Studio -->
+        <section id="blueprint">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-orange-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">1</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">The Blueprint Studio (Class)</h2>
+                    <p class="text-gray-500 text-sm">A <strong>Class</strong> is like a blueprint for a car. It defines properties (color, model) but isn't a car itself.</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-lg border-2 border-orange-100 p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Blueprint Code -->
+                    <div class="bg-gray-900 rounded-xl p-6 font-code text-sm text-gray-300 shadow-inner relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-orange-500 text-white text-xs px-2 py-1 rounded-bl">CLASS DEFINITION</div>
+                        <div class="mb-2"><span class="text-purple-400">class</span> <span class="text-yellow-300">Car</span>:</div>
+                        <div class="pl-4 mb-2">
+                            <span class="text-gray-500"># The Constructor</span><br>
+                            <span class="text-purple-400">def</span> <span class="text-blue-400">__init__</span>(<span class="text-orange-400">self</span>, color, model):
+                        </div>
+                        <div class="pl-8 mb-2">
+                            <span class="text-orange-400">self</span>.color = color<br>
+                            <span class="text-orange-400">self</span>.model = model
+                        </div>
+                        <div class="pl-4">
+                            <span class="text-purple-400">def</span> <span class="text-blue-400">honk</span>(<span class="text-orange-400">self</span>):
+                        </div>
+                        <div class="pl-8">
+                            <span class="text-blue-400">print</span>(<span class="text-green-400">"Beep Beep!"</span>)
+                        </div>
+                    </div>
+
+                    <!-- Visual Blueprint -->
+                    <div class="bg-blue-50 rounded-xl p-6 border-2 border-dashed border-blue-300 flex flex-col items-center justify-center text-center">
+                        <div class="text-6xl mb-4 text-blue-200">📝</div>
+                        <h3 class="font-bold text-blue-800">Car Blueprint</h3>
+                        <ul class="text-sm text-blue-600 mt-2 text-left list-disc list-inside">
+                            <li>Attribute: <strong>Color</strong></li>
+                            <li>Attribute: <strong>Model</strong></li>
+                            <li>Action: <strong>Honk()</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 2: The Assembly Line -->
+        <section id="assembly">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-blue-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">2</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">The Assembly Line (Objects)</h2>
+                    <p class="text-gray-500 text-sm">Create real <strong>Objects</strong> from the blueprint. Each object has its own unique data.</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-lg border-2 border-blue-100 p-8">
+                <!-- Controls -->
+                <div class="flex flex-wrap gap-4 mb-8 bg-gray-50 p-4 rounded-xl border border-gray-200 items-center justify-center">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1">Car Color</label>
+                        <select id="car-color" class="p-2 rounded border border-gray-300 bg-white">
+                            <option value="red">Red</option>
+                            <option value="blue">Blue</option>
+                            <option value="black">Black</option>
+                            <option value="yellow">Yellow</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1">Car Model</label>
+                        <select id="car-model" class="p-2 rounded border border-gray-300 bg-white">
+                            <option value="Sedan">Sedan</option>
+                            <option value="SUV">SUV</option>
+                            <option value="Truck">Truck</option>
+                        </select>
+                    </div>
+                    <button onclick="createCar()" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-xl shadow-md transition transform active:scale-95 h-full mt-5">
+                        🏗️ Create Object
+                    </button>
+                </div>
+
+                <!-- Garage -->
+                <div id="garage" class="grid grid-cols-1 md:grid-cols-3 gap-6 min-h-[200px] border-2 border-dashed border-gray-200 rounded-2xl p-4 bg-gray-50">
+                    <div class="col-span-3 text-center text-gray-400 py-10" id="empty-garage-msg">The Garage is Empty. Build a Car!</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 3: Interaction Lab -->
+        <section id="lab">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-purple-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">3</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">Interaction Lab</h2>
+                    <p class="text-gray-500 text-sm">Objects interact using <strong>Methods</strong>. Watch how <code>self</code> refers to the specific object.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Object 1 -->
+                <div class="bg-white rounded-3xl shadow-lg border border-purple-100 p-6 relative">
+                    <div class="absolute top-4 right-4 bg-purple-100 text-purple-600 px-2 py-1 rounded text-xs font-bold">Object: emp1</div>
+                    <div class="text-center mb-4">
+                        <div class="text-5xl">👨‍💼</div>
+                        <h3 class="font-bold mt-2">Ali</h3>
+                        <p class="text-xs text-gray-500">Age: 55 | Salary: $5000</p>
+                    </div>
+                    <div class="bg-gray-900 rounded p-3 font-code text-xs text-green-400 mb-4 h-16 overflow-y-auto" id="console-emp1">
+                        > Employee created.
+                    </div>
+                    <button onclick="interactEmp('emp1', 55, 5000)" class="w-full bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 rounded-lg transition">
+                        💰 Increase Salary (incSalary)
+                    </button>
+                </div>
+
+                <!-- Object 2 -->
+                <div class="bg-white rounded-3xl shadow-lg border border-purple-100 p-6 relative">
+                    <div class="absolute top-4 right-4 bg-purple-100 text-purple-600 px-2 py-1 rounded text-xs font-bold">Object: emp2</div>
+                    <div class="text-center mb-4">
+                        <div class="text-5xl">👩‍💼</div>
+                        <h3 class="font-bold mt-2">Ashraf</h3>
+                        <p class="text-xs text-gray-500">Age: 40 | Salary: $4500</p>
+                    </div>
+                    <div class="bg-gray-900 rounded p-3 font-code text-xs text-green-400 mb-4 h-16 overflow-y-auto" id="console-emp2">
+                        > Employee created.
+                    </div>
+                    <button onclick="interactEmp('emp2', 40, 4500)" class="w-full bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 rounded-lg transition">
+                        💰 Increase Salary (incSalary)
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Boss Battle (Homework) -->
+        <section class="bg-gray-900 rounded-3xl shadow-2xl p-1 border-4 border-gray-800 relative overflow-hidden">
+            <div class="bg-gradient-to-r from-orange-600 to-red-600 p-6 rounded-t-[20px] text-white flex justify-between items-center relative z-10">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl">🏆</span>
+                    <div>
+                        <h2 class="text-2xl font-bold">Final Challenge: The Person Class</h2>
+                        <p class="text-orange-100 text-sm opacity-90">Implement the Class structure required for the mission.</p>
+                    </div>
+                </div>
+                <div class="hidden sm:block text-4xl opacity-20 font-black font-code">HW_09</div>
+            </div>
+
+            <div class="p-6 md:p-10 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Task Specs -->
+                <div class="text-gray-400 font-code text-sm space-y-4">
+                    <p class="text-orange-400"># Mission Requirements:</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Define class <span class="text-white">Person</span></li>
+                        <li>Initialize with <span class="text-white">name</span>, <span class="text-white">age</span></li>
+                        <li>Create method <span class="text-white">greet()</span></li>
+                        <li>Create instance <span class="text-white">person1</span></li>
+                        <li>Call <span class="text-white">person1.greet()</span></li>
+                    </ul>
+                </div>
+
+                <!-- Code Editor -->
+                <div class="bg-black/40 backdrop-blur-md rounded-2xl p-6 border border-gray-700 font-code text-sm">
+                    <div class="space-y-2">
+                        <div><span class="text-purple-400">class</span> Person:</div>
+                        <div class="pl-4">
+                            <span class="text-purple-400">def</span> __init__(<span class="text-orange-400">self</span>, name, age):
+                        </div>
+                        <div class="pl-8 text-gray-500"># Set attributes</div>
+                        <div class="pl-4 mt-2">
+                            <span class="text-purple-400">def</span> greet(<span class="text-orange-400">self</span>):
+                        </div>
+                        <div class="pl-8 text-white">
+                            <span class="text-blue-400">print</span>(f"Hello my name is {<input type="text" id="hw-self" placeholder="self.name" class="bg-transparent border-b border-gray-600 text-green-400 w-24 text-center outline-none">}")
+                        </div>
+                        
+                        <div class="mt-4 text-gray-500"># Main</div>
+                        <div>
+                            person1 = <input type="text" id="hw-class" placeholder="Person" class="bg-transparent border-b border-gray-600 text-yellow-300 w-20 text-center outline-none">("John", 30)
+                        </div>
+                        <div>
+                            person1.<input type="text" id="hw-method" placeholder="greet" class="bg-transparent border-b border-gray-600 text-yellow-300 w-20 text-center outline-none">()
+                        </div>
+                    </div>
+
+                    <button onclick="runHomework()" class="mt-6 w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-white font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center gap-2">
+                        <span>▶ Execute Code</span>
+                    </button>
+                    
+                    <div id="hw-feedback" class="mt-4 text-center hidden"></div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-400 text-sm py-10 font-medium">
+            <p>Made with 🧡 by Megaminds Academy | Level 3: Session 1</p>
+        </footer>
+    </main>
+
+    <!-- JS Logic -->
+    <script>
+        // --- Navigation ---
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- XP System ---
+        let currentXP = 0;
+        function addXP(amount) {
+            currentXP = Math.min(currentXP + amount, 100);
+            document.getElementById('xp-display').innerText = `${currentXP} / 100 XP`;
+            document.getElementById('xp-bar').style.width = `${currentXP}%`;
+            
+            if (currentXP === 100) {
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            }
+        }
+
+        // --- Module 2: Assembly Line ---
+        function createCar() {
+            const color = document.getElementById('car-color').value;
+            const model = document.getElementById('car-model').value;
+            const garage = document.getElementById('garage');
+            const emptyMsg = document.getElementById('empty-garage-msg');
+
+            if (emptyMsg) emptyMsg.remove();
+
+            // Create Visual Object
+            const carCard = document.createElement('div');
+            carCard.className = "bg-white p-4 rounded-xl shadow-md border border-gray-100 flex flex-col items-center new-object relative group";
+            
+            // Generate Car Icon Color
+            let colorClass = "text-gray-800";
+            if(color === 'red') colorClass = "text-red-500";
+            if(color === 'blue') colorClass = "text-blue-500";
+            if(color === 'yellow') colorClass = "text-yellow-500";
+
+            carCard.innerHTML = `
+                <div class="text-4xl mb-2 ${colorClass}">🚘</div>
+                <h4 class="font-bold text-gray-700">${model}</h4>
+                <p class="text-xs text-gray-400">${color.toUpperCase()}</p>
+                <div class="mt-3 w-full">
+                    <button onclick="honkCar(this)" class="w-full bg-blue-100 hover:bg-blue-200 text-blue-700 text-xs font-bold py-1 rounded transition">Honk()</button>
+                </div>
+                <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition text-xs text-gray-300 font-code">id: ${Math.floor(Math.random()*1000)}</div>
+            `;
+
+            garage.appendChild(carCard);
+            addXP(10);
+        }
+
+        function honkCar(btn) {
+            const originalText = btn.innerText;
+            btn.innerText = "BEEP BEEP! 🔊";
+            btn.classList.add('bg-yellow-100', 'text-yellow-700');
+            setTimeout(() => {
+                btn.innerText = originalText;
+                btn.classList.remove('bg-yellow-100', 'text-yellow-700');
+            }, 1000);
+        }
+
+        // --- Module 3: Lab ---
+        function interactEmp(id, age, salary) {
+            const consoleEl = document.getElementById(`console-${id}`);
+            let newSalary = salary;
+            let msg = "";
+
+            if (age >= 50) {
+                newSalary += 500;
+                msg = `Age ${age} >= 50. Bonus +500. New Salary: $${newSalary}`;
+            } else {
+                newSalary += 200;
+                msg = `Age ${age} < 50. Bonus +200. New Salary: $${newSalary}`;
+            }
+
+            consoleEl.innerHTML += `<div class="mt-1">> ${msg}</div>`;
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+            addXP(15);
+        }
+
+        // --- Boss Battle ---
+        function runHomework() {
+            const selfInput = document.getElementById('hw-self').value.trim();
+            const classInput = document.getElementById('hw-class').value.trim();
+            const methodInput = document.getElementById('hw-method').value.trim();
+            const feedback = document.getElementById('hw-feedback');
+
+            feedback.classList.remove('hidden');
+
+            const isCorrect = (selfInput === 'self.name' && classInput === 'Person' && methodInput === 'greet');
+
+            if (isCorrect) {
+                feedback.innerHTML = `
+                    <div class="text-green-400 font-bold mb-2">✅ PERFECT! Object Created!</div>
+                    <div class="text-white bg-gray-800 p-2 rounded">Output: Hello my name is John</div>
+                `;
+                addXP(50);
+            } else {
+                let msg = "";
+                if (selfInput !== 'self.name') msg += "Use 'self.name' to access attributes. ";
+                if (classInput !== 'Person') msg += "Class name is 'Person'. ";
+                if (methodInput !== 'greet') msg += "Method name is 'greet'. ";
+                
+                feedback.innerHTML = `<span class="text-red-400 font-bold">❌ Error: ${msg}</span>`;
+            }
+        }
+
+    </script>
+</body>
+</html>

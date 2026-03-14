@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megaminds Academy: Python Genesis - Session 1</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Canvas Confetti for rewards -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* Custom Font Imports - Fun & Readable */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600;700&family=Fira+Code:wght@400;600&display=swap');
+
+        :root {
+            --brand-orange: #f97316; /* Orange-500 */
+            --brand-blue: #3b82f6;   /* Blue-500 */
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #fff7ed; /* Very light orange tint */
+            color: #431407;
+        }
+
+        .font-code {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Interactive Elements */
+        .game-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .game-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.15), 0 8px 10px -6px rgba(249, 115, 22, 0.1);
+        }
+
+        /* Terminal Styling */
+        .terminal-cursor::after {
+            content: '▋';
+            animation: blink 1s step-start infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #fdba74;
+            border-radius: 99px;
+            border: 2px solid #fff;
+        }
+
+        /* Flip Card Effect for Why Python */
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        .group:hover .group-hover\:rotate-y-180 { transform: rotateY(180deg); }
+    </style>
+    <!-- Application Structure Plan:
+         1. Header: Brand Orange, Level 1:0 Session 1.
+         2. Hero Area: "Welcome to the Origin".
+         3. Module A: The Core (What & Why Python) - Interactive Cards.
+         4. Module B: The Application Nexus (Where is Python used?) - Grid.
+         5. Module C: First Contact (Print Function) - Terminal Simulator.
+         6. Module D: The Vault (Variables) - Naming Game & Concatenation Lab.
+         7. Boss Battle (Homework): Simple Coding Challenge.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased selection:bg-orange-200 selection:text-orange-900">
+
+    <!-- Gamified Header -->
+    <nav class="bg-orange-500 border-b-4 border-orange-600 sticky top-0 z-50 shadow-lg text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo & Level -->
+                <div class="flex items-center gap-4">
+                    <div class="bg-white p-2 rounded-xl shadow-inner text-orange-600">
+                        <span class="text-3xl">🚀</span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold tracking-tight">MEGAMINDS <span class="text-orange-100 opacity-80 font-normal">ACADEMY</span></h1>
+                        <div class="flex items-center gap-2 text-xs font-bold bg-orange-600/50 px-2 py-1 rounded-full w-fit">
+                            <span>LEVEL 1:0</span>
+                            <span class="text-orange-200">|</span>
+                            <span>SESSION 1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- XP Bar -->
+                <div class="hidden md:flex flex-col w-1/3 gap-1">
+                    <div class="flex justify-between text-xs font-bold text-orange-100 uppercase">
+                        <span>Initiate Rank</span>
+                        <span id="xp-display">0 / 100 XP</span>
+                    </div>
+                    <div class="w-full bg-orange-700/30 rounded-full h-3 backdrop-blur-sm overflow-hidden border border-orange-400/30">
+                        <div id="xp-bar" class="bg-yellow-400 h-3 rounded-full w-0 transition-all duration-500 shadow-[0_0_10px_rgba(250,204,21,0.5)]"></div>
+                    </div>
+                </div>
+
+                <!-- STEM Badge -->
+                <div class="hidden sm:flex items-center">
+                    <span class="px-4 py-2 bg-white text-orange-600 text-sm font-bold rounded-xl shadow-sm border-b-4 border-orange-100 transform hover:scale-105 transition-transform cursor-default">
+                        ⭐ STEM ACCREDITED
+                    </span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <!-- Section 1: Hero / Mission Briefing -->
+        <section class="bg-white rounded-3xl shadow-xl border-2 border-orange-100 p-8 relative overflow-hidden game-card">
+            <div class="absolute -right-20 -top-20 w-64 h-64 bg-orange-50 rounded-full blur-3xl opacity-50 z-0"></div>
+
+            <div class="relative z-10 flex flex-col md:flex-row gap-10 items-center">
+                <div class="flex-1">
+                    <span class="inline-block px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-bold mb-3">🏁 STARTING LINE</span>
+                    <h2 class="text-4xl font-bold text-gray-800 mb-4">Project: Genesis</h2>
+                    <p class="text-gray-600 text-lg mb-6 leading-relaxed">
+                        Welcome, Future Coder! Today marks the beginning of your journey into <span class="font-bold text-orange-500">Python</span>. You will unlock the power to speak to machines, manage data in <span class="font-bold text-blue-500">Variables</span>, and command the computer to speak back!
+                    </p>
+                    <button onclick="scrollToSection('core')" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg transform transition hover:-translate-y-1 flex items-center gap-2">
+                        <span>⬇️ Begin Mission</span>
+                    </button>
+                </div>
+                <!-- Interactive Python Logo/Animation -->
+                <div class="w-full md:w-1/3 flex justify-center">
+                    <div class="relative w-48 h-48">
+                        <div class="absolute inset-0 bg-blue-500 rounded-full opacity-20 animate-pulse"></div>
+                        <div class="absolute inset-4 bg-yellow-400 rounded-full opacity-20 animate-pulse delay-75"></div>
+                        <div class="absolute inset-0 flex items-center justify-center text-8xl">🐍</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: The Core (Theory) -->
+        <section id="core">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-blue-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">1</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">The Core: Why Python?</h2>
+                    <p class="text-gray-500 text-sm">Hover over the cards to decrypt the data.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Card 1 -->
+                <div class="group h-48 perspective-1000 cursor-pointer">
+                    <div class="relative w-full h-full text-center transition-all duration-500 transform-style-3d group-hover:rotate-y-180">
+                        <!-- Front -->
+                        <div class="absolute w-full h-full bg-white rounded-2xl shadow-md border-2 border-orange-100 flex flex-col items-center justify-center p-4 backface-hidden">
+                            <span class="text-4xl mb-2">👶</span>
+                            <h3 class="font-bold text-gray-700">Simple Syntax</h3>
+                            <p class="text-xs text-gray-400 mt-2">Tap to reveal</p>
+                        </div>
+                        <!-- Back -->
+                        <div class="absolute w-full h-full bg-orange-500 rounded-2xl shadow-lg text-white flex flex-col items-center justify-center p-4 rotate-y-180 backface-hidden">
+                            <p class="font-bold text-sm">Like English!</p>
+                            <p class="text-xs mt-2">Code feels like reading a story. Easy to learn & debug.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="group h-48 perspective-1000 cursor-pointer">
+                    <div class="relative w-full h-full text-center transition-all duration-500 transform-style-3d group-hover:rotate-y-180">
+                        <div class="absolute w-full h-full bg-white rounded-2xl shadow-md border-2 border-blue-100 flex flex-col items-center justify-center p-4 backface-hidden">
+                            <span class="text-4xl mb-2">🆓</span>
+                            <h3 class="font-bold text-gray-700">Open Source</h3>
+                            <p class="text-xs text-gray-400 mt-2">Tap to reveal</p>
+                        </div>
+                        <div class="absolute w-full h-full bg-blue-500 rounded-2xl shadow-lg text-white flex flex-col items-center justify-center p-4 rotate-y-180 backface-hidden">
+                            <p class="font-bold text-sm">Free for All!</p>
+                            <p class="text-xs mt-2">Built by a community. Massive support & libraries.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="group h-48 perspective-1000 cursor-pointer">
+                    <div class="relative w-full h-full text-center transition-all duration-500 transform-style-3d group-hover:rotate-y-180">
+                        <div class="absolute w-full h-full bg-white rounded-2xl shadow-md border-2 border-green-100 flex flex-col items-center justify-center p-4 backface-hidden">
+                            <span class="text-4xl mb-2">🧱</span>
+                            <h3 class="font-bold text-gray-700">Object Oriented</h3>
+                            <p class="text-xs text-gray-400 mt-2">Tap to reveal</p>
+                        </div>
+                        <div class="absolute w-full h-full bg-green-500 rounded-2xl shadow-lg text-white flex flex-col items-center justify-center p-4 rotate-y-180 backface-hidden">
+                            <p class="font-bold text-sm">Reusable Code</p>
+                            <p class="text-xs mt-2">Uses Classes and Objects to organize complex code easily.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="group h-48 perspective-1000 cursor-pointer">
+                    <div class="relative w-full h-full text-center transition-all duration-500 transform-style-3d group-hover:rotate-y-180">
+                        <div class="absolute w-full h-full bg-white rounded-2xl shadow-md border-2 border-purple-100 flex flex-col items-center justify-center p-4 backface-hidden">
+                            <span class="text-4xl mb-2">🏃</span>
+                            <h3 class="font-bold text-gray-700">Interpreted</h3>
+                            <p class="text-xs text-gray-400 mt-2">Tap to reveal</p>
+                        </div>
+                        <div class="absolute w-full h-full bg-purple-500 rounded-2xl shadow-lg text-white flex flex-col items-center justify-center p-4 rotate-y-180 backface-hidden">
+                            <p class="font-bold text-sm">Runs Instantly</p>
+                            <p class="text-xs mt-2">Line-by-line execution makes finding errors super fast.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: The Application Nexus -->
+        <section>
+            <div class="bg-white rounded-3xl shadow-lg border border-gray-100 p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                    <span class="text-2xl">🌍</span> Where is Python Used?
+                </h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="p-4 bg-gray-50 rounded-xl hover:bg-orange-50 transition-colors border border-transparent hover:border-orange-200">
+                        <div class="text-3xl mb-2">🤖</div>
+                        <h4 class="font-bold text-gray-700">AI & ML</h4>
+                        <p class="text-xs text-gray-500">Robots thinking like humans.</p>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-xl hover:bg-blue-50 transition-colors border border-transparent hover:border-blue-200">
+                        <div class="text-3xl mb-2">🕸️</div>
+                        <h4 class="font-bold text-gray-700">Web Dev</h4>
+                        <p class="text-xs text-gray-500">Building sites with Flask/Django.</p>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-xl hover:bg-green-50 transition-colors border border-transparent hover:border-green-200">
+                        <div class="text-3xl mb-2">🎮</div>
+                        <h4 class="font-bold text-gray-700">Gaming</h4>
+                        <p class="text-xs text-gray-500">Creating fun with Pygame.</p>
+                    </div>
+                    <div class="p-4 bg-gray-50 rounded-xl hover:bg-purple-50 transition-colors border border-transparent hover:border-purple-200">
+                        <div class="text-3xl mb-2">📊</div>
+                        <h4 class="font-bold text-gray-700">Data Science</h4>
+                        <p class="text-xs text-gray-500">Analyzing big numbers.</p>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-center">
+                    <div class="chart-container w-full max-w-md h-64">
+                        <canvas id="usageChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: First Contact (Print Function) -->
+        <section>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-orange-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">2</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">First Contact: The Print Function</h2>
+                    <p class="text-gray-500 text-sm">Command the computer to speak!</p>
+                </div>
+            </div>
+
+            <div class="bg-gray-900 rounded-3xl shadow-2xl p-6 border-4 border-gray-800 overflow-hidden relative">
+                <div class="absolute top-4 right-4 text-gray-600 font-bold text-6xl opacity-20 select-none">IDLE</div>
+                
+                <!-- Terminal Screen -->
+                <div class="font-code text-green-400 space-y-2 mb-4 h-40 overflow-y-auto" id="terminal-history">
+                    <div><span class="text-blue-400">>>></span> Python 3.8.0 Shell ready...</div>
+                    <div><span class="text-blue-400">>>></span> Type your command below. Hint: use print("message")</div>
+                </div>
+
+                <!-- Input Area -->
+                <div class="flex items-center gap-2 bg-gray-800 p-2 rounded-lg border border-gray-700">
+                    <span class="text-blue-400 font-code font-bold">>>></span>
+                    <input type="text" id="terminal-input" class="bg-transparent border-none outline-none text-white font-code w-full terminal-cursor" placeholder='print("Hello World")' onkeypress="handleTerminalInput(event)">
+                </div>
+                
+                <div class="mt-4 text-xs text-gray-500 flex justify-between items-center">
+                    <span>Press ENTER to execute</span>
+                    <span id="terminal-status" class="text-orange-500 hidden">⚠️ Syntax Error! Check your quotes.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: The Vault (Variables) -->
+        <section>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-green-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">3</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">The Vault: Variables</h2>
+                    <p class="text-gray-500 text-sm">Variables are boxes to store data. Label them correctly!</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Naming Game -->
+                <div class="bg-white rounded-3xl shadow-lg border border-gray-100 p-6 game-card">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-gray-800">🕵️ Variable Naming Game</h3>
+                        <span class="bg-orange-100 text-orange-600 text-xs font-bold px-2 py-1 rounded-full">XP: <span id="game-score">0</span></span>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-xl p-6 text-center mb-4 border border-gray-200">
+                        <p class="text-xs text-gray-400 uppercase mb-2">Is this a valid name?</p>
+                        <h4 id="var-name-display" class="text-3xl font-code font-bold text-gray-800 mb-0">my_var</h4>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <button onclick="checkName(true)" class="bg-green-100 hover:bg-green-200 text-green-700 font-bold py-3 rounded-xl transition">✅ VALID</button>
+                        <button onclick="checkName(false)" class="bg-red-100 hover:bg-red-200 text-red-700 font-bold py-3 rounded-xl transition">❌ INVALID</button>
+                    </div>
+                    <p id="game-feedback" class="text-center text-sm mt-3 h-5 font-bold text-gray-500"></p>
+                </div>
+
+                <!-- Concatenation Lab -->
+                <div class="bg-white rounded-3xl shadow-lg border border-gray-100 p-6 game-card">
+                    <h3 class="font-bold text-gray-800 mb-4">🔗 Concatenation Lab</h3>
+                    <p class="text-xs text-gray-500 mb-4">Combine Strings (+) like a puzzle.</p>
+
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="font-code text-gray-500 w-16">name =</span>
+                            <input type="text" id="concat-name" placeholder="John" class="flex-1 bg-gray-50 border border-gray-200 rounded p-2 font-code" oninput="updateConcat()">
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-code text-gray-500 w-16">age =</span>
+                            <input type="text" id="concat-age" placeholder="20" class="flex-1 bg-gray-50 border border-gray-200 rounded p-2 font-code" oninput="updateConcat()">
+                        </div>
+                        
+                        <div class="bg-gray-800 text-white p-4 rounded-xl font-code text-sm mt-4">
+                            <span class="text-blue-400">print</span>("I am " <span class="text-orange-400">+</span> name <span class="text-orange-400">+</span> " and I am " <span class="text-orange-400">+</span> age)
+                            <div class="border-t border-gray-600 my-2"></div>
+                            <span class="text-green-400">>>></span> <span id="concat-output">I am John and I am 20</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Boss Battle (Homework) -->
+        <section class="bg-gray-900 rounded-3xl shadow-2xl p-1 border-4 border-gray-800 relative overflow-hidden">
+            <div class="bg-gradient-to-r from-orange-600 to-red-600 p-6 rounded-t-[20px] text-white flex justify-between items-center relative z-10">
+                <div>
+                    <h2 class="text-2xl font-bold flex items-center gap-2"><span>🏆</span> FINAL BOSS: HOMEWORK</h2>
+                    <p class="text-orange-100 text-sm opacity-90">Declare a message and print it to win.</p>
+                </div>
+                <div class="hidden sm:block text-4xl opacity-20 font-black">HW_01</div>
+            </div>
+
+            <div class="p-6 md:p-10 relative z-10">
+                <div class="max-w-3xl mx-auto bg-black/40 backdrop-blur-md rounded-2xl p-8 border border-gray-700">
+                    <div class="space-y-4 font-code text-sm">
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">1</span>
+                            <input type="text" id="hw-var" class="bg-transparent border-b border-gray-600 text-white w-32 focus:outline-none focus:border-orange-500" placeholder="variable_name">
+                            <span class="text-white">=</span>
+                            <span class="text-yellow-300">"Hello World"</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-gray-500">2</span>
+                            <span class="text-blue-400">print</span>(<input type="text" id="hw-print-var" class="bg-transparent border-b border-gray-600 text-white w-32 focus:outline-none focus:border-orange-500" placeholder="variable_name">)
+                        </div>
+                    </div>
+
+                    <button onclick="runHomework()" class="mt-8 w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-400 hover:to-orange-500 text-white font-bold py-4 rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 text-lg">
+                        <span>▶ EXECUTE MISSION</span>
+                    </button>
+
+                    <div id="hw-console" class="mt-4 bg-black rounded-lg p-4 font-code text-sm min-h-[60px] border border-gray-700 hidden">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-400 text-sm py-10 font-medium">
+            <p>Made with 🧡 by Megaminds Academy | Level 1:0 Session 1</p>
+        </footer>
+    </main>
+
+    <!-- JS Logic -->
+    <script>
+        // --- Navigation ---
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- XP System ---
+        let currentXP = 0;
+        function addXP(amount) {
+            currentXP = Math.min(currentXP + amount, 100);
+            document.getElementById('xp-display').innerText = `${currentXP} / 100 XP`;
+            document.getElementById('xp-bar').style.width = `${currentXP}%`;
+            
+            if (currentXP === 100) {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+
+        // --- Usage Chart ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const ctx = document.getElementById('usageChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['AI/ML', 'Web', 'Data', 'Games'],
+                    datasets: [{
+                        label: 'Popularity',
+                        data: [95, 80, 90, 60],
+                        backgroundColor: ['#f97316', '#3b82f6', '#a855f7', '#22c55e'],
+                        borderRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { display: false }, x: { grid: { display: false } } }
+                }
+            });
+            
+            loadNewName();
+        });
+
+        // --- Terminal Simulator ---
+        function handleTerminalInput(event) {
+            if (event.key === 'Enter') {
+                const input = document.getElementById('terminal-input');
+                const history = document.getElementById('terminal-history');
+                const cmd = input.value.trim();
+                
+                let output = "";
+                
+                // Regex to check for print("...") or print('...')
+                const printRegex = /^print\s*\(\s*(["'])(.*?)\1\s*\)$/;
+                const match = cmd.match(printRegex);
+
+                if (match) {
+                    // Success
+                    output = `<div class="text-white">${match[2]}</div>`;
+                    addXP(10);
+                } else if (cmd === "") {
+                    output = "";
+                } else {
+                    // Simple error simulation
+                    output = `<div class="text-red-400">SyntaxError: invalid syntax. Did you forget quotes? try: print("hello")</div>`;
+                }
+
+                // Add command to history
+                history.innerHTML += `<div><span class="text-blue-400">>>></span> ${cmd}</div>`;
+                if (output) history.innerHTML += output;
+                
+                // Scroll to bottom
+                history.scrollTop = history.scrollHeight;
+                input.value = "";
+            }
+        }
+
+        // --- Variable Naming Game ---
+        const variableNames = [
+            { name: "my_name", valid: true },
+            { name: "2cool", valid: false, reason: "Cannot start with a number" },
+            { name: "userName", valid: true },
+            { name: "class", valid: false, reason: "Reserved keyword" },
+            { name: "my-var", valid: false, reason: "Hyphens not allowed (use _)" },
+            { name: "User_Age", valid: true },
+            { name: "print", valid: false, reason: "Avoid keywords/functions" }
+        ];
+        let currentVarIndex = 0;
+        let gameScore = 0;
+
+        function loadNewName() {
+            const current = variableNames[currentVarIndex];
+            document.getElementById('var-name-display').innerText = current.name;
+            document.getElementById('game-feedback').innerText = "";
+            document.getElementById('game-feedback').className = "text-center text-sm mt-3 h-5 font-bold text-gray-500";
+        }
+
+        function checkName(userChoice) {
+            const current = variableNames[currentVarIndex];
+            const feedback = document.getElementById('game-feedback');
+            
+            if (userChoice === current.valid) {
+                feedback.innerText = "Correct! 🎉";
+                feedback.className = "text-center text-sm mt-3 h-5 font-bold text-green-500";
+                gameScore += 10;
+                addXP(5);
+            } else {
+                feedback.innerText = current.valid ? "Wrong! It is valid." : `Wrong! ${current.reason}`;
+                feedback.className = "text-center text-sm mt-3 h-5 font-bold text-red-500";
+            }
+            
+            document.getElementById('game-score').innerText = gameScore;
+            
+            // Next Question Delay
+            setTimeout(() => {
+                currentVarIndex = (currentVarIndex + 1) % variableNames.length;
+                loadNewName();
+            }, 1500);
+        }
+
+        // --- Concatenation Lab ---
+        function updateConcat() {
+            const name = document.getElementById('concat-name').value || "John";
+            const age = document.getElementById('concat-age').value || "20";
+            document.getElementById('concat-output').innerText = `I am ${name} and I am ${age}`;
+        }
+
+        // --- Homework ---
+        function runHomework() {
+            const varName = document.getElementById('hw-var').value.trim();
+            const printVar = document.getElementById('hw-print-var').value.trim();
+            const consoleEl = document.getElementById('hw-console');
+            
+            consoleEl.classList.remove('hidden');
+            
+            if (!varName || !printVar) {
+                consoleEl.innerHTML = `<span class="text-red-400">Error: Please fill in all fields!</span>`;
+                return;
+            }
+
+            // Basic validation
+            const validNameRegex = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
+            
+            if (!validNameRegex.test(varName)) {
+                consoleEl.innerHTML = `<span class="text-red-400">SyntaxError: Invalid variable name '${varName}'</span>`;
+                return;
+            }
+
+            if (varName !== printVar) {
+                consoleEl.innerHTML = `<span class="text-red-400">NameError: name '${printVar}' is not defined. Did you mean '${varName}'?</span>`;
+                return;
+            }
+
+            // Success
+            consoleEl.innerHTML = `
+                <div class="text-green-400">>>> Program Executed Successfully!</div>
+                <div class="text-white mt-2">Hello World</div>
+                <div class="text-yellow-400 mt-2 font-bold">✨ MISSION COMPLETE! +50 XP</div>
+            `;
+            addXP(50);
+        }
+    </script>
+</body>
+</html>

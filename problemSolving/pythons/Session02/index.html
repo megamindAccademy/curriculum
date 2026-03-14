@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megaminds Academy: Python Data Streams - Session 2</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600;700&family=Fira+Code:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #fff7ed; /* Orange-50 */
+            color: #431407;
+        }
+
+        .font-code {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Interactive Card Hover */
+        .game-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -5px rgba(249, 115, 22, 0.2);
+        }
+
+        /* List Box Animation */
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .list-item-anim {
+            animation: popIn 0.3s ease-out forwards;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track { background: #fff; }
+        ::-webkit-scrollbar-thumb { background: #fb923c; border-radius: 4px; }
+    </style>
+    <!-- Application Structure Plan:
+         1. Header: Session 2 Branding.
+         2. Hero: "Project Data Streams".
+         3. Module A: Data Type Scanner (Interactive type() checker).
+         4. Module B: Input Processor (Simulating input() and int() casting).
+         5. Module C: The List Vault (Visual List manipulation: Append, Insert, Sort, Remove).
+         6. Boss Battle (Homework): List manipulation challenge.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased selection:bg-orange-200 selection:text-orange-900">
+
+    <!-- Header -->
+    <nav class="bg-orange-500 border-b-4 border-orange-600 sticky top-0 z-50 shadow-lg text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-4">
+                    <div class="bg-white p-2 rounded-xl shadow-inner text-orange-600">
+                        <span class="text-3xl">💾</span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold tracking-tight">MEGAMINDS <span class="text-orange-100 opacity-80 font-normal">ACADEMY</span></h1>
+                        <div class="flex items-center gap-2 text-xs font-bold bg-orange-600/50 px-2 py-1 rounded-full w-fit">
+                            <span>LEVEL 1:0</span>
+                            <span class="text-orange-200">|</span>
+                            <span>SESSION 2</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- XP System -->
+                <div class="hidden md:flex flex-col w-1/3 gap-1">
+                    <div class="flex justify-between text-xs font-bold text-orange-100 uppercase">
+                        <span>Data Handler Rank</span>
+                        <span id="xp-display">0 / 100 XP</span>
+                    </div>
+                    <div class="w-full bg-orange-700/30 rounded-full h-3 overflow-hidden border border-orange-400/30">
+                        <div id="xp-bar" class="bg-yellow-400 h-3 rounded-full w-0 transition-all duration-500"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <!-- Hero Section -->
+        <section class="bg-white rounded-3xl shadow-xl border-2 border-orange-100 p-8 relative overflow-hidden game-card">
+            <div class="absolute -right-20 -top-20 w-64 h-64 bg-orange-50 rounded-full blur-3xl opacity-50"></div>
+            <div class="relative z-10 flex flex-col md:flex-row gap-8 items-center">
+                <div class="flex-1">
+                    <span class="inline-block px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-xs font-bold mb-3">📡 INCOMING DATA STREAM</span>
+                    <h2 class="text-4xl font-bold text-gray-800 mb-4">Project: Data Control</h2>
+                    <p class="text-gray-600 text-lg mb-6">
+                        Commander! We are receiving raw signals. Your mission:
+                        <br>1. Identify the <span class="font-bold text-orange-500">Data Types</span>.
+                        <br>2. Process User <span class="font-bold text-blue-500">Inputs</span> correctly.
+                        <br>3. Organize data in the <span class="font-bold text-green-500">List Vault</span>.
+                    </p>
+                    <button onclick="scrollToSection('scanner')" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition transform hover:-translate-y-1">
+                        ⬇️ Start Processing
+                    </button>
+                </div>
+                <div class="w-full md:w-1/3 flex justify-center">
+                    <div class="text-9xl animate-bounce">📦</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 1: Data Scanner -->
+        <section id="scanner">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-purple-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">1</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">The Data Scanner</h2>
+                    <p class="text-gray-500 text-sm">Everything in Python has a type. Scan the objects below.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Scanner Screen -->
+                <div class="bg-gray-900 rounded-3xl p-8 flex flex-col items-center justify-center relative border-4 border-gray-800 shadow-2xl">
+                    <div class="absolute top-4 left-4 text-xs text-green-400 font-code animate-pulse">STATUS: SCANNING...</div>
+                    
+                    <div id="scanner-display" class="text-6xl mb-4 transition-all duration-300 transform scale-100">❓</div>
+                    <div id="scanner-value" class="text-white font-code text-xl mb-6">Waiting for object...</div>
+                    
+                    <div class="w-full bg-gray-800 rounded-xl p-4 border border-gray-700 text-center">
+                        <p class="text-gray-500 text-xs uppercase mb-1">Detected Type</p>
+                        <p id="scanner-type" class="text-orange-400 font-code text-2xl font-bold">&lt;class 'None'&gt;</p>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="scanData('int')" class="bg-white hover:bg-orange-50 border-2 border-orange-100 rounded-xl p-4 text-left transition group">
+                        <span class="text-2xl block mb-2">5</span>
+                        <span class="font-bold text-gray-700 group-hover:text-orange-600">Scan Integer</span>
+                    </button>
+                    <button onclick="scanData('float')" class="bg-white hover:bg-blue-50 border-2 border-blue-100 rounded-xl p-4 text-left transition group">
+                        <span class="text-2xl block mb-2">5.5</span>
+                        <span class="font-bold text-gray-700 group-hover:text-blue-600">Scan Float</span>
+                    </button>
+                    <button onclick="scanData('str')" class="bg-white hover:bg-green-50 border-2 border-green-100 rounded-xl p-4 text-left transition group">
+                        <span class="text-2xl block mb-2">"Hello"</span>
+                        <span class="font-bold text-gray-700 group-hover:text-green-600">Scan String</span>
+                    </button>
+                    <button onclick="scanData('bool')" class="bg-white hover:bg-purple-50 border-2 border-purple-100 rounded-xl p-4 text-left transition group">
+                        <span class="text-2xl block mb-2">True</span>
+                        <span class="font-bold text-gray-700 group-hover:text-purple-600">Scan Bool</span>
+                    </button>
+                    <button onclick="scanData('list')" class="col-span-2 bg-white hover:bg-yellow-50 border-2 border-yellow-100 rounded-xl p-4 text-center transition group">
+                        <span class="text-2xl inline-block mb-1">[1, 2, 3]</span>
+                        <span class="font-bold text-gray-700 block group-hover:text-yellow-600">Scan List</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 2: The Input Processor -->
+        <section>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-blue-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">2</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">The Input Processor</h2>
+                    <p class="text-gray-500 text-sm">Beware! The <code>input()</code> function always returns a String. Fix the glitch!</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-lg border border-gray-100 p-8 game-card">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Inputs -->
+                    <div class="md:col-span-1 space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Input 1</label>
+                            <input type="text" id="input1" value="5" class="w-full bg-gray-50 border-2 border-gray-200 rounded-xl p-3 font-code text-lg focus:border-blue-500 outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Input 2</label>
+                            <input type="text" id="input2" value="7" class="w-full bg-gray-50 border-2 border-gray-200 rounded-xl p-3 font-code text-lg focus:border-blue-500 outline-none">
+                        </div>
+                        
+                        <div class="flex items-center gap-2 bg-yellow-50 p-3 rounded-lg border border-yellow-200">
+                            <input type="checkbox" id="castToggle" class="w-5 h-5 text-orange-500 rounded focus:ring-orange-500" onchange="processInput()">
+                            <label for="castToggle" class="text-sm font-bold text-gray-700 select-none cursor-pointer">Activate <code>int()</code> Casting</label>
+                        </div>
+                        
+                        <button onclick="processInput()" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 rounded-xl shadow-md transition">
+                            ▶ Run Calculation
+                        </button>
+                    </div>
+
+                    <!-- Visualizer -->
+                    <div class="md:col-span-2 bg-gray-900 rounded-2xl p-6 relative font-code">
+                        <div class="absolute top-0 left-0 bg-gray-800 px-3 py-1 rounded-br-xl text-xs text-gray-400">Memory Dump</div>
+                        
+                        <div class="mt-6 space-y-4">
+                            <!-- Step 1 -->
+                            <div class="flex items-center gap-4">
+                                <span class="text-gray-500 w-16 text-right">Raw:</span>
+                                <div id="vis-raw1" class="bg-gray-800 px-3 py-1 rounded text-green-400">"5"</div>
+                                <span class="text-gray-600">+</span>
+                                <div id="vis-raw2" class="bg-gray-800 px-3 py-1 rounded text-green-400">"7"</div>
+                            </div>
+
+                            <!-- Step 2 -->
+                            <div class="flex items-center gap-4">
+                                <span class="text-gray-500 w-16 text-right">Logic:</span>
+                                <div id="vis-logic" class="text-gray-300">Concatenation (String Join)</div>
+                            </div>
+
+                            <!-- Result -->
+                            <div class="border-t border-gray-700 pt-4 flex items-center gap-4">
+                                <span class="text-gray-500 w-16 text-right">Result:</span>
+                                <div id="vis-result" class="text-4xl font-bold text-red-400">"57"</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 3: The List Vault -->
+        <section id="vault">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-green-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">3</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">The List Vault</h2>
+                    <p class="text-gray-500 text-sm">Lists are ordered containers. Manage your inventory!</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-xl border-2 border-green-100 p-8 relative overflow-hidden">
+                <!-- Visual Array Representation -->
+                <div class="mb-8 overflow-x-auto pb-4">
+                    <div class="flex items-end gap-2 min-h-[120px] px-2" id="list-container">
+                        <!-- Boxes generated by JS -->
+                    </div>
+                    <div class="flex gap-2 px-2 mt-2" id="index-container">
+                        <!-- Indices generated by JS -->
+                    </div>
+                </div>
+
+                <!-- Control Panel -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                    
+                    <!-- Add Items -->
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-gray-700 flex items-center gap-2">
+                            <span class="bg-green-100 text-green-600 p-1 rounded text-xs">ADD</span>
+                            Modify Inventory
+                        </h4>
+                        <div class="flex gap-2">
+                            <input type="text" id="item-input" placeholder="Value (e.g. 'Apple')" class="flex-1 bg-white border border-gray-300 rounded-lg p-2 font-code focus:border-green-500 outline-none">
+                            <button onclick="listAction('append')" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg font-bold text-sm transition">
+                                .append()
+                            </button>
+                        </div>
+                        <div class="flex gap-2">
+                            <input type="number" id="insert-index" placeholder="Idx" class="w-16 bg-white border border-gray-300 rounded-lg p-2 font-code text-center">
+                            <button onclick="listAction('insert')" class="bg-green-100 hover:bg-green-200 text-green-700 px-4 py-2 rounded-lg font-bold text-sm transition flex-1">
+                                .insert(i, val)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Manage Items -->
+                    <div class="space-y-4">
+                        <h4 class="font-bold text-gray-700 flex items-center gap-2">
+                            <span class="bg-blue-100 text-blue-600 p-1 rounded text-xs">MANAGE</span>
+                            Organize Data
+                        </h4>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="listAction('sort')" class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-bold text-sm transition font-code">
+                                .sort()
+                            </button>
+                            <button onclick="listAction('reverse')" class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-bold text-sm transition font-code">
+                                .reverse()
+                            </button>
+                            <button onclick="listAction('pop')" class="bg-red-100 hover:bg-red-200 text-red-600 px-4 py-2 rounded-lg font-bold text-sm transition font-code">
+                                .pop()
+                            </button>
+                            <button onclick="listAction('clear')" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-bold text-sm transition font-code">
+                                .clear()
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Boss Battle (Homework) -->
+        <section class="bg-gray-900 rounded-3xl shadow-2xl p-1 border-4 border-gray-800 relative overflow-hidden">
+            <div class="bg-gradient-to-r from-orange-600 to-red-600 p-6 rounded-t-[20px] text-white flex justify-between items-center relative z-10">
+                <div>
+                    <h2 class="text-2xl font-bold flex items-center gap-2"><span>🏆</span> FINAL BOSS: HOMEWORK</h2>
+                    <p class="text-orange-100 text-sm opacity-90">Manipulate the list to match the target.</p>
+                </div>
+                <div class="hidden sm:block text-4xl opacity-20 font-black">HW_02</div>
+            </div>
+
+            <div class="p-6 md:p-10 relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Instructions -->
+                <div class="text-gray-300 space-y-4">
+                    <p>Current List: <span id="hw-current-list" class="font-code text-yellow-400">[5, 9, 6, 7]</span></p>
+                    <p>Target List: <span class="font-code text-green-400">[2, 4, 5, 5, 6, 7, 9]</span></p>
+                    
+                    <ul class="list-disc list-inside text-sm text-gray-400 space-y-1">
+                        <li>The list needs more numbers.</li>
+                        <li>It needs to be sorted.</li>
+                        <li>Append <code>2</code>, <code>5</code>, <code>4</code> then Sort.</li>
+                    </ul>
+                </div>
+
+                <!-- Code Editor Simulator -->
+                <div class="bg-black/40 backdrop-blur-md rounded-2xl p-6 border border-gray-700 font-code text-sm">
+                    <div class="text-gray-500"># 1. Create List</div>
+                    <div class="text-white">my_list = [5, 9, 6, 7]</div>
+                    
+                    <div class="text-gray-500 mt-2"># 2. Add Missing Numbers</div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-white">my_list.extend([</span>
+                        <input type="text" id="hw-input" placeholder="2, 5, 4" class="bg-transparent border-b border-gray-600 text-yellow-300 w-24 focus:outline-none text-center">
+                        <span class="text-white">])</span>
+                    </div>
+
+                    <div class="text-gray-500 mt-2"># 3. Sort Logic</div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-white">my_list.</span>
+                        <select id="hw-action" class="bg-gray-800 text-white border border-gray-600 rounded px-2">
+                            <option value="">select...</option>
+                            <option value="sort">sort()</option>
+                            <option value="clear">clear()</option>
+                            <option value="reverse">reverse()</option>
+                        </select>
+                    </div>
+
+                    <button onclick="runHomework()" class="mt-6 w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
+                        ▶ EXECUTE
+                    </button>
+                    
+                    <div id="hw-feedback" class="mt-4 text-center hidden"></div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-400 text-sm py-10 font-medium">
+            <p>Made with 🧡 by Megaminds Academy | Level 1:0 Session 2</p>
+        </footer>
+    </main>
+
+    <!-- JS Logic -->
+    <script>
+        // --- Navigation ---
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- XP System ---
+        let currentXP = 0;
+        function addXP(amount) {
+            currentXP = Math.min(currentXP + amount, 100);
+            document.getElementById('xp-display').innerText = `${currentXP} / 100 XP`;
+            document.getElementById('xp-bar').style.width = `${currentXP}%`;
+            
+            if (currentXP === 100) {
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            }
+        }
+
+        // --- Module 1: Scanner ---
+        function scanData(type) {
+            const display = document.getElementById('scanner-display');
+            const value = document.getElementById('scanner-value');
+            const typeText = document.getElementById('scanner-type');
+            
+            // Reset Animation
+            display.classList.remove('scale-100');
+            display.classList.add('scale-0');
+            
+            setTimeout(() => {
+                display.classList.remove('scale-0');
+                display.classList.add('scale-100');
+                
+                switch(type) {
+                    case 'int':
+                        display.innerText = '🔢';
+                        value.innerText = 'Value: 5';
+                        typeText.innerText = "<class 'int'>";
+                        typeText.className = "text-blue-400 font-code text-2xl font-bold";
+                        break;
+                    case 'float':
+                        display.innerText = '🌊';
+                        value.innerText = 'Value: 5.5';
+                        typeText.innerText = "<class 'float'>";
+                        typeText.className = "text-cyan-400 font-code text-2xl font-bold";
+                        break;
+                    case 'str':
+                        display.innerText = '📜';
+                        value.innerText = 'Value: "Hello"';
+                        typeText.innerText = "<class 'str'>";
+                        typeText.className = "text-green-400 font-code text-2xl font-bold";
+                        break;
+                    case 'bool':
+                        display.innerText = '💡';
+                        value.innerText = 'Value: True';
+                        typeText.innerText = "<class 'bool'>";
+                        typeText.className = "text-purple-400 font-code text-2xl font-bold";
+                        break;
+                    case 'list':
+                        display.innerText = '📚';
+                        value.innerText = 'Value: [1, 2, 3]';
+                        typeText.innerText = "<class 'list'>";
+                        typeText.className = "text-yellow-400 font-code text-2xl font-bold";
+                        break;
+                }
+                addXP(5);
+            }, 150);
+        }
+
+        // --- Module 2: Input Processor ---
+        function processInput() {
+            const v1 = document.getElementById('input1').value;
+            const v2 = document.getElementById('input2').value;
+            const isCast = document.getElementById('castToggle').checked;
+            
+            const raw1 = document.getElementById('vis-raw1');
+            const raw2 = document.getElementById('vis-raw2');
+            const logic = document.getElementById('vis-logic');
+            const result = document.getElementById('vis-result');
+
+            if (isCast) {
+                // INT MODE
+                raw1.innerText = parseInt(v1) || 0;
+                raw1.className = "bg-gray-800 px-3 py-1 rounded text-blue-400";
+                
+                raw2.innerText = parseInt(v2) || 0;
+                raw2.className = "bg-gray-800 px-3 py-1 rounded text-blue-400";
+                
+                logic.innerText = "Mathematical Addition (Integers)";
+                
+                const sum = (parseInt(v1) || 0) + (parseInt(v2) || 0);
+                result.innerText = sum;
+                result.className = "text-4xl font-bold text-blue-400";
+            } else {
+                // STRING MODE
+                raw1.innerText = `"${v1}"`;
+                raw1.className = "bg-gray-800 px-3 py-1 rounded text-green-400";
+                
+                raw2.innerText = `"${v2}"`;
+                raw2.className = "bg-gray-800 px-3 py-1 rounded text-green-400";
+                
+                logic.innerText = "String Concatenation (Joining Text)";
+                
+                result.innerText = `"${v1}${v2}"`;
+                result.className = "text-4xl font-bold text-red-400";
+            }
+            addXP(5);
+        }
+
+        // --- Module 3: List Vault ---
+        let vaultList = ["Python", "AI", "Code"];
+        const colors = ["bg-red-500", "bg-orange-500", "bg-yellow-500", "bg-green-500", "bg-blue-500", "bg-purple-500", "bg-pink-500"];
+
+        function renderList() {
+            const container = document.getElementById('list-container');
+            const indices = document.getElementById('index-container');
+            container.innerHTML = '';
+            indices.innerHTML = '';
+
+            vaultList.forEach((item, index) => {
+                // Create Box
+                const box = document.createElement('div');
+                const colorClass = colors[index % colors.length];
+                box.className = `${colorClass} text-white font-bold p-4 rounded-xl shadow-lg min-w-[80px] text-center list-item-anim flex items-center justify-center border-b-4 border-black/20`;
+                box.innerText = item;
+                container.appendChild(box);
+
+                // Create Index
+                const idx = document.createElement('div');
+                idx.className = "min-w-[80px] text-center text-xs font-code text-gray-400 font-bold";
+                idx.innerText = index;
+                indices.appendChild(idx);
+            });
+        }
+
+        function listAction(action) {
+            const input = document.getElementById('item-input');
+            const insertIdx = document.getElementById('insert-index');
+            
+            switch(action) {
+                case 'append':
+                    if (input.value) vaultList.push(input.value);
+                    break;
+                case 'insert':
+                    if (input.value && insertIdx.value !== "") {
+                        vaultList.splice(parseInt(insertIdx.value), 0, input.value);
+                    }
+                    break;
+                case 'sort':
+                    vaultList.sort();
+                    break;
+                case 'reverse':
+                    vaultList.reverse();
+                    break;
+                case 'pop':
+                    vaultList.pop();
+                    break;
+                case 'clear':
+                    vaultList = [];
+                    break;
+            }
+            renderList();
+            addXP(5);
+            input.value = "";
+        }
+
+        // --- Homework ---
+        function runHomework() {
+            const inputVal = document.getElementById('hw-input').value.trim(); // Expecting "2, 5, 4"
+            const action = document.getElementById('hw-action').value;
+            const feedback = document.getElementById('hw-feedback');
+            
+            feedback.classList.remove('hidden');
+
+            // Simplified validation
+            const hasNumbers = inputVal.includes('2') && inputVal.includes('4') && inputVal.includes('5');
+            
+            if (hasNumbers && action === 'sort') {
+                feedback.innerHTML = `<span class="text-green-400 font-bold">✅ SUCCESS! List Updated: [2, 4, 5, 5, 6, 7, 9]</span>`;
+                addXP(50);
+            } else {
+                feedback.innerHTML = `<span class="text-red-400">❌ Try again! Ensure you add numbers 2, 5, 4 and select sort().</span>`;
+            }
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            renderList();
+        });
+
+    </script>
+</body>
+</html>

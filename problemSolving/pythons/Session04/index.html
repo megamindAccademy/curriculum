@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megaminds Academy: Python Data Archives - Session 4</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600;700&family=Fira+Code:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #fff7ed; /* Orange-50 */
+            color: #431407;
+        }
+
+        .font-code {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Animations */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        .shake-anim {
+            animation: shake 0.3s ease-in-out;
+        }
+
+        @keyframes unlock {
+            0% { transform: scale(1); filter: grayscale(100%); }
+            50% { transform: scale(1.05); filter: grayscale(0%); }
+            100% { transform: scale(1); filter: grayscale(0%); }
+        }
+        .unlock-anim {
+            animation: unlock 0.5s ease-out forwards;
+        }
+
+        /* Interactive Card Hover */
+        .game-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -5px rgba(249, 115, 22, 0.2);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track { background: #fff; }
+        ::-webkit-scrollbar-thumb { background: #fb923c; border-radius: 4px; }
+    </style>
+    <!-- Application Structure Plan:
+         1. Header: Session 4 Branding.
+         2. Hero: "Project Data Archives" (Tuples & Dictionaries).
+         3. Module A: The Sealed Capsule (Tuple Immutability & Conversion Trick).
+         4. Module B: The Keymaster's Ledger (Dictionary Operations).
+         5. Module C: Structure Radar (Comparison).
+         6. Boss Battle (Homework): Tuple modification & Dict Management.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased selection:bg-orange-200 selection:text-orange-900">
+
+    <!-- Header -->
+    <nav class="bg-orange-500 border-b-4 border-orange-600 sticky top-0 z-50 shadow-lg text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-4">
+                    <div class="bg-white p-2 rounded-xl shadow-inner text-orange-600">
+                        <span class="text-3xl">🔐</span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold tracking-tight">MEGAMINDS <span class="text-orange-100 opacity-80 font-normal">ACADEMY</span></h1>
+                        <div class="flex items-center gap-2 text-xs font-bold bg-orange-600/50 px-2 py-1 rounded-full w-fit">
+                            <span>LEVEL 1:0</span>
+                            <span class="text-orange-200">|</span>
+                            <span>SESSION 4</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- XP System -->
+                <div class="hidden md:flex flex-col w-1/3 gap-1">
+                    <div class="flex justify-between text-xs font-bold text-orange-100 uppercase">
+                        <span>Archivist Rank</span>
+                        <span id="xp-display">0 / 100 XP</span>
+                    </div>
+                    <div class="w-full bg-orange-700/30 rounded-full h-3 overflow-hidden border border-orange-400/30">
+                        <div id="xp-bar" class="bg-yellow-400 h-3 rounded-full w-0 transition-all duration-500"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <!-- Hero Section -->
+        <section class="bg-white rounded-3xl shadow-xl border-2 border-orange-100 p-8 relative overflow-hidden game-card">
+            <div class="absolute -right-20 -top-20 w-64 h-64 bg-orange-50 rounded-full blur-3xl opacity-50"></div>
+            <div class="relative z-10 flex flex-col md:flex-row gap-8 items-center">
+                <div class="flex-1">
+                    <span class="inline-block px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-xs font-bold mb-3">🗄️ SECURE ARCHIVES</span>
+                    <h2 class="text-4xl font-bold text-gray-800 mb-4">Project: Data Archives</h2>
+                    <p class="text-gray-600 text-lg mb-6">
+                        Welcome to the Vault. Today we deal with two special data containers:
+                        <br>1. <span class="font-bold text-red-500">Tuples</span>: Sealed, unchangeable capsules.
+                        <br>2. <span class="font-bold text-blue-500">Dictionaries</span>: Key-Value systems like a phonebook.
+                        <br>Your mission is to learn how to lock, unlock, and map data.
+                    </p>
+                    <button onclick="scrollToSection('tuple-lab')" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition transform hover:-translate-y-1">
+                        ⬇️ Enter the Vault
+                    </button>
+                </div>
+                <div class="w-full md:w-1/3 flex justify-center">
+                    <div class="text-9xl animate-pulse">🗝️</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 1: The Sealed Capsule (Tuples) -->
+        <section id="tuple-lab">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-red-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">1</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">The Sealed Capsule (Tuple)</h2>
+                    <p class="text-gray-500 text-sm">Tuples are <span class="font-bold text-red-500">Immutable</span> (Unchangeable). Try to hack them!</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-lg border-2 border-red-100 p-8 relative overflow-hidden">
+                <!-- Visual Representation -->
+                <div class="flex flex-col items-center justify-center mb-8">
+                    <div id="capsule-container" class="relative transition-all duration-500">
+                        <!-- State Label -->
+                        <div id="capsule-state" class="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-red-200">
+                            🔒 Locked (Tuple)
+                        </div>
+                        
+                        <!-- The Container -->
+                        <div id="data-capsule" class="flex items-center justify-center gap-2 bg-gray-100 p-4 rounded-full border-4 border-red-400 shadow-inner min-w-[300px] min-h-[80px]">
+                            <span class="text-gray-400 font-code font-bold text-2xl">(</span>
+                            <span class="bg-white px-3 py-1 rounded border border-gray-200 font-code font-bold text-gray-700 shadow-sm">'Apple'</span>
+                            <span class="text-gray-400">,</span>
+                            <span class="bg-white px-3 py-1 rounded border border-gray-200 font-code font-bold text-gray-700 shadow-sm">'Banana'</span>
+                            <span class="text-gray-400 font-code font-bold text-2xl">)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                    <!-- Direct Attack -->
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-gray-700 text-sm">⛔ Direct Modification</h4>
+                        <button onclick="attemptModify()" class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-xl shadow-sm transition active:scale-95">
+                            Try: tuple[0] = "Kiwi"
+                        </button>
+                        <p id="error-msg" class="text-xs text-red-500 font-bold h-4 text-center"></p>
+                    </div>
+
+                    <!-- The Workaround -->
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-gray-700 text-sm">🛠️ The Conversion Trick</h4>
+                        <div class="flex gap-2">
+                            <button onclick="convertTuple('list')" id="btn-unlock" class="flex-1 bg-yellow-400 hover:bg-yellow-500 text-yellow-900 font-bold py-3 rounded-xl shadow-sm transition">
+                                🔓 Convert to List
+                            </button>
+                            <button onclick="convertTuple('tuple')" id="btn-lock" class="flex-1 bg-gray-300 text-gray-500 font-bold py-3 rounded-xl shadow-sm cursor-not-allowed" disabled>
+                                🔒 Lock Back
+                            </button>
+                        </div>
+                        <div id="edit-controls" class="hidden flex gap-2 animate-fade-in">
+                            <input type="text" id="tuple-add-input" placeholder="New Item" class="flex-1 border border-gray-300 rounded-lg px-2 font-code">
+                            <button onclick="addToList()" class="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-lg font-bold">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 2: The Keymaster's Ledger (Dictionaries) -->
+        <section id="dict-lab">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-blue-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">2</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">The Keymaster's Ledger (Dictionary)</h2>
+                    <p class="text-gray-500 text-sm">Store data in <span class="font-code bg-blue-100 text-blue-800 px-1 rounded">Key: Value</span> pairs. No duplicates allowed!</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Visualizer -->
+                <div class="lg:col-span-2 bg-white rounded-3xl shadow-lg border border-blue-100 p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <span class="font-code text-blue-600 font-bold text-xl">student_scores = {</span>
+                        <span class="text-xs text-gray-400">JSON VIEW</span>
+                    </div>
+                    
+                    <div id="dict-container" class="space-y-2 min-h-[200px]">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <div class="mt-4 font-code text-blue-600 font-bold text-xl">}</div>
+                </div>
+
+                <!-- Controls -->
+                <div class="bg-gray-50 rounded-3xl border border-gray-200 p-6 space-y-6">
+                    <!-- Add/Update -->
+                    <div>
+                        <h4 class="font-bold text-gray-700 mb-2 flex items-center gap-2">
+                            <span class="text-lg">✏️</span> Add / Update
+                        </h4>
+                        <div class="space-y-2">
+                            <input type="text" id="dict-key" placeholder="Key (e.g. 'Math')" class="w-full border border-gray-300 rounded-lg p-2 font-code text-sm focus:border-blue-500 outline-none">
+                            <input type="text" id="dict-val" placeholder="Value (e.g. 95)" class="w-full border border-gray-300 rounded-lg p-2 font-code text-sm focus:border-blue-500 outline-none">
+                            <button onclick="dictAction('update')" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-lg transition shadow-sm">
+                                Save Pair
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div>
+                        <h4 class="font-bold text-gray-700 mb-2 flex items-center gap-2">
+                            <span class="text-lg">⚡</span> Actions
+                        </h4>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="dictAction('pop')" class="bg-red-100 hover:bg-red-200 text-red-600 font-bold py-2 rounded-lg text-xs transition">
+                                .pop(key)
+                            </button>
+                            <button onclick="dictAction('clear')" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 rounded-lg text-xs transition">
+                                .clear()
+                            </button>
+                            <button onclick="dictAction('keys')" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 rounded-lg text-xs transition">
+                                .keys()
+                            </button>
+                            <button onclick="dictAction('values')" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 rounded-lg text-xs transition">
+                                .values()
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div id="dict-feedback" class="text-center text-xs text-blue-600 font-bold h-4"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 3: Structure Radar -->
+        <section>
+            <div class="bg-white rounded-3xl shadow-lg border border-gray-100 p-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                    <span class="text-2xl">📡</span> Structure Radar
+                </h2>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="text-gray-400 text-xs uppercase border-b border-gray-100">
+                                <th class="p-4">Feature</th>
+                                <th class="p-4 text-green-600">List []</th>
+                                <th class="p-4 text-red-600">Tuple ()</th>
+                                <th class="p-4 text-blue-600">Dictionary {}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm font-medium text-gray-700">
+                            <tr class="border-b border-gray-50 hover:bg-gray-50">
+                                <td class="p-4 font-bold">Ordered</td>
+                                <td class="p-4">✅ Yes</td>
+                                <td class="p-4">✅ Yes</td>
+                                <td class="p-4">✅ Yes (3.7+)</td>
+                            </tr>
+                            <tr class="border-b border-gray-50 hover:bg-gray-50">
+                                <td class="p-4 font-bold">Changeable</td>
+                                <td class="p-4">✅ Mutable</td>
+                                <td class="p-4 text-red-500">❌ Immutable</td>
+                                <td class="p-4">✅ Mutable</td>
+                            </tr>
+                            <tr class="border-b border-gray-50 hover:bg-gray-50">
+                                <td class="p-4 font-bold">Duplicates</td>
+                                <td class="p-4">✅ Allowed</td>
+                                <td class="p-4">✅ Allowed</td>
+                                <td class="p-4 text-red-500">❌ Keys Unique</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50">
+                                <td class="p-4 font-bold">Use Case</td>
+                                <td class="p-4">Dynamic Collections</td>
+                                <td class="p-4">Fixed Data (Coords)</td>
+                                <td class="p-4">Key-Value Data</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Boss Battle (Homework) -->
+        <section class="bg-gray-900 rounded-3xl shadow-2xl p-1 border-4 border-gray-800 relative overflow-hidden">
+            <div class="bg-gradient-to-r from-orange-600 to-red-600 p-6 rounded-t-[20px] text-white flex justify-between items-center relative z-10">
+                <div>
+                    <h2 class="text-2xl font-bold flex items-center gap-2"><span>🏆</span> FINAL BOSS: HOMEWORK</h2>
+                    <p class="text-orange-100 text-sm opacity-90">Part 1: Tuple Hack | Part 2: Gradebook Update</p>
+                </div>
+                <div class="hidden sm:block text-4xl opacity-20 font-black">HW_04</div>
+            </div>
+
+            <div class="p-6 md:p-10 relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Challenge 1 -->
+                <div class="bg-black/40 backdrop-blur-md rounded-2xl p-6 border border-gray-700 font-code text-sm">
+                    <h3 class="text-red-400 font-bold mb-4 uppercase text-xs tracking-widest">Mission 1: Tuple Hack</h3>
+                    <p class="text-gray-400 mb-2"># Add "Ali" to the tuple</p>
+                    <div class="text-white mb-2">names = ("Ziad", "Sara")</div>
+                    
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-purple-400">temp</span>
+                            <span class="text-white">=</span>
+                            <select id="hw-step1" class="bg-gray-800 text-white border border-gray-600 rounded px-2">
+                                <option value="">...</option>
+                                <option value="list">list(names)</option>
+                                <option value="str">str(names)</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-purple-400">temp</span>
+                            <span class="text-white">.append("Ali")</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-white">names = </span>
+                            <select id="hw-step2" class="bg-gray-800 text-white border border-gray-600 rounded px-2">
+                                <option value="">...</option>
+                                <option value="list">list(temp)</option>
+                                <option value="tuple">tuple(temp)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Challenge 2 -->
+                <div class="bg-black/40 backdrop-blur-md rounded-2xl p-6 border border-gray-700 font-code text-sm">
+                    <h3 class="text-blue-400 font-bold mb-4 uppercase text-xs tracking-widest">Mission 2: Gradebook</h3>
+                    <p class="text-gray-400 mb-2"># Update "Ahmed" score to 90</p>
+                    <div class="text-white mb-2">scores = {"Ahmed": 85, "Mona": 92}</div>
+                    
+                    <div class="space-y-2 mt-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-white">scores[</span>
+                            <input type="text" id="hw-key" placeholder='"Key"' class="bg-transparent border-b border-gray-600 text-yellow-300 w-20 focus:outline-none text-center">
+                            <span class="text-white">] = </span>
+                            <input type="text" id="hw-val" placeholder="Value" class="bg-transparent border-b border-gray-600 text-yellow-300 w-16 focus:outline-none text-center">
+                        </div>
+                    </div>
+
+                    <button onclick="runHomework()" class="mt-8 w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-white font-bold py-3 rounded-xl transition shadow-lg">
+                        ▶ EXECUTE ALL
+                    </button>
+                    <div id="hw-feedback" class="mt-4 text-center hidden"></div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-400 text-sm py-10 font-medium">
+            <p>Made with 🧡 by Megaminds Academy | Level 1:0 Session 4</p>
+        </footer>
+    </main>
+
+    <!-- JS Logic -->
+    <script>
+        // --- Navigation ---
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- XP System ---
+        let currentXP = 0;
+        function addXP(amount) {
+            currentXP = Math.min(currentXP + amount, 100);
+            document.getElementById('xp-display').innerText = `${currentXP} / 100 XP`;
+            document.getElementById('xp-bar').style.width = `${currentXP}%`;
+            
+            if (currentXP === 100) {
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            }
+        }
+
+        // --- Module 1: Sealed Capsule (Tuple) ---
+        let tupleData = ["Apple", "Banana"];
+        let isTuple = true;
+
+        function updateCapsuleVisual() {
+            const container = document.getElementById('capsule-container');
+            const capsule = document.getElementById('data-capsule');
+            const stateLabel = document.getElementById('capsule-state');
+            
+            // Generate Inner HTML
+            let html = '';
+            const bracketOpen = isTuple ? '(' : '[';
+            const bracketClose = isTuple ? ')' : ']';
+            const itemClass = isTuple 
+                ? 'bg-white px-3 py-1 rounded border border-gray-200 font-code font-bold text-gray-700 shadow-sm'
+                : 'bg-yellow-100 px-3 py-1 rounded border border-yellow-300 font-code font-bold text-yellow-900 shadow-sm animate-pulse';
+
+            html += `<span class="text-gray-400 font-code font-bold text-2xl">${bracketOpen}</span>`;
+            tupleData.forEach((item, index) => {
+                html += `<span class="${itemClass}">'${item}'</span>`;
+                if (index < tupleData.length - 1) html += `<span class="text-gray-400">,</span>`;
+            });
+            html += `<span class="text-gray-400 font-code font-bold text-2xl">${bracketClose}</span>`;
+
+            capsule.innerHTML = html;
+
+            if (isTuple) {
+                capsule.className = "flex items-center justify-center gap-2 bg-gray-100 p-4 rounded-full border-4 border-red-400 shadow-inner min-w-[300px] min-h-[80px]";
+                stateLabel.innerText = "🔒 Locked (Tuple)";
+                stateLabel.className = "absolute -top-8 left-1/2 transform -translate-x-1/2 bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-red-200";
+            } else {
+                capsule.className = "flex items-center justify-center gap-2 bg-yellow-50 p-4 rounded-xl border-4 border-yellow-400 shadow-lg min-w-[300px] min-h-[80px]";
+                stateLabel.innerText = "🔓 Unlocked (List)";
+                stateLabel.className = "absolute -top-8 left-1/2 transform -translate-x-1/2 bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest border border-yellow-200";
+            }
+        }
+
+        function attemptModify() {
+            const capsule = document.getElementById('capsule-container');
+            const errorMsg = document.getElementById('error-msg');
+            
+            if (isTuple) {
+                capsule.classList.add('shake-anim');
+                errorMsg.innerText = "TypeError: 'tuple' object does not support item assignment";
+                setTimeout(() => {
+                    capsule.classList.remove('shake-anim');
+                    errorMsg.innerText = "";
+                }, 1500);
+            } else {
+                errorMsg.innerText = "List is mutable! But use the controls below to edit.";
+                errorMsg.className = "text-xs text-green-600 font-bold h-4 text-center";
+                setTimeout(() => { errorMsg.innerText = ""; errorMsg.className = "text-xs text-red-500 font-bold h-4 text-center"; }, 2000);
+            }
+        }
+
+        function convertTuple(target) {
+            const btnUnlock = document.getElementById('btn-unlock');
+            const btnLock = document.getElementById('btn-lock');
+            const controls = document.getElementById('edit-controls');
+            
+            if (target === 'list') {
+                isTuple = false;
+                btnUnlock.disabled = true;
+                btnUnlock.classList.add('cursor-not-allowed', 'opacity-50');
+                btnLock.disabled = false;
+                btnLock.classList.remove('cursor-not-allowed', 'bg-gray-300', 'text-gray-500');
+                btnLock.classList.add('bg-red-500', 'hover:bg-red-600', 'text-white');
+                controls.classList.remove('hidden');
+                addXP(10);
+            } else {
+                isTuple = true;
+                btnLock.disabled = true;
+                btnLock.classList.add('cursor-not-allowed', 'bg-gray-300', 'text-gray-500');
+                btnLock.classList.remove('bg-red-500', 'hover:bg-red-600', 'text-white');
+                btnUnlock.disabled = false;
+                btnUnlock.classList.remove('cursor-not-allowed', 'opacity-50');
+                controls.classList.add('hidden');
+                addXP(10);
+            }
+            updateCapsuleVisual();
+        }
+
+        function addToList() {
+            const input = document.getElementById('tuple-add-input');
+            if (input.value) {
+                tupleData.push(input.value);
+                input.value = "";
+                updateCapsuleVisual();
+                addXP(5);
+            }
+        }
+
+        // --- Module 2: Dictionary Ledger ---
+        let dictData = {
+            "Brand": "Ford",
+            "Model": "Mustang",
+            "Year": 1964
+        };
+
+        function renderDict() {
+            const container = document.getElementById('dict-container');
+            container.innerHTML = '';
+            
+            for (const [key, value] of Object.entries(dictData)) {
+                const row = document.createElement('div');
+                row.className = "flex items-center gap-2 bg-blue-50 p-3 rounded-lg border border-blue-100 unlock-anim";
+                row.innerHTML = `
+                    <span class="font-code text-blue-700 font-bold">"${key}"</span>
+                    <span class="text-gray-400">:</span>
+                    <span class="font-code text-gray-800">${typeof value === 'number' ? value : `"${value}"`}</span>
+                `;
+                container.appendChild(row);
+            }
+        }
+
+        function dictAction(action) {
+            const keyInput = document.getElementById('dict-key');
+            const valInput = document.getElementById('dict-val');
+            const feedback = document.getElementById('dict-feedback');
+            const key = keyInput.value.trim();
+            const val = valInput.value.trim();
+
+            switch(action) {
+                case 'update':
+                    if (key && val) {
+                        // Check if numeric
+                        const numericVal = !isNaN(val) ? parseInt(val) : val;
+                        dictData[key] = numericVal;
+                        feedback.innerText = `Updated key: ${key}`;
+                        keyInput.value = ''; valInput.value = '';
+                        addXP(10);
+                    }
+                    break;
+                case 'pop':
+                    if (key && dictData[key]) {
+                        delete dictData[key];
+                        feedback.innerText = `Popped key: ${key}`;
+                        keyInput.value = '';
+                        addXP(5);
+                    } else {
+                        feedback.innerText = "Key not found!";
+                    }
+                    break;
+                case 'clear':
+                    dictData = {};
+                    feedback.innerText = "Dictionary Cleared";
+                    break;
+                case 'keys':
+                    feedback.innerText = `Keys: [${Object.keys(dictData).join(', ')}]`;
+                    break;
+                case 'values':
+                    feedback.innerText = `Values: [${Object.values(dictData).join(', ')}]`;
+                    break;
+            }
+            renderDict();
+        }
+
+        // --- Homework ---
+        function runHomework() {
+            const step1 = document.getElementById('hw-step1').value;
+            const step2 = document.getElementById('hw-step2').value;
+            const key = document.getElementById('hw-key').value.replace(/['"]/g, '');
+            const val = document.getElementById('hw-val').value;
+            const feedback = document.getElementById('hw-feedback');
+
+            feedback.classList.remove('hidden');
+
+            const task1Correct = (step1 === 'list' && step2 === 'tuple');
+            const task2Correct = (key === 'Ahmed' && val == 90);
+
+            if (task1Correct && task2Correct) {
+                feedback.innerHTML = `<span class="text-green-400 font-bold">✅ SUCCESS! Tuple Hacked & Grade Updated! +100 XP</span>`;
+                addXP(100);
+            } else {
+                let msg = "❌ Error: ";
+                if (!task1Correct) msg += "Check Tuple conversion steps. ";
+                if (!task2Correct) msg += "Check Dictionary Key or Value. ";
+                feedback.innerHTML = `<span class="text-red-400">${msg}</span>`;
+            }
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCapsuleVisual();
+            renderDict();
+        });
+
+    </script>
+</body>
+</html>

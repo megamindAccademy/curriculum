@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megaminds Academy: Logic Control - Session 5</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        /* Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;600;700&family=Fira+Code:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #fff7ed; /* Orange-50 */
+            color: #431407;
+        }
+
+        .font-code {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Animations */
+        @keyframes flow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        
+        .flow-bg {
+            background: linear-gradient(270deg, #f97316, #fbbf24, #f97316);
+            background-size: 200% 200%;
+            animation: flow 3s ease infinite;
+        }
+
+        .logic-block {
+            transition: all 0.3s ease;
+            opacity: 0.5;
+            transform: scale(0.95);
+        }
+        .logic-block.active {
+            opacity: 1;
+            transform: scale(1);
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.5);
+            border-color: #f97316;
+        }
+
+        .loop-item {
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Interactive Card Hover */
+        .game-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -5px rgba(249, 115, 22, 0.15);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track { background: #fff; }
+        ::-webkit-scrollbar-thumb { background: #fb923c; border-radius: 4px; }
+    </style>
+    <!-- Application Structure Plan:
+         1. Header: Session 5 Branding (Orange/Logic Theme).
+         2. Hero: "Master the Flow" (Intro to Control Flow).
+         3. Module A: Logic Gate (Interactive If/Elif/Else Visualizer).
+         4. Module B: Loop Engine (While Loop Simulator with Break/Continue).
+         5. Module C: The Oracle (Number Guessing Game Implementation).
+         6. Boss Battle (Homework): Age Checker Logic.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased selection:bg-orange-200 selection:text-orange-900">
+
+    <!-- Header -->
+    <nav class="bg-orange-500 border-b-4 border-orange-600 sticky top-0 z-50 shadow-lg text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-4">
+                    <div class="bg-white p-2 rounded-xl shadow-inner text-orange-600">
+                        <span class="text-3xl">🎛️</span>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold tracking-tight">MEGAMINDS <span class="text-orange-100 opacity-80 font-normal">ACADEMY</span></h1>
+                        <div class="flex items-center gap-2 text-xs font-bold bg-orange-600/50 px-2 py-1 rounded-full w-fit">
+                            <span>LEVEL 2</span>
+                            <span class="text-orange-200">|</span>
+                            <span>SESSION 1 (5)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- XP System -->
+                <div class="hidden md:flex flex-col w-1/3 gap-1">
+                    <div class="flex justify-between text-xs font-bold text-orange-100 uppercase">
+                        <span>Logic Master Rank</span>
+                        <span id="xp-display">0 / 100 XP</span>
+                    </div>
+                    <div class="w-full bg-orange-700/30 rounded-full h-3 overflow-hidden border border-orange-400/30">
+                        <div id="xp-bar" class="bg-yellow-400 h-3 rounded-full w-0 transition-all duration-500"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <!-- Hero Section -->
+        <section class="bg-white rounded-3xl shadow-xl border-2 border-orange-100 p-8 relative overflow-hidden game-card">
+            <div class="absolute -right-20 -top-20 w-64 h-64 bg-orange-50 rounded-full blur-3xl opacity-50"></div>
+            <div class="relative z-10 flex flex-col md:flex-row gap-8 items-center">
+                <div class="flex-1">
+                    <span class="inline-block px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-xs font-bold mb-3">⚡ FLOW CONTROL ACTIVATED</span>
+                    <h2 class="text-4xl font-bold text-gray-800 mb-4">Logic Control Room</h2>
+                    <p class="text-gray-600 text-lg mb-6 leading-relaxed">
+                        Welcome, Commander! Today we learn how to make the code "think" and make decisions.
+                        <br>1. <span class="font-bold text-orange-500">If Conditions</span>: Decision-making gates.
+                        <br>2. <span class="font-bold text-blue-500">While Loops</span>: Smart repetition machines.
+                        <br>3. <span class="font-bold text-green-500">Logic Games</span>: Building a basic AI.
+                    </p>
+                    <button onclick="scrollToSection('logic-gate')" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-xl shadow-lg transition transform hover:-translate-y-1 flex items-center gap-2">
+                        <span>⬇️ Initialize Systems</span>
+                    </button>
+                </div>
+                <div class="w-full md:w-1/3 flex justify-center">
+                    <div class="text-9xl animate-pulse">🚦</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 1: Logic Gate (If/Else) -->
+        <section id="logic-gate">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-orange-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">1</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">The Logic Gate</h2>
+                    <p class="text-gray-500 text-sm">Adjust the variables and observe the path the code takes.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Control Panel -->
+                <div class="bg-white rounded-3xl shadow-lg border border-orange-100 p-6">
+                    <div class="mb-6 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                        <h3 class="font-bold text-gray-700 mb-4 text-center">Variable Dashboard</h3>
+                        <div class="flex justify-center items-center gap-4 font-code text-xl">
+                            <div class="flex flex-col items-center">
+                                <label class="text-xs text-gray-400 mb-1">a</label>
+                                <input type="number" id="var-a" value="33" class="w-20 text-center border-2 border-orange-200 rounded-lg p-2 focus:border-orange-500 outline-none" oninput="checkLogic()">
+                            </div>
+                            <span class="text-gray-400 font-bold">VS</span>
+                            <div class="flex flex-col items-center">
+                                <label class="text-xs text-gray-400 mb-1">b</label>
+                                <input type="number" id="var-b" value="200" class="w-20 text-center border-2 border-blue-200 rounded-lg p-2 focus:border-blue-500 outline-none" oninput="checkLogic()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Short Hand Preview -->
+                    <div class="bg-gray-900 rounded-xl p-4 text-center">
+                        <p class="text-gray-400 text-xs mb-2">Short Hand If ... Else</p>
+                        <p id="shorthand-result" class="font-code text-yellow-400 text-sm">print("A") if a > b else print("B")</p>
+                    </div>
+                </div>
+
+                <!-- Visualizer -->
+                <div class="space-y-4 font-code text-left">
+                    <!-- IF Block -->
+                    <div id="block-if" class="logic-block bg-white border-l-4 border-gray-300 p-4 rounded-r-xl shadow-sm">
+                        <span class="text-purple-600 font-bold">if</span> <span class="text-gray-700">b > a:</span>
+                        <div class="pl-4 mt-2 text-green-600">print("b is greater than a")</div>
+                    </div>
+
+                    <!-- ELIF Block -->
+                    <div id="block-elif" class="logic-block bg-white border-l-4 border-gray-300 p-4 rounded-r-xl shadow-sm">
+                        <span class="text-purple-600 font-bold">elif</span> <span class="text-gray-700">a == b:</span>
+                        <div class="pl-4 mt-2 text-green-600">print("a and b are equal")</div>
+                    </div>
+
+                    <!-- ELSE Block -->
+                    <div id="block-else" class="logic-block bg-white border-l-4 border-gray-300 p-4 rounded-r-xl shadow-sm">
+                        <span class="text-purple-600 font-bold">else</span>:
+                        <div class="pl-4 mt-2 text-green-600">print("a is greater than b")</div>
+                    </div>
+                    
+                    <div id="logic-output" class="mt-4 p-3 bg-black text-green-400 rounded-lg font-mono text-sm h-10 flex items-center">
+                        > Waiting for execution...
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 2: Loop Engine -->
+        <section id="loop-engine">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-blue-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">2</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">The Loop Engine</h2>
+                    <p class="text-gray-500 text-sm">Observe how a <code>while</code> loop works, and how to control it with <code>break</code> and <code>continue</code>.</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl shadow-lg border-2 border-blue-100 p-8 relative overflow-hidden">
+                <!-- Controls -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1">Start (i)</label>
+                        <input type="number" id="loop-start" value="1" class="w-full border border-gray-300 rounded-lg p-2 font-code">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-400 mb-1">Condition (i < X)</label>
+                        <input type="number" id="loop-end" value="6" class="w-full border border-gray-300 rounded-lg p-2 font-code">
+                    </div>
+                    <div class="md:col-span-2 flex gap-2 items-end">
+                        <select id="loop-mod" class="flex-1 border border-gray-300 rounded-lg p-2 font-code bg-gray-50">
+                            <option value="none">No Modifiers</option>
+                            <option value="break">Break at i == 3</option>
+                            <option value="continue">Continue at i == 3</option>
+                        </select>
+                        <button onclick="runLoop()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg transition shadow-md">
+                            ▶ Run Engine
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Visualization Area -->
+                <div class="bg-gray-100 rounded-2xl p-6 min-h-[150px] border-inner shadow-inner relative">
+                    <div class="absolute top-2 left-2 text-xs text-gray-400 font-code">CONSOLE OUTPUT</div>
+                    <div id="loop-output" class="flex flex-wrap gap-2 mt-4">
+                        <!-- Loop items appear here -->
+                    </div>
+                </div>
+                
+                <!-- Code Preview -->
+                <div class="mt-4 p-4 bg-gray-900 rounded-xl font-code text-sm text-gray-300">
+                    <span class="text-purple-400">while</span> i < <span id="code-limit">6</span>:<br>
+                    &nbsp;&nbsp;<span id="code-mod-logic" class="text-gray-500"># Logic here</span><br>
+                    &nbsp;&nbsp;<span class="text-blue-400">print</span>(i)<br>
+                    &nbsp;&nbsp;i += 1
+                </div>
+            </div>
+        </section>
+
+        <!-- Module 3: The Oracle (Guessing Game) -->
+        <section>
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-purple-500 text-white w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xl shadow-lg">3</div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">The Digital Oracle (Number Guessing)</h2>
+                    <p class="text-gray-500 text-sm">Practical Application: Try to guess the secret number (1-10) chosen by the AI.</p>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-purple-600 to-indigo-700 rounded-3xl shadow-2xl p-8 text-white text-center relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/circuit-board.png')]"></div>
+                
+                <div class="relative z-10 max-w-lg mx-auto">
+                    <div class="mb-6">
+                        <span class="text-6xl">🔮</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-2">I am thinking of a number...</h3>
+                    <p class="text-purple-200 mb-6 text-sm">Use your logic to guess. I will tell you if it's too high or too low.</p>
+
+                    <div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20">
+                        <input type="number" id="guess-input" placeholder="Enter number (1-10)" class="w-full bg-white/20 border-2 border-purple-300/30 rounded-xl p-3 text-center text-white placeholder-purple-200 text-xl font-bold outline-none focus:bg-white/30 transition mb-4">
+                        
+                        <button onclick="checkGuess()" class="w-full bg-yellow-400 hover:bg-yellow-500 text-purple-900 font-bold py-3 rounded-xl shadow-lg transition transform hover:scale-105">
+                            🤔 Make a Guess
+                        </button>
+
+                        <div id="guess-feedback" class="mt-4 font-bold text-lg min-h-[30px]"></div>
+                        <button onclick="resetGame()" id="reset-btn" class="mt-2 text-xs text-purple-300 underline hidden">Play Again</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Boss Battle (Homework) -->
+        <section class="bg-gray-900 rounded-3xl shadow-2xl p-1 border-4 border-gray-800 relative overflow-hidden">
+            <div class="bg-gradient-to-r from-orange-600 to-red-600 p-6 rounded-t-[20px] text-white flex justify-between items-center relative z-10">
+                <div class="flex items-center gap-3">
+                    <span class="text-3xl">🏆</span>
+                    <div>
+                        <h2 class="text-2xl font-bold">Final Challenge: The Age Classifier</h2>
+                        <p class="text-orange-100 text-sm opacity-90">Implement If/Else logic to classify users by age.</p>
+                    </div>
+                </div>
+                <div class="hidden sm:block text-4xl opacity-20 font-black font-code">HW_05</div>
+            </div>
+
+            <div class="p-6 md:p-10 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Scenario -->
+                <div class="text-gray-400 font-code text-sm space-y-4">
+                    <p class="text-orange-400"># Instructions:</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>Input: <span class="text-white">age = 25</span></li>
+                        <li>Logic:
+                            <ul class="pl-6 list-decimal mt-1 space-y-1 text-gray-500">
+                                <li>age < 0 -> Print "Invalid"</li>
+                                <li>age < 18 -> Print "Child"</li>
+                                <li>age < 65 -> Print "Adult"</li>
+                                <li>Else -> Print "Senior"</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Code Editor -->
+                <div class="bg-black/40 backdrop-blur-md rounded-2xl p-6 border border-gray-700 font-code text-sm">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="text-purple-400">age</span>
+                        <span class="text-white">=</span>
+                        <input type="number" id="hw-age" value="25" class="bg-gray-800 text-white border border-gray-600 rounded px-2 w-20 text-center">
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="flex gap-2">
+                            <span class="text-purple-400">if</span>
+                            <span class="text-white">age < 0: print(</span>
+                            <input type="text" id="hw-out1" placeholder='"Invalid"' class="bg-transparent border-b border-gray-600 text-green-400 w-24 text-center outline-none">
+                            <span class="text-white">)</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-purple-400">elif</span>
+                            <span class="text-white">age < 18: print(</span>
+                            <input type="text" id="hw-out2" placeholder='"Child"' class="bg-transparent border-b border-gray-600 text-green-400 w-24 text-center outline-none">
+                            <span class="text-white">)</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-purple-400">elif</span>
+                            <span class="text-white">age < 65: print(</span>
+                            <input type="text" id="hw-out3" placeholder='"Adult"' class="bg-transparent border-b border-gray-600 text-green-400 w-24 text-center outline-none">
+                            <span class="text-white">)</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="text-purple-400">else</span>:
+                            <span class="text-white">print("Senior")</span>
+                        </div>
+                    </div>
+
+                    <button onclick="runHomework()" class="mt-6 w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-400 hover:to-green-500 text-white font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center gap-2">
+                        <span>▶ Execute Code</span>
+                    </button>
+                    
+                    <div id="hw-feedback" class="mt-4 text-center hidden"></div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-400 text-sm py-10 font-medium">
+            <p>Made with 🧡 by Megaminds Academy | Level 2: Session 1</p>
+        </footer>
+    </main>
+
+    <!-- JS Logic -->
+    <script>
+        // --- Navigation ---
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- XP System ---
+        let currentXP = 0;
+        function addXP(amount) {
+            currentXP = Math.min(currentXP + amount, 100);
+            document.getElementById('xp-display').innerText = `${currentXP} / 100 XP`;
+            document.getElementById('xp-bar').style.width = `${currentXP}%`;
+            
+            if (currentXP === 100) {
+                confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            }
+        }
+
+        // --- Module 1: Logic Gate ---
+        function checkLogic() {
+            const a = parseFloat(document.getElementById('var-a').value);
+            const b = parseFloat(document.getElementById('var-b').value);
+            
+            const blockIf = document.getElementById('block-if');
+            const blockElif = document.getElementById('block-elif');
+            const blockElse = document.getElementById('block-else');
+            const output = document.getElementById('logic-output');
+            const shorthand = document.getElementById('shorthand-result');
+
+            // Reset classes
+            [blockIf, blockElif, blockElse].forEach(el => el.classList.remove('active', 'border-orange-500', 'border-l-8'));
+
+            if (b > a) {
+                blockIf.classList.add('active', 'border-orange-500', 'border-l-8');
+                output.innerText = '> "b is greater than a"';
+                shorthand.innerHTML = `print("B") <span class="text-green-400 font-bold"># Executed</span>`;
+            } else if (a == b) {
+                blockElif.classList.add('active', 'border-orange-500', 'border-l-8');
+                output.innerText = '> "a and b are equal"';
+                shorthand.innerHTML = `print("A") <span class="text-red-400"># False</span> else ...`;
+            } else {
+                blockElse.classList.add('active', 'border-orange-500', 'border-l-8');
+                output.innerText = '> "a is greater than b"';
+                shorthand.innerHTML = `print("A") <span class="text-green-400 font-bold"># Executed</span>`;
+            }
+            addXP(2);
+        }
+
+        // --- Module 2: Loop Engine ---
+        function runLoop() {
+            const start = parseInt(document.getElementById('loop-start').value);
+            const end = parseInt(document.getElementById('loop-end').value);
+            const mod = document.getElementById('loop-mod').value;
+            const container = document.getElementById('loop-output');
+            const codeLogic = document.getElementById('code-mod-logic');
+            
+            container.innerHTML = '';
+            document.getElementById('code-limit').innerText = end;
+
+            // Update code preview text
+            if (mod === 'break') codeLogic.innerHTML = '<span class="text-purple-400">if</span> i == 3: <span class="text-red-400">break</span>';
+            else if (mod === 'continue') codeLogic.innerHTML = '<span class="text-purple-400">if</span> i == 3: <span class="text-yellow-400">continue</span>';
+            else codeLogic.innerHTML = '<span class="text-gray-500"># No condition</span>';
+
+            let i = start;
+            let delay = 0;
+
+            function step() {
+                if (i >= end) return;
+
+                // Loop Logic
+                let displayVal = i;
+                let isSpecial = false;
+                let specialClass = "bg-blue-600";
+
+                if (mod === 'break' && i === 3) {
+                    const el = createLoopElement("⛔ Break!", "bg-red-500");
+                    container.appendChild(el);
+                    return; // Stop loop
+                }
+
+                if (mod === 'continue' && i === 3) {
+                    const el = createLoopElement("⏭️ Skip (3)", "bg-yellow-500 text-black");
+                    container.appendChild(el);
+                    i++;
+                    setTimeout(step, 600);
+                    return; // Skip print
+                }
+
+                // Normal Print
+                const el = createLoopElement(i, "bg-blue-600");
+                container.appendChild(el);
+                
+                i++;
+                setTimeout(step, 600);
+            }
+
+            step();
+            addXP(10);
+        }
+
+        function createLoopElement(text, bgClass) {
+            const div = document.createElement('div');
+            div.className = `${bgClass} text-white font-bold p-3 rounded-lg shadow-lg loop-item min-w-[50px] text-center`;
+            div.innerText = text;
+            return div;
+        }
+
+        // --- Module 3: Guessing Game ---
+        let secretNumber = Math.floor(Math.random() * 10) + 1;
+        
+        function checkGuess() {
+            const input = document.getElementById('guess-input');
+            const feedback = document.getElementById('guess-feedback');
+            const userGuess = parseInt(input.value);
+            
+            if (!userGuess) return;
+
+            if (userGuess === secretNumber) {
+                feedback.innerHTML = "🎉 Correct! You won!";
+                feedback.className = "mt-4 font-bold text-lg text-green-300";
+                document.getElementById('reset-btn').classList.remove('hidden');
+                confetti({ particleCount: 50, spread: 50, origin: { y: 0.8 } });
+                addXP(20);
+            } else if (userGuess < secretNumber) {
+                feedback.innerText = "📉 Too low! Try again.";
+                feedback.className = "mt-4 font-bold text-lg text-yellow-300";
+            } else {
+                feedback.innerText = "📈 Too high! Try again.";
+                feedback.className = "mt-4 font-bold text-lg text-red-300";
+            }
+        }
+
+        function resetGame() {
+            secretNumber = Math.floor(Math.random() * 10) + 1;
+            document.getElementById('guess-input').value = "";
+            document.getElementById('guess-feedback').innerText = "";
+            document.getElementById('reset-btn').classList.add('hidden');
+        }
+
+        // --- Homework ---
+        function runHomework() {
+            const age = parseInt(document.getElementById('hw-age').value);
+            const out1 = document.getElementById('hw-out1').value.toLowerCase().replace(/['"]/g, '');
+            const out2 = document.getElementById('hw-out2').value.toLowerCase().replace(/['"]/g, '');
+            const out3 = document.getElementById('hw-out3').value.toLowerCase().replace(/['"]/g, '');
+            const feedback = document.getElementById('hw-feedback');
+
+            feedback.classList.remove('hidden');
+
+            const isCorrect = (out1 === 'invalid' && out2 === 'child' && out3 === 'adult');
+
+            if (isCorrect) {
+                let result = "";
+                if (age < 0) result = "Invalid";
+                else if (age < 18) result = "Child";
+                else if (age < 65) result = "Adult";
+                else result = "Senior";
+
+                feedback.innerHTML = `
+                    <div class="text-green-400 font-bold mb-2">✅ Code is Correct!</div>
+                    <div class="text-white">Based on age ${age}, output is: <span class="text-yellow-400 font-bold">"${result}"</span></div>
+                `;
+                addXP(50);
+            } else {
+                feedback.innerHTML = `<span class="text-red-400">❌ Check required texts (Invalid, Child, Adult).</span>`;
+            }
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            checkLogic(); // Initial State
+        });
+
+    </script>
+</body>
+</html>

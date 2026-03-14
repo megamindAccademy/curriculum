@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Megaminds Academy: Comprehensive Python Bootcamp</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Fira+Code:wght@400;700&display=swap');
+
+        :root {
+            --primary-orange: #FF7F50;
+            --dark-orange: #FF5722;
+            --light-blue: #E1F5FE;
+            --med-blue: #29B6F6;
+            --dark-blue: #0277BD;
+            --white: #FFFFFF;
+            --dark-bg: #282C34;
+            --text-dark: #333333;
+            --success: #4CAF50;
+            --error: #F44336;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-blue);
+            color: var(--text-dark);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--primary-orange);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem 1rem;
+            border-bottom: 8px solid var(--dark-orange);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            animation: bounceIn 1s ease;
+        }
+
+        header p {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .badge {
+            background-color: var(--white);
+            color: var(--dark-orange);
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-weight: 900;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Tabs System */
+        .tabs-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            background-color: var(--white);
+            color: var(--dark-blue);
+            border: 3px solid var(--med-blue);
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 0 var(--med-blue);
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background-color: var(--med-blue);
+            color: var(--white);
+            border-color: var(--dark-blue);
+            box-shadow: 0 4px 0 var(--dark-blue);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 0 var(--med-blue);
+            border: 4px solid var(--med-blue);
+            position: relative;
+        }
+
+        .card h2 {
+            color: var(--dark-orange);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 4px dashed var(--light-blue);
+            padding-bottom: 10px;
+        }
+
+        .concept-text {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Interactive Code Blocks */
+        .code-container {
+            background-color: var(--dark-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 6px 0 rgba(0,0,0,0.2);
+            text-align: left;
+        }
+
+        .code-header {
+            background-color: #1e2227;
+            padding: 10px 15px;
+            color: var(--white);
+            font-family: 'Fira Code', monospace;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .code-content {
+            padding: 15px;
+            color: #61afef;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.2rem;
+            overflow-x: auto;
+        }
+
+        .keyword { color: #c678dd; }
+        .string { color: #98c379; }
+        .function { color: #56b6c2; }
+        .comment { color: #5c6370; font-style: italic; }
+        .operator { color: #d19a66; }
+
+        .run-btn {
+            background-color: var(--primary-orange);
+            color: var(--white);
+            border: none;
+            padding: 8px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 var(--dark-orange);
+            transition: all 0.1s ease;
+        }
+
+        .run-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0 0 var(--dark-orange);
+        }
+
+        .output-terminal {
+            background-color: #000;
+            color: #0f0;
+            font-family: 'Fira Code', monospace;
+            padding: 15px;
+            min-height: 50px;
+            display: none;
+            border-top: 2px solid #333;
+            white-space: pre-wrap;
+            text-align: left;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            background-color: var(--light-blue);
+            border: 2px dashed var(--dark-blue);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            color: var(--dark-blue);
+        }
+
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bounceIn { 0% { transform: scale(0.1); opacity: 0; } 60% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); } }
+
+        /* Quiz */
+        .quiz-option {
+            display: block;
+            width: 100%;
+            text-align: left;
+            background: var(--white);
+            border: 2px solid var(--med-blue);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .quiz-option:hover { background: var(--light-blue); }
+        .quiz-option.correct { background: var(--success); color: white; border-color: darkgreen; }
+        .quiz-option.wrong { background: var(--error); color: white; border-color: darkred; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Megaminds Academy 🚀</h1>
+        <p>Comprehensive Python Programming Bootcamp</p>
+        <div class="badge">STEM ACCREDITED</div>
+    </header>
+
+    <div class="container">
+        <!-- Tabs Navigation -->
+        <div class="tabs-container">
+            <button class="tab-btn active" onclick="openTab('session1')">Session 1: Basics</button>
+            <button class="tab-btn" onclick="openTab('session2')">Session 2: Data & Lists</button>
+            <button class="tab-btn" onclick="openTab('session3')">Session 3: Math & Strings</button>
+            <button class="tab-btn" onclick="openTab('session4')">Session 4: Tuples & Dicts</button>
+            <button class="tab-btn" onclick="openTab('session5')">Session 5: If & While</button>
+            <button class="tab-btn" onclick="openTab('session6')">Session 6: For Loops</button>
+            <button class="tab-btn" style="background-color: var(--dark-orange); color: white;" onclick="openTab('quizTab')">🏆 Final Challenge</button>
+        </div>
+
+        <!-- Session 1 -->
+        <div id="session1" class="tab-content active">
+            <div class="card">
+                <h2>1. Introduction to Python & Variables</h2>
+                <p class="concept-text">Python is a simple programming language that reads a lot like English. We use the <code>print()</code> function to show text on the screen, and we use <strong>Variables</strong> as storage boxes for our data.</p>
+                
+                <div class="info-box">
+                    💡 <strong>Variable Naming Rules:</strong> Must start with a letter. You can use Camel case or Pascal case. They are case-sensitive (`Name` is different from `name`). Don't use reserved keywords!
+                </div>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span>intro.py</span>
+                        <button class="run-btn" onclick="runCode('out-s1')">▶ Run Code</button>
+                    </div>
+                    <div class="code-content">
+                        <span class="comment"># Printing a message</span><br>
+                        <span class="function">print</span>(<span class="string">"Hello, Megaminds!"</span>)<br><br>
+                        <span class="comment"># Variables and Concatenation</span><br>
+                        name <span class="operator">=</span> <span class="string">"Hassan"</span><br>
+                        age <span class="operator">=</span> <span class="string">"12"</span><br>
+                        <span class="function">print</span>(<span class="string">"Welcome "</span> <span class="operator">+</span> name <span class="operator">+</span> <span class="string">", age: "</span> <span class="operator">+</span> age)
+                    </div>
+                    <div class="output-terminal" id="out-s1">Hello, Megaminds!<br>Welcome Hassan, age: 12</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Session 2 -->
+        <div id="session2" class="tab-content">
+            <div class="card">
+                <h2>2. Data Types and Lists</h2>
+                <p class="concept-text">There are several data types: Text (<code>str</code>), Numbers (<code>int</code>, <code>float</code>), and Booleans (<code>bool</code>). We can use the <code>type()</code> function to find out the data type, and the <code>input()</code> function to get data from the user.</p>
+                
+                <p class="concept-text"><strong>Lists:</strong> We use square brackets <code>[]</code> to create a list. We can modify them, add items using <code>append()</code>, or order them using <code>sort()</code>.</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span>lists.py</span>
+                        <button class="run-btn" onclick="runCode('out-s2')">▶ Run Code</button>
+                    </div>
+                    <div class="code-content">
+                        <span class="comment"># Data Types</span><br>
+                        number <span class="operator">=</span> 10<br>
+                        <span class="function">print</span>(<span class="function">type</span>(number))<br><br>
+                        <span class="comment"># Lists operations</span><br>
+                        my_list <span class="operator">=</span> [<span class="string">"Ali"</span>, <span class="string">"Ahmed"</span>]<br>
+                        my_list.<span class="function">append</span>(<span class="string">"Laila"</span>) <span class="comment"># Add to end</span><br>
+                        <span class="function">print</span>(my_list)
+                    </div>
+                    <div class="output-terminal" id="out-s2">&lt;class 'int'&gt;<br>['Ali', 'Ahmed', 'Laila']</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Session 3 -->
+        <div id="session3" class="tab-content">
+            <div class="card">
+                <h2>3. Math Operations & String Functions</h2>
+                <p class="concept-text">In Python, we can use Arithmetic operations (<code>+ - * / % ** //</code>), Comparison operations (<code>== != > <</code>), and Logical operations (<code>and or not</code>).</p>
+                <p class="concept-text">Also, Strings are treated as lists of characters! They have special functions like <code>upper()</code> to make them uppercase, and <code>len()</code> to get their length.</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span>strings_math.py</span>
+                        <button class="run-btn" onclick="runCode('out-s3')">▶ Run Code</button>
+                    </div>
+                    <div class="code-content">
+                        <span class="comment"># Math and Logic</span><br>
+                        x <span class="operator">=</span> 5<br>
+                        y <span class="operator">=</span> 2<br>
+                        <span class="function">print</span>(x <span class="operator">**</span> y) <span class="comment"># 5 to the power of 2</span><br><br>
+                        <span class="comment"># String Functions</span><br>
+                        sentence <span class="operator">=</span> <span class="string">"welcome"</span><br>
+                        <span class="function">print</span>(sentence.<span class="function">upper</span>())<br>
+                        <span class="function">print</span>(<span class="function">len</span>(sentence))
+                    </div>
+                    <div class="output-terminal" id="out-s3">25<br>WELCOME<br>7</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Session 4 -->
+        <div id="session4" class="tab-content">
+            <div class="card">
+                <h2>4. Tuples and Dictionaries</h2>
+                <p class="concept-text"><strong>Tuples:</strong> They are just like lists, but we use parentheses <code>()</code> and they are <strong>unchangeable</strong> after they are created.</p>
+                <p class="concept-text"><strong>Dictionaries:</strong> Used to store data values in (Key: Value) pairs using curly brackets <code>{}</code>.</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span>data_structures.py</span>
+                        <button class="run-btn" onclick="runCode('out-s4')">▶ Run Code</button>
+                    </div>
+                    <div class="code-content">
+                        <span class="comment"># Tuple (Cannot be changed)</span><br>
+                        my_tuple <span class="operator">=</span> (<span class="string">"apple"</span>, <span class="string">"banana"</span>)<br>
+                        <span class="function">print</span>(my_tuple[0])<br><br>
+                        <span class="comment"># Dictionary (Key: Value)</span><br>
+                        car_dict <span class="operator">=</span> {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"brand"</span>: <span class="string">"Ford"</span>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"year"</span>: 1964<br>
+                        }<br>
+                        car_dict[<span class="string">"year"</span>] <span class="operator">=</span> 2020 <span class="comment"># Update value</span><br>
+                        <span class="function">print</span>(car_dict[<span class="string">"brand"</span>])
+                    </div>
+                    <div class="output-terminal" id="out-s4">apple<br>Ford</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Session 5 -->
+        <div id="session5" class="tab-content">
+            <div class="card">
+                <h2>5. Conditions (If) & While Loops</h2>
+                <p class="concept-text">We use <code>if, elif, else</code> to make decisions in our code. We use a <code>while</code> loop to repeat a block of code <strong>as long as a condition is true</strong>.</p>
+                <div class="info-box">
+                    ⚠️ Always remember to add code to increment the variable (e.g., <code>i += 1</code>) inside a while loop so it doesn't continue forever (Infinite Loop)!
+                </div>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span>logic_loops.py</span>
+                        <button class="run-btn" onclick="runCode('out-s5')">▶ Run Code</button>
+                    </div>
+                    <div class="code-content">
+                        <span class="comment"># If Condition</span><br>
+                        age <span class="operator">=</span> 15<br>
+                        <span class="keyword">if</span> age >= 18:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">print</span>(<span class="string">"Adult"</span>)<br>
+                        <span class="keyword">else</span>:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">print</span>(<span class="string">"Child"</span>)<br><br>
+                        <span class="comment"># While Loop</span><br>
+                        i <span class="operator">=</span> 1<br>
+                        <span class="keyword">while</span> i < 4:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">print</span>(i)<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> i == 2:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">break</span> <span class="comment"># Stop the loop</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;i <span class="operator">+=</span> 1
+                    </div>
+                    <div class="output-terminal" id="out-s5">Child<br>1<br>2</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Session 6 -->
+        <div id="session6" class="tab-content">
+            <div class="card">
+                <h2>6. For Loops & Nested Loops</h2>
+                <p class="concept-text">A <strong>for</strong> loop is used for iterating over a sequence (like a list or a string). We use the <code>range()</code> function to loop through a block of code a specified number of times.</p>
+                <p class="concept-text"><strong>Nested Loops:</strong> A loop inside a loop! The "inner loop" will be executed completely for every single iteration of the "outer loop".</p>
+
+                <div class="code-container">
+                    <div class="code-header">
+                        <span>for_loops.py</span>
+                        <button class="run-btn" onclick="runCode('out-s6')">▶ Run Code</button>
+                    </div>
+                    <div class="code-content">
+                        <span class="comment"># For loop with range</span><br>
+                        <span class="keyword">for</span> x <span class="keyword">in</span> <span class="function">range</span>(3):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="function">print</span>(x)<br><br>
+                        <span class="comment"># Nested Loops</span><br>
+                        adj <span class="operator">=</span> [<span class="string">"red"</span>, <span class="string">"big"</span>]<br>
+                        fruits <span class="operator">=</span> [<span class="string">"apple"</span>, <span class="string">"cherry"</span>]<br>
+                        <span class="keyword">for</span> a <span class="keyword">in</span> adj:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> f <span class="keyword">in</span> fruits:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="function">print</span>(a, f)
+                    </div>
+                    <div class="output-terminal" id="out-s6">0<br>1<br>2<br>red apple<br>red cherry<br>big apple<br>big cherry</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Quiz -->
+        <div id="quizTab" class="tab-content">
+            <div class="card" style="border-color: var(--dark-orange);">
+                <h2>🏆 Comprehensive Final Challenge</h2>
+                <p class="concept-text">Test your knowledge across all 6 sessions! Answer the following questions:</p>
+
+                <div id="q1" style="margin-bottom: 20px;">
+                    <h3>1. Which of the following data types CANNOT have its contents modified (Unchangeable)?</h3>
+                    <button class="quiz-option" onclick="checkAnswer(this, 'q1', false)">Lists - []</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, 'q1', true)">Tuples - ()</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, 'q1', false)">Dictionaries - {}</button>
+                </div>
+
+                <div id="q2" style="margin-bottom: 20px;">
+                    <h3>2. What function is used to find out the data type of a variable in Python?</h3>
+                    <button class="quiz-option" onclick="checkAnswer(this, 'q2', true)">type()</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, 'q2', false)">print()</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, 'q2', false)">input()</button>
+                </div>
+
+                <div id="q3" style="margin-bottom: 20px;">
+                    <h3>3. What do we use to stop a loop immediately, even if the condition is still true?</h3>
+                    <button class="quiz-option" onclick="checkAnswer(this, 'q3', false)">continue</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, 'q3', true)">break</button>
+                    <button class="quiz-option" onclick="checkAnswer(this, 'q3', false)">else</button>
+                </div>
+
+                <div id="quiz-feedback" style="font-size: 1.5rem; font-weight: bold; text-align: center; margin-top: 20px;"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Tab switching logic
+        function openTab(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            // Remove active from all buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            // Find and highlight the button that was clicked
+            event.currentTarget.classList.add('active');
+        }
+
+        // Simulate Python Run Code
+        function runCode(outputId) {
+            const outputEl = document.getElementById(outputId);
+            if(outputEl.style.display === 'block') {
+                outputEl.style.display = 'none';
+            } else {
+                outputEl.style.display = 'block';
+            }
+        }
+
+        // Quiz Logic
+        let answeredQuestions = {};
+
+        function checkAnswer(btn, questionId, isCorrect) {
+            if(answeredQuestions[questionId]) return; // Prevent multiple clicks
+            
+            answeredQuestions[questionId] = true;
+            
+            if(isCorrect) {
+                btn.classList.add('correct');
+                btn.innerHTML += " ✅ Correct answer!";
+            } else {
+                btn.classList.add('wrong');
+                btn.innerHTML += " ❌ Wrong answer!";
+                // Highlight correct answer
+                const options = btn.parentElement.querySelectorAll('.quiz-option');
+                options.forEach(opt => {
+                    if(opt.getAttribute('onclick').includes('true')) {
+                        opt.classList.add('correct');
+                    }
+                });
+            }
+
+            // Check if all answered
+            if(Object.keys(answeredQuestions).length === 3) {
+                const feedback = document.getElementById('quiz-feedback');
+                feedback.style.color = "var(--success)";
+                feedback.innerHTML = "🎉 Excellent! You have completed the final Python Bootcamp challenge! 🎉";
+            }
+        }
+    </script>
+</body>
+</html>
