@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Bootcamp Flashcards</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Fira+Code:wght@400;700&display=swap');
+
+        :root {
+            --primary-orange: #FF7F50;
+            --dark-orange: #FF5722;
+            --light-blue: #E1F5FE;
+            --med-blue: #29B6F6;
+            --dark-blue: #0277BD;
+            --white: #FFFFFF;
+            --text-dark: #333333;
+            --card-bg-front: #FFFFFF;
+            --card-bg-back: #29B6F6;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-blue);
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            color: var(--dark-orange);
+            font-size: 3rem;
+            font-weight: 900;
+            text-shadow: 2px 2px 0px var(--white);
+        }
+
+        header p {
+            color: var(--dark-blue);
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        /* Flashcard Container */
+        .flashcard-container {
+            width: 100%;
+            max-width: 600px;
+            height: 350px;
+            perspective: 1000px; /* 3D effect */
+            margin-bottom: 2rem;
+            cursor: pointer;
+        }
+
+        /* The Card */
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* Front and Back Faces */
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            border: 4px solid var(--dark-blue);
+        }
+
+        .card-front {
+            background-color: var(--card-bg-front);
+            color: var(--dark-blue);
+        }
+
+        .card-back {
+            background-color: var(--card-bg-back);
+            color: var(--white);
+            transform: rotateY(180deg);
+            border-color: var(--dark-orange);
+        }
+
+        /* Card Content */
+        .label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 900;
+            opacity: 0.7;
+            margin-bottom: 1rem;
+        }
+
+        .question-text {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .answer-text {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        code {
+            font-family: 'Fira Code', monospace;
+            background: rgba(0,0,0,0.1);
+            padding: 5px 10px;
+            border-radius: 8px;
+            color: inherit;
+        }
+
+        /* Controls */
+        .score-badge {
+            display: inline-block;
+            background-color: var(--white);
+            color: var(--dark-blue);
+            font-size: 1.5rem;
+            font-weight: 900;
+            padding: 10px 25px;
+            border-radius: 20px;
+            border: 4px solid var(--primary-orange);
+            margin-top: 15px;
+        }
+
+        .assessment-controls {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            width: 100%;
+            max-width: 600px;
+            justify-content: center;
+        }
+
+        .btn-right {
+            background-color: var(--success);
+            box-shadow: 0 6px 0 #388E3C;
+        }
+
+        .btn-wrong {
+            background-color: var(--error);
+            box-shadow: 0 6px 0 #D32F2F;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .btn {
+            background-color: var(--primary-orange);
+            color: var(--white);
+            border: none;
+            padding: 12px 24px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 var(--dark-orange);
+            transition: all 0.1s;
+        }
+
+        .btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 0 0 var(--dark-orange);
+        }
+
+        .btn:disabled {
+            background-color: #ccc;
+            box-shadow: 0 6px 0 #999;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: var(--dark-blue);
+            background: var(--white);
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: 2px solid var(--med-blue);
+        }
+
+        .hint {
+            margin-top: 1rem;
+            color: var(--dark-orange);
+            font-weight: bold;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        @media (max-width: 600px) {
+            .question-text, .answer-text {
+                font-size: 1.5rem;
+            }
+            .btn {
+                padding: 10px 15px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Python Flashcards ⚡</h1>
+        <p>Test your memory on the last 6 sessions!</p>
+        <div class="score-badge">Score: <span id="score">0</span></div>
+    </header>
+
+    <div class="flashcard-container" id="flashcard" onclick="flipCard()">
+        <div class="card" id="card-inner">
+            <!-- Front of Card -->
+            <div class="card-face card-front">
+                <div class="label">Question</div>
+                <div class="question-text" id="question">Loading...</div>
+            </div>
+            <!-- Back of Card -->
+            <div class="card-face card-back">
+                <div class="label">Answer</div>
+                <div class="answer-text" id="answer">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="assessment-controls">
+        <button class="btn btn-wrong" id="btn-wrong" onclick="markAnswer(false)">❌ I got it Wrong</button>
+        <button class="btn btn-right" id="btn-right" onclick="markAnswer(true)">✅ I got it Right</button>
+    </div>
+
+    <div class="controls">
+        <button class="btn" id="prev-btn" onclick="prevCard()">◀ Prev</button>
+        <div class="progress" id="progress-text">1 / 10</div>
+        <button class="btn" id="next-btn" onclick="nextCard()">Next ▶</button>
+    </div>
+
+    <p class="hint">💡 Click the card to flip it!</p>
+
+    <script>
+        // Flashcard Data covering the 6 Sessions
+        const flashcards = [
+            // Session 1: Basics
+            { q: "What function outputs text to the screen?", a: "<code>print()</code>" },
+            { q: "What acts as a container to store data values?", a: "Variables" },
+            { q: "Are Python variable names case-sensitive?", a: "Yes! 'name' and 'Name' are different." },
+            { q: "Give an example of Pascal Case.", a: "<code>CallYourMother</code>" },
+            
+            // Session 2: Data Types & Lists
+            { q: "What data type is used for text?", a: "String <code>str</code>" },
+            { q: "What data type is used for whole numbers?", a: "Integer <code>int</code>" },
+            { q: "What data type is used for decimal numbers?", a: "Float <code>float</code>" },
+            { q: "What data type represents True or False?", a: "Boolean <code>bool</code>" },
+            { q: "Which function gets input from the user?", a: "<code>input()</code>" },
+            { q: "How do you declare a List?", a: "Using square brackets <code>[]</code>" },
+            { q: "What is the index of the first item in a list?", a: "<code>0</code>" },
+            { q: "Which method adds an item to the END of a list?", a: "<code>.append()</code>" },
+            { q: "Which method adds elements of one list to another?", a: "<code>.extend()</code>" },
+            { q: "Which method adds an item at a specific index?", a: "<code>.insert()</code>" },
+            { q: "Which method organizes a list alphabetically or numerically?", a: "<code>.sort()</code>" },
+            { q: "Which method empties an entire list?", a: "<code>.clear()</code>" },
+            
+            // Session 3: Operators & Strings
+            { q: "What does the <code>%</code> (modulus) operator do?", a: "Returns the remainder of a division" },
+            { q: "What operator is used for Exponentiation (Power)?", a: "<code>**</code>" },
+            { q: "What operator checks if two values are NOT equal?", a: "<code>!=</code>" },
+            { q: "What are the three Logical Operators?", a: "<code>and</code>, <code>or</code>, <code>not</code>" },
+            { q: "How do you find the number of characters in a string?", a: "<code>len(string_name)</code>" },
+            { q: "Which string method converts characters to uppercase?", a: "<code>.upper()</code>" },
+            { q: "Which string method changes parts of a string?", a: "<code>.replace()</code>" },
+            
+            // Session 4: Tuples & Dictionaries
+            { q: "How do you declare a Tuple?", a: "Using round brackets <code>()</code>" },
+            { q: "What is the main difference between a Tuple and a List?", a: "Tuples are unchangeable (immutable)." },
+            { q: "How do you declare a Dictionary?", a: "Using curly brackets <code>{}</code>" },
+            { q: "How is data stored inside a Dictionary?", a: "In Key:Value pairs" },
+            { q: "Can a Dictionary have duplicate keys?", a: "No, keys must be unique." },
+            { q: "Which method gets the value of a specified key?", a: "<code>.get()</code>" },
+            { q: "Which keyword removes a specific key from a dictionary?", a: "<code>del</code> (or <code>.pop()</code> method)" },
+            
+            // Session 5: If Conditions & While Loops
+            { q: "Which keyword checks another condition if the first 'if' is false?", a: "<code>elif</code> (Else If)" },
+            { q: "Which keyword executes if all previous conditions are false?", a: "<code>else</code>" },
+            { q: "How long does a <code>while</code> loop continue to run?", a: "As long as its condition remains True" },
+            { q: "Which statement immediately stops a loop?", a: "<code>break</code>" },
+            { q: "Which statement skips the current iteration and jumps to the next?", a: "<code>continue</code>" },
+            
+            // Session 6: For Loops & Nested Loops
+            { q: "What loop is best for iterating over a sequence (like a list)?", a: "<code>for</code> loop" },
+            { q: "What function generates a sequence of numbers for loops?", a: "<code>range()</code>" },
+            { q: "If you use <code>range(6)</code>, what numbers are generated?", a: "<code>0, 1, 2, 3, 4, 5</code>" },
+            { q: "What do we call a loop inside another loop?", a: "A Nested Loop" },
+            { q: "In a Nested Loop, how does the inner loop execute?", a: "It executes completely for EVERY single iteration of the outer loop." }
+        ];
+
+        let currentIndex = 0;
+        let isFlipped = false;
+        let score = 0;
+
+        const cardInner = document.getElementById('card-inner');
+        const questionEl = document.getElementById('question');
+        const answerEl = document.getElementById('answer');
+        const progressEl = document.getElementById('progress-text');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        function loadCard(index) {
+            // If card is flipped, flip it back before changing content
+            if (isFlipped) {
+                cardInner.classList.remove('flipped');
+                isFlipped = false;
+                
+                // Wait for the flip animation to finish before changing text
+                setTimeout(() => {
+                    updateContent(index);
+                }, 300); // half of the 0.6s transition
+            } else {
+                updateContent(index);
+            }
+        }
+
+        function updateContent(index) {
+            questionEl.innerHTML = flashcards[index].q;
+            answerEl.innerHTML = flashcards[index].a;
+            progressEl.innerText = `${index + 1} / ${flashcards.length}`;
+            
+            // Button states
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === flashcards.length - 1;
+
+            updateButtonStyles();
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            cardInner.classList.toggle('flipped');
+        }
+
+        function markAnswer(isCorrect) {
+            if (!isFlipped) {
+                alert("Please flip the card to check the answer before grading yourself!");
+                return;
+            }
+
+            const card = flashcards[currentIndex];
+            
+            // Update score only if the status changed
+            if (card.answeredCorrectly !== isCorrect) {
+                if (isCorrect && card.answeredCorrectly !== true) {
+                    score++;
+                } else if (!isCorrect && card.answeredCorrectly === true) {
+                    score--;
+                }
+                card.answeredCorrectly = isCorrect;
+                document.getElementById('score').innerText = score;
+            }
+            
+            updateButtonStyles();
+
+            // Auto advance
+            if (currentIndex < flashcards.length - 1) {
+                setTimeout(() => {
+                    nextCard();
+                }, 300);
+            }
+        }
+
+        function updateButtonStyles() {
+            const card = flashcards[currentIndex];
+            const rightBtn = document.getElementById('btn-right');
+            const wrongBtn = document.getElementById('btn-wrong');
+            
+            if (card.answeredCorrectly === true) {
+                rightBtn.style.opacity = '1';
+                rightBtn.style.transform = 'translateY(6px)';
+                rightBtn.style.boxShadow = '0 0 0 transparent';
+                wrongBtn.style.opacity = '0.5';
+                wrongBtn.style.transform = 'translateY(0)';
+                wrongBtn.style.boxShadow = '0 6px 0 #D32F2F';
+            } else if (card.answeredCorrectly === false) {
+                wrongBtn.style.opacity = '1';
+                wrongBtn.style.transform = 'translateY(6px)';
+                wrongBtn.style.boxShadow = '0 0 0 transparent';
+                rightBtn.style.opacity = '0.5';
+                rightBtn.style.transform = 'translateY(0)';
+                rightBtn.style.boxShadow = '0 6px 0 #388E3C';
+            } else {
+                rightBtn.style.opacity = '1';
+                rightBtn.style.transform = 'translateY(0)';
+                rightBtn.style.boxShadow = '0 6px 0 #388E3C';
+                wrongBtn.style.opacity = '1';
+                wrongBtn.style.transform = 'translateY(0)';
+                wrongBtn.style.boxShadow = '0 6px 0 #D32F2F';
+            }
+        }
+
+        function nextCard() {
+            if (currentIndex < flashcards.length - 1) {
+                currentIndex++;
+                loadCard(currentIndex);
+            }
+        }
+
+        function prevCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadCard(currentIndex);
+            }
+        }
+
+        // Initialize first card
+        loadCard(currentIndex);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (e.key === ' ') {
+                    e.preventDefault(); // prevent scrolling
+                    flipCard();
+                } else {
+                    nextCard();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                prevCard();
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                 e.preventDefault();
+                 flipCard();
+            }
+        });
+    </script>
+</body>
+</html>
